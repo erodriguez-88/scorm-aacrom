@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P-A.2 · El príncipe de Maquiavelo · Aacrom</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-top">
+    <button class="sidebar-search" aria-label="Buscar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+    </button>
+    <button class="sidebar-close" id="sidebarClose" aria-label="Cerrar">×</button>
+  </div>
+
+  <div class="sidebar-brand">
+    <div class="brand-logo">AACROM · LÍNEA P</div>
+    <h1 class="sidebar-title">El príncipe de Maquiavelo</h1>
+    <div class="sidebar-subtitle">liderazgo sin ingenuidad</div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-progress-label"><span id="progressPct">0%</span> COMPLETADO</div>
+  </div>
+
+  <nav class="lesson-nav">
+    <button class="lesson-link active" data-target="0">
+      <span class="lesson-icon"><svg viewBox="0 0 20 20"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" fill="none"/></svg></span>
+      <span class="lesson-label">Bienvenida</span>
+      <span class="lesson-status"></span>
+    </button>
+    <button class="lesson-link" data-target="1">
+      <span class="lesson-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg></span>
+      <span class="lesson-label">L1: El Maquiavelo que nadie te contó</span>
+      <span class="lesson-status"></span>
+    </button>
+    <button class="lesson-link" data-target="2">
+      <span class="lesson-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg></span>
+      <span class="lesson-label">L2: Virtù y Fortuna</span>
+      <span class="lesson-status"></span>
+    </button>
+    <button class="lesson-link" data-target="3">
+      <span class="lesson-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg></span>
+      <span class="lesson-label">L3: ¿Temido o amado?</span>
+      <span class="lesson-status"></span>
+    </button>
+    <button class="lesson-link" data-target="4">
+      <span class="lesson-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg></span>
+      <span class="lesson-label">L4: El león y el zorro</span>
+      <span class="lesson-status"></span>
+    </button>
+    <button class="lesson-link" data-target="5">
+      <span class="lesson-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg></span>
+      <span class="lesson-label">L5: Armas propias vs prestadas</span>
+      <span class="lesson-status"></span>
+    </button>
+    <button class="lesson-link" data-target="6">
+      <span class="lesson-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" stroke="currentColor" stroke-width="1.4" fill="none"/></svg></span>
+      <span class="lesson-label">L6: 6 lecciones de 500 años</span>
+      <span class="lesson-status"></span>
+    </button>
+    <button class="lesson-link" data-target="7">
+      <span class="lesson-icon"><svg viewBox="0 0 20 20"><rect x="4" y="3" width="12" height="14" rx="1" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M7 8h6M7 12h6" stroke="currentColor" stroke-width="1.6"/></svg></span>
+      <span class="lesson-label">Evaluación final</span>
+      <span class="lesson-status"></span>
+    </button>
+  </nav>
+</aside>
+
+<div class="main-wrap">
+
+  <header class="topbar">
+    <button class="menu-btn" id="menuBtn"><span></span><span></span><span></span></button>
+    <div class="topbar-count" id="slideCount">1 de 9</div>
+  </header>
+
+  <main class="content" id="content">
+
+    <!-- 0. BIENVENIDA -->
+    <article class="lesson active" data-lesson="0">
+      <div class="cover">
+        <div class="cover-bg">
+          <svg viewBox="0 0 800 440" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="coverGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#2a1014"/>
+                <stop offset="50%" stop-color="#5a1116"/>
+                <stop offset="100%" stop-color="#3a1418"/>
+              </linearGradient>
+              <linearGradient id="silGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#2a2826" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="#0d0d0d" stop-opacity="0.85"/>
+              </linearGradient>
+            </defs>
+            <rect width="800" height="440" fill="url(#coverGrad)"/>
+            <!-- Sol crepuscular -->
+            <circle cx="640" cy="200" r="48" fill="#b88a3c" opacity="0.45"/>
+            <circle cx="640" cy="200" r="70" fill="#b88a3c" opacity="0.15"/>
+            <!-- Silueta de Florencia: Duomo + Palazzo Vecchio simplificados -->
+            <!-- Palazzo Vecchio (torre alta) -->
+            <rect x="160" y="200" width="50" height="240" fill="url(#silGrad)"/>
+            <rect x="155" y="190" width="60" height="14" fill="url(#silGrad)"/>
+            <rect x="175" y="120" width="22" height="80" fill="url(#silGrad)"/>
+            <rect x="170" y="115" width="32" height="8" fill="url(#silGrad)"/>
+            <!-- Edificios medios -->
+            <rect x="220" y="280" width="60" height="160" fill="url(#silGrad)"/>
+            <rect x="285" y="260" width="55" height="180" fill="url(#silGrad)"/>
+            <!-- Duomo (cúpula) -->
+            <ellipse cx="400" cy="260" rx="60" ry="50" fill="url(#silGrad)"/>
+            <rect x="362" y="290" width="76" height="150" fill="url(#silGrad)"/>
+            <rect x="395" y="220" width="10" height="40" fill="url(#silGrad)"/>
+            <!-- Más edificios -->
+            <rect x="445" y="320" width="50" height="120" fill="url(#silGrad)"/>
+            <rect x="500" y="290" width="65" height="150" fill="url(#silGrad)"/>
+            <rect x="572" y="310" width="48" height="130" fill="url(#silGrad)"/>
+            <rect x="625" y="295" width="52" height="145" fill="url(#silGrad)"/>
+            <rect x="682" y="280" width="55" height="160" fill="url(#silGrad)"/>
+            <rect x="745" y="305" width="55" height="135" fill="url(#silGrad)"/>
+            <!-- Detalles dorados sutiles -->
+            <circle cx="400" cy="220" r="3" fill="#b88a3c" opacity="0.6"/>
+            <circle cx="186" cy="160" r="2" fill="#b88a3c" opacity="0.6"/>
+            <!-- Líneas decorativas dorada en la parte inferior -->
+            <line x1="0" y1="438" x2="800" y2="438" stroke="#b88a3c" stroke-width="0.5" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="cover-content">
+          <div class="cover-logo">AU READY v6 · PENSAMIENTO CLÁSICO</div>
+          <h1 class="cover-title">El príncipe<br/>de Maquiavelo</h1>
+          <div class="cover-subtitle-italic">liderazgo sin ingenuidad</div>
+          <p class="cover-desc">El libro más malentendido de la historia política. Sus principios reales, traducidos a decisiones de liderazgo modernas.</p>
+          <button class="cover-btn" data-next>INICIAR CURSO →</button>
+        </div>
+      </div>
+
+      <div class="objective-block">
+        <h2 class="objective-label">OBJETIVO DEL CURSO</h2>
+        <p class="objective-text">Al finalizar, usted va a reconocer y aplicar los principios de liderazgo más vigentes de El Príncipe de Maquiavelo en situaciones reales de gestión organizacional, sin caer en la lectura cínica ni en la ingenuidad romántica del poder.</p>
+      </div>
+
+      <div class="meta-row">
+        <div class="meta-card">
+          <div class="meta-icon">⏱</div>
+          <div>
+            <div class="meta-value">40 min</div>
+            <div class="meta-label">DURACIÓN</div>
+          </div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-icon">VI</div>
+          <div>
+            <div class="meta-value">6 lecciones</div>
+            <div class="meta-label">+ EVALUACIÓN</div>
+          </div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-icon">★</div>
+          <div>
+            <div class="meta-value">Líderes</div>
+            <div class="meta-label">CUALQUIER NIVEL</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="results-block">
+        <h3 class="results-title">Al finalizar, usted va a poder:</h3>
+        <ul class="results-list">
+          <li>Distinguir lo que Maquiavelo realmente dice de lo que la cultura popular le atribuye</li>
+          <li>Aplicar el principio de <em>virtù</em> (capacidad personal) ante situaciones de incertidumbre profesional</li>
+          <li>Tomar decisiones difíciles sobre cuándo ser temido, cuándo ser amado y cuándo ambos</li>
+          <li>Distinguir entre armas propias y armas prestadas al construir o gestionar equipos</li>
+          <li>Equilibrar la fuerza del león con la astucia del zorro en negociaciones y conflictos</li>
+        </ul>
+      </div>
+
+      <div class="warning-statement">
+        Este curso no enseña a manipular. Enseña a no ser ingenuo.
+      </div>
+
+      <div class="audio-pill" data-audio="lesson0">
+        <button class="audio-wave"><svg class="ico-wave" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="10" width="2" height="4"/><rect x="6" y="6" width="2" height="12"/><rect x="10" y="8" width="2" height="8"/><rect x="14" y="4" width="2" height="16"/><rect x="18" y="8" width="2" height="8"/></svg></button>
+        <button class="audio-play"><svg class="ico-play" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l10 6-10 6z"/></svg><svg class="ico-pause" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2h3v12H4zm5 0h3v12H9z"/></svg></button>
+        <div class="audio-track"><div class="audio-dot"></div></div>
+        <div class="audio-time"><span class="audio-progress">0:00</span></div>
+        <button class="audio-speed" data-speed="1">1×</button>
+        <button class="audio-volume"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+      </div>
+
+      <div class="continue-wrap"><button class="continue-btn" data-next>COMENZAR →</button></div>
+    </article>
+
+    <!-- 1. LECCIÓN 1: DESMITIFICACIÓN -->
+    <article class="lesson" data-lesson="1">
+      <div class="lesson-header">
+        <div class="lesson-counter">LECCIÓN 1 · 5 MIN</div>
+        <h1 class="lesson-title">El Maquiavelo que <em>nadie</em><br/>te contó</h1>
+        <div class="lesson-underline"></div>
+      </div>
+
+      <div class="instruction-callout">
+        <div class="inst-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 7v0m0 3v7" stroke="#faf8f4" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        </div>
+        <p><em>Instrucción:</em> Escuche el audio y reconozca los tres mitos más comunes sobre Maquiavelo antes de entrar al contenido del curso.</p>
+      </div>
+
+      <div class="audio-pill" data-audio="lesson1">
+        <button class="audio-wave"><svg class="ico-wave" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="10" width="2" height="4"/><rect x="6" y="6" width="2" height="12"/><rect x="10" y="8" width="2" height="8"/><rect x="14" y="4" width="2" height="16"/><rect x="18" y="8" width="2" height="8"/></svg></button>
+        <button class="audio-play"><svg class="ico-play" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l10 6-10 6z"/></svg><svg class="ico-pause" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2h3v12H4zm5 0h3v12H9z"/></svg></button>
+        <div class="audio-track"><div class="audio-dot"></div></div>
+        <div class="audio-time"><span class="audio-progress">0:00</span></div>
+        <button class="audio-speed" data-speed="1">1×</button>
+        <button class="audio-volume"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+      </div>
+
+      <div class="content-block">
+        <p class="block-lead">Existe una palabra en español que se usa como insulto: <strong>maquiavélico</strong>. Significa traicionero, manipulador, sin escrúpulos. Y es una de las injusticias más grandes que la historia le ha hecho a un autor.</p>
+        <p>Nicolás Maquiavelo no era ninguna de esas cosas. Era un funcionario público florentino que durante catorce años observó cómo se ganaba y se perdía el poder en su época. Cuando lo despidieron, exiliado en una pequeña finca, escribió un libro de apenas veintiséis capítulos que cambiaría para siempre la forma en que entendemos el liderazgo.</p>
+      </div>
+
+      <div class="content-block">
+        <h2 class="block-title">El contexto en tres datos</h2>
+        <div class="numbered-cards">
+          <div class="num-card" data-color="wine">
+            <div class="nc-num">01</div>
+            <div class="nc-body">
+              <h4>1469 · Florencia</h4>
+              <p>Nace en una pequeña república rodeada de monarquías mucho más poderosas. La supervivencia política era un arte diario.</p>
+            </div>
+          </div>
+          <div class="num-card" data-color="wine-dark">
+            <div class="nc-num">02</div>
+            <div class="nc-body">
+              <h4>1498-1512 · Funcionario público</h4>
+              <p>Catorce años como diplomático y secretario observando de cerca cómo actuaban los grandes líderes de su tiempo: Papas, reyes, generales, conspiradores.</p>
+            </div>
+          </div>
+          <div class="num-card" data-color="slate">
+            <div class="nc-num">03</div>
+            <div class="nc-body">
+              <h4>1513 · El exilio</h4>
+              <p>Cae el gobierno republicano. Lo arrestan, lo torturan, lo exilian a una finca en el campo. Desde allí, sin esperanza de volver al poder, escribe <em>El Príncipe</em>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h2 class="block-title">Los tres mitos que vamos a desarmar</h2>
+        <p class="block-sub">Lo que la cultura popular dice de Maquiavelo vs. lo que realmente dice el libro.</p>
+
+        <div class="compare-block">
+          <div class="compare-col left">
+            <div class="compare-tag">MITO POPULAR</div>
+            <p class="compare-text">"El fin justifica los medios."</p>
+          </div>
+          <div class="compare-col right">
+            <div class="compare-tag">LO QUE REALMENTE DICE</div>
+            <p class="compare-text">Maquiavelo <strong>nunca escribió esa frase</strong>. Sí dice que en política los resultados se juzgan, pero no propone amoralidad como regla general.</p>
+          </div>
+        </div>
+
+        <div class="compare-block">
+          <div class="compare-col left">
+            <div class="compare-tag">MITO POPULAR</div>
+            <p class="compare-text">"Hay que ser cruel para gobernar."</p>
+          </div>
+          <div class="compare-col right">
+            <div class="compare-tag">LO QUE REALMENTE DICE</div>
+            <p class="compare-text">Distingue entre <strong>crueldad bien usada y mal usada</strong>. La temprana y necesaria, dice, es preferible a la prolongada que destruye todo.</p>
+          </div>
+        </div>
+
+        <div class="compare-block">
+          <div class="compare-col left">
+            <div class="compare-tag">MITO POPULAR</div>
+            <p class="compare-text">"Es un manual para manipular gente."</p>
+          </div>
+          <div class="compare-col right">
+            <div class="compare-tag">LO QUE REALMENTE DICE</div>
+            <p class="compare-text">Es un manual sobre <strong>cómo conservar el poder cuando otros quieren quitárselo</strong>. Es más defensivo que ofensivo.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="statement-dark">
+        <div class="stmt-quote-mark">"</div>
+        <p class="stmt-text">Maquiavelo no enseña a ser malo. Enseña a <strong>no ser ingenuo</strong> en un mundo donde otros no son siempre buenos.</p>
+      </div>
+
+      <div class="knowledge-check" data-kc="kc1">
+        <div class="kc-label">COMPROBACIÓN RÁPIDA</div>
+        <h3 class="kc-question">¿Cuál es la mejor descripción de El Príncipe de Maquiavelo?</h3>
+        <div class="kc-options">
+          <button class="kc-option" data-correct="false">Un manual para manipular y traicionar para llegar al poder</button>
+          <button class="kc-option" data-correct="true">Una observación realista de cómo se ejerce y conserva el poder</button>
+          <button class="kc-option" data-correct="false">Una filosofía moral sobre el bien y el mal en el liderazgo</button>
+          <button class="kc-option" data-correct="false">Un libro de historia sobre Florencia del siglo XVI</button>
+        </div>
+        <div class="kc-feedback"></div>
+      </div>
+
+      <div class="continue-wrap"><button class="continue-btn" data-next>CONTINUAR →</button></div>
+    </article>
+
+    <!-- 2. LECCIÓN 2: VIRTÙ Y FORTUNA -->
+    <article class="lesson" data-lesson="2">
+      <div class="lesson-header">
+        <div class="lesson-counter">LECCIÓN 2 · 6 MIN</div>
+        <h1 class="lesson-title"><em>Virtù</em> y <em>Fortuna</em><br/>la mitad que controla usted</h1>
+        <div class="lesson-underline"></div>
+      </div>
+
+      <div class="instruction-callout">
+        <div class="inst-icon"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 7v0m0 3v7" stroke="#faf8f4" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
+        <p><em>Instrucción:</em> Escuche el audio y aprenda a aplicar el ejercicio del 50/50 a cualquier situación de incertidumbre profesional.</p>
+      </div>
+
+      <div class="audio-pill" data-audio="lesson2">
+        <button class="audio-wave"><svg class="ico-wave" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="10" width="2" height="4"/><rect x="6" y="6" width="2" height="12"/><rect x="10" y="8" width="2" height="8"/><rect x="14" y="4" width="2" height="16"/><rect x="18" y="8" width="2" height="8"/></svg></button>
+        <button class="audio-play"><svg class="ico-play" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l10 6-10 6z"/></svg><svg class="ico-pause" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2h3v12H4zm5 0h3v12H9z"/></svg></button>
+        <div class="audio-track"><div class="audio-dot"></div></div>
+        <div class="audio-time"><span class="audio-progress">0:00</span></div>
+        <button class="audio-speed" data-speed="1">1×</button>
+        <button class="audio-volume"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+      </div>
+
+      <div class="content-block">
+        <p class="block-lead">En el capítulo veinticinco, Maquiavelo introduce uno de los conceptos más liberadores del libro: la <strong>fortuna gobierna aproximadamente la mitad</strong> de nuestros actos. La otra mitad la decidimos nosotros con lo que él llama <em>virtù</em>.</p>
+        <p>Esa idea, sencilla en apariencia, libera a quien la entiende de dos errores comunes: creer que todo está bajo su control y angustiarse por lo que no maneja, o creer que nada está bajo su control y volverse pasivo.</p>
+      </div>
+
+      <div class="content-block">
+        <h2 class="block-title">Las dos fuerzas que mueven todo</h2>
+
+        <div class="compare-block">
+          <div class="compare-col left">
+            <div class="compare-tag">FORTUNA</div>
+            <p class="compare-text"><strong>Lo externo</strong>, lo que pasa sin que usted lo decida.</p>
+            <p class="compare-text">Cambios de mercado, decisiones de otros, crisis del sector, reorganizaciones.</p>
+            <p class="compare-text">Aproximadamente <strong>50% de los resultados</strong>.</p>
+            <p class="compare-text">No se puede cambiar. Solo prever y reaccionar.</p>
+          </div>
+          <div class="compare-col right">
+            <div class="compare-tag">VIRTÙ</div>
+            <p class="compare-text"><strong>Lo interno</strong>, su capacidad personal de respuesta.</p>
+            <p class="compare-text">Preparación, juicio, oportunismo bien entendido, valentía.</p>
+            <p class="compare-text">Aproximadamente <strong>50% de los resultados</strong>.</p>
+            <p class="compare-text">Se construye con disciplina y experiencia.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h2 class="block-title">Los dos errores que comete quien ignora cualquiera de las dos</h2>
+        <div class="numbered-cards">
+          <div class="num-card" data-color="wine">
+            <div class="nc-num">01</div>
+            <div class="nc-body">
+              <h4>Los que solo confían en su virtù</h4>
+              <p>Se estrellan cuando llega un cambio que no anticiparon. Confunden capacidad con omnipotencia. Cuando la realidad les recuerda que no controlan todo, entran en crisis personal o profesional.</p>
+            </div>
+          </div>
+          <div class="num-card" data-color="muted">
+            <div class="nc-num">02</div>
+            <div class="nc-body">
+              <h4>Los que solo culpan a la fortuna</h4>
+              <p>Se vuelven pasivos. Esperan a que las circunstancias cambien. Dejan de invertir en su propia capacidad. Cuando la oportunidad llega, no están preparados para aprovecharla.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h2 class="block-title">El ejercicio del 50/50</h2>
+        <p>Ante cualquier situación de incertidumbre profesional, hágase estas dos preguntas:</p>
+        <div class="numbered-cards" style="margin-top: 14px;">
+          <div class="num-card" data-color="slate">
+            <div class="nc-num">?</div>
+            <div class="nc-body">
+              <h4>¿Qué parte de esto está fuera de mi control?</h4>
+              <p>Ahí me preparo, no me desgasto.</p>
+            </div>
+          </div>
+          <div class="num-card" data-color="gold">
+            <div class="nc-num">!</div>
+            <div class="nc-body">
+              <h4>¿Qué parte sí puedo afectar?</h4>
+              <p>Ahí pongo toda mi <em>virtù</em>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-block">
+        <div class="case-tag">CASO APLICADO</div>
+        <h4>Daniela y la reestructuración</h4>
+        <p>Daniela es jefa de área en una empresa que acaba de anunciar una reestructuración. Su área puede desaparecer, fusionarse o sostenerse. No lo sabe.</p>
+        <p><strong>Si actúa solo desde la virtù</strong>: trata de convencer a la dirección de mantener su área. Pelea cada reunión. Se desgasta en una batalla que no controla.</p>
+        <p><strong>Si actúa solo desde la fortuna</strong>: espera pasiva. Acepta lo que venga. No se prepara para nada.</p>
+        <p><strong>Una Daniela maquiavélica</strong> reconoce que la decisión final es fortuna. Pero sí puede preparar opciones: fortalecer su perfil interno, conversar con otras áreas, documentar el valor que aporta. Eso es virtù aplicada a lo controlable. Cuando se tome la decisión, va a tener opciones reales, sea cual sea el resultado.</p>
+      </div>
+
+      <div class="knowledge-check" data-kc="kc2">
+        <div class="kc-label">COMPROBACIÓN RÁPIDA</div>
+        <h3 class="kc-question">Según Maquiavelo, ante un cambio inesperado en su área, ¿qué debería hacer un líder?</h3>
+        <div class="kc-options">
+          <button class="kc-option" data-correct="false">Aceptar que es fortuna y esperar a que pase</button>
+          <button class="kc-option" data-correct="false">Resistir el cambio porque puede salir mal</button>
+          <button class="kc-option" data-correct="true">Identificar qué parte es fortuna y qué parte responde a su virtù</button>
+          <button class="kc-option" data-correct="false">Buscar culpables del cambio</button>
+        </div>
+        <div class="kc-feedback"></div>
+      </div>
+
+      <div class="continue-wrap"><button class="continue-btn" data-next>CONTINUAR →</button></div>
+    </article>
+
+    <!-- 3. LECCIÓN 3: TEMIDO O AMADO -->
+    <article class="lesson" data-lesson="3">
+      <div class="lesson-header">
+        <div class="lesson-counter">LECCIÓN 3 · 7 MIN</div>
+        <h1 class="lesson-title">¿Temido o amado?<br/>la decisión <em>más malentendida</em></h1>
+        <div class="lesson-underline"></div>
+      </div>
+
+      <div class="instruction-callout">
+        <div class="inst-icon"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 7v0m0 3v7" stroke="#faf8f4" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
+        <p><em>Instrucción:</em> Escuche el audio y conozca lo que el capítulo XVII realmente dice. Al final, las tres preguntas honestas.</p>
+      </div>
+
+      <div class="audio-pill" data-audio="lesson3">
+        <button class="audio-wave"><svg class="ico-wave" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="10" width="2" height="4"/><rect x="6" y="6" width="2" height="12"/><rect x="10" y="8" width="2" height="8"/><rect x="14" y="4" width="2" height="16"/><rect x="18" y="8" width="2" height="8"/></svg></button>
+        <button class="audio-play"><svg class="ico-play" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l10 6-10 6z"/></svg><svg class="ico-pause" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2h3v12H4zm5 0h3v12H9z"/></svg></button>
+        <div class="audio-track"><div class="audio-dot"></div></div>
+        <div class="audio-time"><span class="audio-progress">0:00</span></div>
+        <button class="audio-speed" data-speed="1">1×</button>
+        <button class="audio-volume"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+      </div>
+
+      <div class="content-block">
+        <p class="block-lead">El capítulo diecisiete es probablemente el <strong>más citado y peor entendido</strong> de toda la obra. La cita popular dice "es mejor ser temido que amado". Pero Maquiavelo nunca escribió exactamente eso.</p>
+      </div>
+
+      <div class="content-block">
+        <h2 class="block-title">Lo que la gente cree vs. lo que realmente dice</h2>
+        <div class="compare-block">
+          <div class="compare-col left">
+            <div class="compare-tag">VERSIÓN POPULAR</div>
+            <p class="compare-text">"Es mejor ser temido que amado."</p>
+          </div>
+          <div class="compare-col right">
+            <div class="compare-tag">TEXTO REAL</div>
+            <p class="compare-text"><strong>"Si no se puede ser las dos cosas</strong>, es más seguro ser temido que amado."</p>
+          </div>
+        </div>
+        <p style="margin-top: 14px;">Esa condición de tres palabras cambia todo. El amor depende del otro. El miedo depende de usted. El cariño es valioso pero frágil. El respeto basado en consecuencias claras es más estable. <strong>No moralmente superior, simplemente más previsible</strong>.</p>
+      </div>
+
+      <div class="content-block">
+        <h2 class="block-title">Los tres tipos de líder</h2>
+
+        <div class="tabs-block">
+          <div class="tabs-nav">
+            <button class="tab active" data-tab="lider-amado">El líder amado</button>
+            <button class="tab" data-tab="lider-temido">El líder temido</button>
+            <button class="tab" data-tab="lider-respetado">El líder respetado</button>
+          </div>
+          <div class="tabs-body">
+            <div class="tab-panel active" data-panel="lider-amado">
+              <h3>El líder amado (sin temor)</h3>
+              <ul>
+                <li>Genera afecto, pero sus instrucciones son opcionales</li>
+                <li>Cuando hay que tomar decisiones impopulares, el equipo se siente traicionado</li>
+                <li>Funciona en períodos de estabilidad, <strong>falla en crisis</strong></li>
+              </ul>
+            </div>
+            <div class="tab-panel" data-panel="lider-temido">
+              <h3>El líder temido (sin amor)</h3>
+              <ul>
+                <li>Genera disciplina, pero también resentimiento silencioso</li>
+                <li>El equipo cumple por miedo, no por convicción</li>
+                <li>Sostenible a corto plazo, <strong>insostenible a largo plazo</strong></li>
+              </ul>
+            </div>
+            <div class="tab-panel" data-panel="lider-respetado">
+              <h3>El líder respetado (ambos)</h3>
+              <ul>
+                <li>Genera afecto por su humanidad y temor por su firmeza</li>
+                <li>El equipo lo aprecia y al mismo tiempo no quiere decepcionarlo</li>
+                <li>Es lo más cercano al <strong>ideal maquiavélico</strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="statement-dark">
+        <div class="stmt-quote-mark">"</div>
+        <p class="stmt-text">Hay una sola cosa que Maquiavelo dice que un líder nunca debe ser: <strong>odiado</strong>. Porque el odio es lo único de lo que un líder no puede regresar.</p>
+      </div>
+
+      <div class="content-block">
+        <h2 class="block-title">Tres preguntas honestas</h2>
+        <div class="numbered-cards">
+          <div class="num-card" data-color="wine">
+            <div class="nc-num">01</div>
+            <div class="nc-body">
+              <p>¿Mi equipo cumple porque <strong>cree</strong> o porque <strong>teme</strong>?</p>
+            </div>
+          </div>
+          <div class="num-card" data-color="wine">
+            <div class="nc-num">02</div>
+            <div class="nc-body">
+              <p>¿Cuándo fue la última vez que tomé una <strong>decisión impopular</strong>?</p>
+            </div>
+          </div>
+          <div class="num-card" data-color="wine-dark">
+            <div class="nc-num">03</div>
+            <div class="nc-body">
+              <p>¿Hay alguien en mi equipo que me <strong>odie</strong>? ¿Por qué?</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="knowledge-check" data-kc="kc3">
+        <div class="kc-label">COMPROBACIÓN RÁPIDA</div>
+        <h3 class="kc-question">Según Maquiavelo, ¿cuál es la peor situación para un líder?</h3>
+        <div class="kc-options">
+          <button class="kc-option" data-correct="false">Ser temido sin ser amado</button>
+          <button class="kc-option" data-correct="false">Ser amado sin ser temido</button>
+          <button class="kc-option" data-correct="true">Ser odiado</button>
+          <button class="kc-option" data-correct="false">No generar ninguna emoción</button>
+        </div>
+        <div class="kc-feedback"></div>
+      </div>
+
+      <div class="continue-wrap"><button class="continue-btn" data-next>CONTINUAR →</button></div>
+    </article>
+
+    <!-- 4. LECCIÓN 4: LEÓN Y ZORRO -->
+    <article class="lesson" data-lesson="4">
+      <div class="lesson-header">
+        <div class="lesson-counter">LECCIÓN 4 · 6 MIN</div>
+        <h1 class="lesson-title">El león y el zorro<br/><em>fuerza con inteligencia</em></h1>
+        <div class="lesson-underline"></div>
+      </div>
+
+      <div class="instruction-callout">
+        <div class="inst-icon"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 7v0m0 3v7" stroke="#faf8f4" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
+        <p><em>Instrucción:</em> Escuche el audio, identifique su balance natural personal y reconozca cuándo aplicar cada una.</p>
+      </div>
+
+      <div class="audio-pill" data-audio="lesson4">
+        <button class="audio-wave"><svg class="ico-wave" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="10" width="2" height="4"/><rect x="6" y="6" width="2" height="12"/><rect x="10" y="8" width="2" height="8"/><rect x="14" y="4" width="2" height="16"/><rect x="18" y="8" width="2" height="8"/></svg></button>
+        <button class="audio-play"><svg class="ico-play" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l10 6-10 6z"/></svg><svg class="ico-pause" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2h3v12H4zm5 0h3v12H9z"/></svg></button>
+        <div class="audio-track"><div class="audio-dot"></div></div>
+        <div class="audio-time"><span class="audio-progress">0:00</span></div>
+        <button class="audio-speed" data-speed="1">1×</button>
+        <button class="audio-volume"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+      </div>
+
+      <div class="content-block">
+        <p class="block-lead">El capítulo dieciocho propone una metáfora memorable: un líder debe combinar la <strong>fuerza del león</strong> con la <strong>astucia del zorro</strong>. Ni puro león ni puro zorro. <em>Ambos</em>.</p>
+      </div>
+
+      <div class="content-block">
+        <h2 class="block-title">Las dos naturalezas</h2>
+        <div class="lg-block">
+          <div class="lg-card">
+            <svg class="lg-icon" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+              <!-- León estilizado -->
+              <circle cx="40" cy="40" r="22" fill="none" stroke="#8b1a1a" stroke-width="2"/>
+              <circle cx="40" cy="40" r="32" fill="none" stroke="#b88a3c" stroke-width="1.5" stroke-dasharray="4 3"/>
+              <path d="M 33 38 Q 33 35 35 35 Q 37 35 37 38 Z" fill="#8b1a1a"/>
+              <path d="M 43 38 Q 43 35 45 35 Q 47 35 47 38 Z" fill="#8b1a1a"/>
+              <path d="M 36 46 Q 40 50 44 46" stroke="#8b1a1a" stroke-width="2" fill="none"/>
+              <path d="M 30 30 L 26 22 M 50 30 L 54 22 M 40 24 L 40 18" stroke="#b88a3c" stroke-width="1.5"/>
+            </svg>
+            <h4>LEÓN</h4>
+            <div class="lg-tag">fuerza directa</div>
+            <p>Presencia, autoridad visible, capacidad de imponerse cuando hace falta.</p>
+            <p><strong>Bueno para:</strong> enfrentar crisis abiertas, defender posiciones, romper bloqueos.</p>
+            <p><strong>Insuficiente porque:</strong> solo fuerza espanta a las trampas, pero <em>no las detecta</em>.</p>
+          </div>
+          <div class="lg-card">
+            <svg class="lg-icon" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+              <!-- Zorro estilizado -->
+              <path d="M 20 50 L 40 25 L 60 50 L 55 60 L 25 60 Z" fill="none" stroke="#8b1a1a" stroke-width="2"/>
+              <path d="M 30 30 L 25 18 L 35 28 Z M 50 30 L 55 18 L 45 28 Z" fill="#8b1a1a"/>
+              <circle cx="34" cy="44" r="1.5" fill="#8b1a1a"/>
+              <circle cx="46" cy="44" r="1.5" fill="#8b1a1a"/>
+              <path d="M 40 50 L 40 53" stroke="#8b1a1a" stroke-width="2"/>
+              <path d="M 36 56 Q 40 58 44 56" stroke="#8b1a1a" stroke-width="1.5" fill="none"/>
+            </svg>
+            <h4>ZORRO</h4>
+            <div class="lg-tag">astucia</div>
+            <p>Lectura del entorno, anticipación, capacidad de detectar movimientos ajenos.</p>
+            <p><strong>Bueno para:</strong> detectar conspiraciones, leer alianzas reales, anticipar movimientos.</p>
+            <p><strong>Insuficiente porque:</strong> solo astucia es <em>visto como cobardía</em> y débil en confrontación.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h2 class="block-title">¿Es usted más león o más zorro?</h2>
+        <div class="selfcheck-block" id="selfcheck-lz">
+          <h4>Tres preguntas honestas. Elija una opción por pregunta.</h4>
+
+          <div class="selfcheck-q">
+            <p class="q-text">1. Ante un conflicto directo con un colega, ¿qué tiende a hacer primero?</p>
+            <div class="selfcheck-options">
+              <button class="selfcheck-option" data-type="leon">Confrontar directamente para resolver</button>
+              <button class="selfcheck-option" data-type="zorro">Observar y esperar el mejor momento</button>
+            </div>
+          </div>
+
+          <div class="selfcheck-q">
+            <p class="q-text">2. Cuando tiene que tomar una decisión con información incompleta, ¿qué hace?</p>
+            <div class="selfcheck-options">
+              <button class="selfcheck-option" data-type="leon">Decide rápido y ajusta sobre la marcha</button>
+              <button class="selfcheck-option" data-type="zorro">Investiga más antes de decidir</button>
+            </div>
+          </div>
+
+          <div class="selfcheck-q">
+            <p class="q-text">3. En una reunión donde alguien dice algo que sabe es falso, ¿qué hace?</p>
+            <div class="selfcheck-options">
+              <button class="selfcheck-option" data-type="leon">Lo corrige en el momento</button>
+              <button class="selfcheck-option" data-type="zorro">Toma nota mental y lo aborda después</button>
+            </div>
+          </div>
+
+          <div class="selfcheck-result" id="selfcheck-result-lz"></div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h2 class="block-title">Situaciones que piden cada una</h2>
+        <div class="numbered-cards">
+          <div class="num-card" data-color="wine">
+            <div class="nc-num">01</div>
+            <div class="nc-body">
+              <h4>Pide LEÓN</h4>
+              <p>Una crisis abierta. Una decisión que no admite dudas. Un confrontamiento inevitable. El equipo necesita ver firmeza.</p>
+            </div>
+          </div>
+          <div class="num-card" data-color="gold">
+            <div class="nc-num">02</div>
+            <div class="nc-body">
+              <h4>Pide ZORRO</h4>
+              <p>Una negociación donde la otra parte oculta intenciones. Una sospecha de conspiración interna. Una alianza que conviene verificar.</p>
+            </div>
+          </div>
+          <div class="num-card" data-color="slate">
+            <div class="nc-num">03</div>
+            <div class="nc-body">
+              <h4>Pide AMBOS secuencialmente</h4>
+              <p>Un conflicto largo donde primero hay que entender (zorro), después actuar (león). La mayoría de los conflictos organizacionales reales son así.</p>
+            </div>
+          </div>
+          <div class="num-card" data-color="wine-dark">
+            <div class="nc-num">04</div>
+            <div class="nc-body">
+              <h4>Pide AMBOS simultáneamente</h4>
+              <p>Una negociación decisiva con dirección general donde hay que ser firme y leer al otro al mismo tiempo. Ahí se ve al líder maduro.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="knowledge-check" data-kc="kc4">
+        <div class="kc-label">COMPROBACIÓN RÁPIDA</div>
+        <h3 class="kc-question">Un líder que solo actúa como león sin desarrollar el zorro corre el riesgo de:</h3>
+        <div class="kc-options">
+          <button class="kc-option" data-correct="false">Ser visto como débil</button>
+          <button class="kc-option" data-correct="true">No detectar trampas o conspiraciones que requieren astucia</button>
+          <button class="kc-option" data-correct="false">Generar amor en lugar de respeto</button>
+          <button class="kc-option" data-correct="false">Volverse demasiado popular</button>
+        </div>
+        <div class="kc-feedback"></div>
+      </div>
+
+      <div class="continue-wrap"><button class="continue-btn" data-next>CONTINUAR →</button></div>
+    </article>
+
+    <!-- 5. LECCIÓN 5: ARMAS PROPIAS -->
+    <article class="lesson" data-lesson="5">
+      <div class="lesson-header">
+        <div class="lesson-counter">LECCIÓN 5 · 6 MIN</div>
+        <h1 class="lesson-title">Armas propias<br/>vs <em>armas prestadas</em></h1>
+        <div class="lesson-underline"></div>
+      </div>
+
+      <div class="instruction-callout">
+        <div class="inst-icon"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 7v0m0 3v7" stroke="#faf8f4" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
+        <p><em>Instrucción:</em> Escuche el audio y aplique la pregunta clave antes de delegar algo importante.</p>
+      </div>
+
+      <div class="audio-pill" data-audio="lesson5">
+        <button class="audio-wave"><svg class="ico-wave" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="10" width="2" height="4"/><rect x="6" y="6" width="2" height="12"/><rect x="10" y="8" width="2" height="8"/><rect x="14" y="4" width="2" height="16"/><rect x="18" y="8" width="2" height="8"/></svg></button>
+        <button class="audio-play"><svg class="ico-play" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l10 6-10 6z"/></svg><svg class="ico-pause" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2h3v12H4zm5 0h3v12H9z"/></svg></button>
+        <div class="audio-track"><div class="audio-dot"></div></div>
+        <div class="audio-time"><span class="audio-progress">0:00</span></div>
+        <button class="audio-speed" data-speed="1">1×</button>
+        <button class="audio-volume"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+      </div>
+
+      <div class="content-block">
+        <p class="block-lead">En los capítulos doce y trece, Maquiavelo habla de un tema que en su época eran ejércitos, pero en la nuestra es directamente <strong>equipos de trabajo</strong>. Distingue tres tipos de armas. Solo una da seguridad real.</p>
+      </div>
+
+      <div class="content-block">
+        <h2 class="block-title">Los tres tipos de armas en lenguaje moderno</h2>
+        <div class="numbered-cards">
+          <div class="num-card" data-color="wine">
+            <div class="nc-num">01</div>
+            <div class="nc-body">
+              <h4>ARMAS MERCENARIAS</h4>
+              <p>Consultores externos contratados solo por su expertise técnica. <strong>Riesgo:</strong> no tienen <em>skin in the game</em>. Cuando las cosas se ponen difíciles, se van.</p>
+              <p><em>Útil para:</em> especializaciones puntuales con plazo definido.</p>
+            </div>
+          </div>
+          <div class="num-card" data-color="gold">
+            <div class="nc-num">02</div>
+            <div class="nc-body">
+              <h4>ARMAS AUXILIARES</h4>
+              <p>Equipos prestados de otra área, alianzas, partners externos. <strong>Riesgo:</strong> tienen sus propios intereses. En conflicto, eligen los suyos.</p>
+              <p><em>Útil para:</em> colaboración temporal, no para conservar poder.</p>
+            </div>
+          </div>
+          <div class="num-card" data-color="wine-dark">
+            <div class="nc-num">03</div>
+            <div class="nc-body">
+              <h4>ARMAS PROPIAS</h4>
+              <p>Equipo construido por usted, formado por usted, leal por convicción. <strong>Costo:</strong> tiempo, inversión personal, paciencia.</p>
+              <p><em>Útil para:</em> todo lo que importa en el mediano y largo plazo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="statement-dark">
+        <div class="stmt-quote-mark">"</div>
+        <p class="stmt-text">Antes de delegar algo importante, pregúntese: <strong>¿esta persona estaría con usted si las cosas se ponen difíciles?</strong></p>
+      </div>
+
+      <div class="content-block">
+        <h2 class="block-title">Construir armas propias: tres principios</h2>
+        <div class="numbered-cards">
+          <div class="num-card" data-color="slate">
+            <div class="nc-num">01</div>
+            <div class="nc-body">
+              <h4>Recluite despacio, despida rápido</h4>
+              <p>La lealtad no se compra con sueldo. Se construye con tiempo de convivencia profesional, momentos compartidos de presión, consistencia.</p>
+            </div>
+          </div>
+          <div class="num-card" data-color="slate">
+            <div class="nc-num">02</div>
+            <div class="nc-body">
+              <h4>Invierta en su gente más allá del cumplimiento</h4>
+              <p>Desarrollo profesional real construye lealtad genuina. La gente recuerda a quien la formó. Los jefes que solo extraen, construyen mercenarios.</p>
+            </div>
+          </div>
+          <div class="num-card" data-color="slate">
+            <div class="nc-num">03</div>
+            <div class="nc-body">
+              <h4>Demuestre lealtad primero</h4>
+              <p>La lealtad genera lealtad. La desconfianza genera desconfianza. Si quiere armas propias, sea usted leal con su equipo antes de exigírselo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h2 class="block-title">Dos caminos · a dos años</h2>
+        <div class="compare-block">
+          <div class="compare-col left">
+            <div class="compare-tag">SE APOYA EN CONSULTOR</div>
+            <p class="compare-text">Resultados rápidos los primeros 6 meses.</p>
+            <p class="compare-text">Cuando el consultor se va, queda <strong>sin nada construido</strong>.</p>
+            <p class="compare-text">Equipo interno se siente desplazado.</p>
+            <p class="compare-text"><em>Reputación: dependiente.</em></p>
+          </div>
+          <div class="compare-col right">
+            <div class="compare-tag">FORMA A SU EQUIPO</div>
+            <p class="compare-text">Curva más lenta al inicio.</p>
+            <p class="compare-text">A 12 meses tiene <strong>activo real propio</strong>.</p>
+            <p class="compare-text">Equipo interno se siente reconocido.</p>
+            <p class="compare-text"><em>Reputación: constructor.</em></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="knowledge-check" data-kc="kc5">
+        <div class="kc-label">COMPROBACIÓN RÁPIDA</div>
+        <h3 class="kc-question">Según Maquiavelo, ¿cuál es el error más grave de un líder nuevo?</h3>
+        <div class="kc-options">
+          <button class="kc-option" data-correct="false">Tomar decisiones lentas al inicio</button>
+          <button class="kc-option" data-correct="true">Depender exclusivamente de aliados, consultores o gente prestada</button>
+          <button class="kc-option" data-correct="false">Confiar demasiado en su equipo</button>
+          <button class="kc-option" data-correct="false">Ser demasiado cercano al equipo</button>
+        </div>
+        <div class="kc-feedback"></div>
+      </div>
+
+      <div class="continue-wrap"><button class="continue-btn" data-next>CONTINUAR →</button></div>
+    </article>
+
+    <!-- 6. LECCIÓN 6: LAS 6 LECCIONES -->
+    <article class="lesson" data-lesson="6">
+      <div class="lesson-header">
+        <div class="lesson-counter">LECCIÓN 6 · 7 MIN</div>
+        <h1 class="lesson-title">Las 6 lecciones<br/>que sobreviven <em>500 años</em></h1>
+        <div class="lesson-underline"></div>
+      </div>
+
+      <div class="instruction-callout">
+        <div class="inst-icon"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 7v0m0 3v7" stroke="#faf8f4" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
+        <p><em>Instrucción:</em> Escuche el audio. Estas son las seis ideas más aplicables del libro · listas para mañana mismo.</p>
+      </div>
+
+      <div class="audio-pill" data-audio="lesson6">
+        <button class="audio-wave"><svg class="ico-wave" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="10" width="2" height="4"/><rect x="6" y="6" width="2" height="12"/><rect x="10" y="8" width="2" height="8"/><rect x="14" y="4" width="2" height="16"/><rect x="18" y="8" width="2" height="8"/></svg></button>
+        <button class="audio-play"><svg class="ico-play" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l10 6-10 6z"/></svg><svg class="ico-pause" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2h3v12H4zm5 0h3v12H9z"/></svg></button>
+        <div class="audio-track"><div class="audio-dot"></div></div>
+        <div class="audio-time"><span class="audio-progress">0:00</span></div>
+        <button class="audio-speed" data-speed="1">1×</button>
+        <button class="audio-volume"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+      </div>
+
+      <div class="content-block">
+        <p class="block-lead">El Príncipe tiene veintiséis capítulos. Hasta aquí hemos visto los cuatro grandes conceptos · ahora seis lecciones más, sintetizadas. <strong>Cada una aplicable mañana mismo</strong> en su trabajo.</p>
+      </div>
+
+      <div class="content-block">
+        <div class="numbered-cards">
+          <div class="num-card" data-color="wine">
+            <div class="nc-num">01</div>
+            <div class="nc-body">
+              <h4>La realidad antes que los ideales</h4>
+              <p>El líder ingenuo cree que las cosas son como deberían ser. El líder maquiavélico ve las cosas como son y trabaja desde ahí. Decida sobre la realidad, no sobre el ideal.</p>
+            </div>
+          </div>
+          <div class="num-card" data-color="wine-dark">
+            <div class="nc-num">02</div>
+            <div class="nc-body">
+              <h4>Los enemigos a medias son los más peligrosos</h4>
+              <p>Si decide enfrentar a alguien, hágalo de una vez y de manera completa. El conflicto a medias deja al otro herido y con tiempo para vengarse.</p>
+            </div>
+          </div>
+          <div class="num-card" data-color="gold">
+            <div class="nc-num">03</div>
+            <div class="nc-body">
+              <h4>La reputación se construye con actos, no con anuncios</h4>
+              <p>Lo que usted dice sobre quién es vale poco. Lo que usted hace bajo presión es su reputación real. Su equipo lo va a juzgar por las decisiones difíciles.</p>
+            </div>
+          </div>
+          <div class="num-card" data-color="slate">
+            <div class="nc-num">04</div>
+            <div class="nc-body">
+              <h4>Los aduladores son veneno lento</h4>
+              <p>Quien le dice solo lo que quiere oír le envenena la información que necesita. Cultive personas que le contradigan con respeto. Sin contraste, su criterio se deteriora.</p>
+            </div>
+          </div>
+          <div class="num-card" data-color="muted">
+            <div class="nc-num">05</div>
+            <div class="nc-body">
+              <h4>La generosidad permanente se vuelve esperada</h4>
+              <p>Lo que da siempre deja de tener valor. Reserve la generosidad para momentos donde realmente sume al rendimiento o a la lealtad.</p>
+            </div>
+          </div>
+          <div class="num-card" data-color="wine">
+            <div class="nc-num">06</div>
+            <div class="nc-body">
+              <h4>La oportunidad pasa rápido y no vuelve igual</h4>
+              <p>Maquiavelo creía que la fortuna se asoma de vez en cuando, pero no espera. Quien duda demasiado pierde la ventana. Rara vez vuelve en las mismas condiciones.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="statement-dark">
+        <div class="stmt-quote-mark">"</div>
+        <p class="stmt-text">Maquiavelo no le da una receta para tener poder. Le da herramientas para <strong>conservarlo</strong> cuando lo tenga · y para no perderlo por ingenuidad.</p>
+      </div>
+
+      <div class="knowledge-check" data-kc="kc6">
+        <div class="kc-label">COMPROBACIÓN RÁPIDA</div>
+        <h3 class="kc-question">¿Cuál de estas afirmaciones resume mejor el aporte real de El Príncipe?</h3>
+        <div class="kc-options">
+          <button class="kc-option" data-correct="false">Es una guía sobre cómo manipular gente para obtener poder</button>
+          <button class="kc-option" data-correct="true">Es una observación realista sobre cómo se ejerce y conserva el poder</button>
+          <button class="kc-option" data-correct="false">Es una crítica al poder y a quienes lo ejercen</button>
+          <button class="kc-option" data-correct="false">Es un libro de historia sin aplicación moderna</button>
+        </div>
+        <div class="kc-feedback"></div>
+      </div>
+
+      <div class="continue-wrap"><button class="continue-btn" data-next>IR A LA EVALUACIÓN →</button></div>
+    </article>
+
+    <!-- 7. EVALUACIÓN -->
+    <article class="lesson" data-lesson="7">
+      <div class="lesson-header">
+        <div class="lesson-counter">EVALUACIÓN FINAL · 6 MIN</div>
+        <h1 class="lesson-title">Evaluación final</h1>
+        <div class="lesson-underline"></div>
+      </div>
+
+      <div class="content-block">
+        <p class="block-lead">Seis preguntas para consolidar. Necesita <strong>80% (5 de 6)</strong> para aprobar el curso.</p>
+      </div>
+
+      <div class="quiz-wrap">
+        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
+        <div class="quiz-meta" id="quizStep">PREGUNTA 1 DE 6</div>
+
+        <div class="quiz-q active" data-q="0">
+          <h3>¿Cuál es la mejor descripción del aporte de El Príncipe al pensamiento sobre liderazgo?</h3>
+          <div class="kc-options">
+            <button class="kc-option" data-correct="false">Un manual para manipular y traicionar para llegar al poder</button>
+            <button class="kc-option" data-correct="true">Una observación realista de cómo se ejerce y conserva el poder</button>
+            <button class="kc-option" data-correct="false">Una filosofía moral sobre el bien y el mal en el liderazgo</button>
+            <button class="kc-option" data-correct="false">Un libro de historia sobre Florencia del siglo XVI</button>
+          </div>
+          <div class="kc-feedback"></div>
+        </div>
+
+        <div class="quiz-q" data-q="1">
+          <h3>Según Maquiavelo, en una situación de incertidumbre profesional, un líder debe:</h3>
+          <div class="kc-options">
+            <button class="kc-option" data-correct="false">Aceptar que es fortuna y esperar a que pase</button>
+            <button class="kc-option" data-correct="false">Resistir el cambio porque puede salir mal</button>
+            <button class="kc-option" data-correct="true">Identificar qué parte es fortuna y qué parte responde a su virtù</button>
+            <button class="kc-option" data-correct="false">Buscar culpables del cambio</button>
+          </div>
+          <div class="kc-feedback"></div>
+        </div>
+
+        <div class="quiz-q" data-q="2">
+          <h3>¿Cuál es la peor situación para un líder según Maquiavelo?</h3>
+          <div class="kc-options">
+            <button class="kc-option" data-correct="false">Ser temido sin ser amado</button>
+            <button class="kc-option" data-correct="false">Ser amado sin ser temido</button>
+            <button class="kc-option" data-correct="true">Ser odiado</button>
+            <button class="kc-option" data-correct="false">No generar ninguna emoción</button>
+          </div>
+          <div class="kc-feedback"></div>
+        </div>
+
+        <div class="quiz-q" data-q="3">
+          <h3>Un líder que solo actúa como león (fuerza) sin desarrollar el zorro (astucia) corre el riesgo de:</h3>
+          <div class="kc-options">
+            <button class="kc-option" data-correct="false">Ser visto como débil</button>
+            <button class="kc-option" data-correct="true">No detectar trampas o conspiraciones que requieren astucia</button>
+            <button class="kc-option" data-correct="false">Generar amor en lugar de respeto</button>
+            <button class="kc-option" data-correct="false">Volverse demasiado popular</button>
+          </div>
+          <div class="kc-feedback"></div>
+        </div>
+
+        <div class="quiz-q" data-q="4">
+          <h3>¿Cuál es el error más grave de un líder nuevo según Maquiavelo?</h3>
+          <div class="kc-options">
+            <button class="kc-option" data-correct="false">Tomar decisiones lentas al inicio</button>
+            <button class="kc-option" data-correct="true">Depender exclusivamente de aliados, consultores o gente prestada</button>
+            <button class="kc-option" data-correct="false">Confiar demasiado en su equipo</button>
+            <button class="kc-option" data-correct="false">Ser demasiado cercano al equipo</button>
+          </div>
+          <div class="kc-feedback"></div>
+        </div>
+
+        <div class="quiz-q" data-q="5">
+          <h3>Según las lecciones finales, una de las claves del liderazgo maquiavélico aplicado a hoy es:</h3>
+          <div class="kc-options">
+            <button class="kc-option" data-correct="false">Ser generoso permanentemente para mantener motivado al equipo</button>
+            <button class="kc-option" data-correct="false">Evitar tomar decisiones difíciles para no incomodar</button>
+            <button class="kc-option" data-correct="true">Cultivar personas que le contradigan con respeto en lugar de aduladores</button>
+            <button class="kc-option" data-correct="false">Anunciar constantemente cuál es su visión y valores</button>
+          </div>
+          <div class="kc-feedback"></div>
+        </div>
+      </div>
+
+      <div class="continue-wrap"><button class="continue-btn" data-next disabled>RESPONDA TODAS PARA VER EL RESULTADO</button></div>
+    </article>
+
+    <!-- 8. COMPLETADO -->
+    <article class="lesson" data-lesson="8">
+      <div class="completion-hero">
+        <svg class="completion-bg" viewBox="0 0 1200 360" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="completionGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#2a1014"/>
+              <stop offset="100%" stop-color="#5a1116"/>
+            </linearGradient>
+          </defs>
+          <rect width="1200" height="360" fill="url(#completionGrad)"/>
+          <circle cx="900" cy="120" r="50" fill="#b88a3c" opacity="0.4"/>
+          <!-- Skyline simplificado -->
+          <path d="M0,300 L80,260 L130,280 L200,240 L260,270 L340,235 L400,260 L480,225 L560,255 L640,220 L740,250 L820,225 L900,255 L1000,230 L1080,260 L1200,245 L1200,360 L0,360 Z" fill="#0d0d0d" opacity="0.7"/>
+        </svg>
+        <div class="completion-inner">
+          <div class="completion-mark" id="completionMark">✓</div>
+          <h1 class="completion-title" id="completionTitle">Curso completado</h1>
+          <p class="completion-sub" id="completionMsg">Ahora tiene cinco herramientas concretas para aplicar desde mañana mismo.</p>
+        </div>
+      </div>
+
+      <div class="audio-pill" data-audio="lesson7" style="margin-top: 20px;">
+        <button class="audio-wave"><svg class="ico-wave" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="10" width="2" height="4"/><rect x="6" y="6" width="2" height="12"/><rect x="10" y="8" width="2" height="8"/><rect x="14" y="4" width="2" height="16"/><rect x="18" y="8" width="2" height="8"/></svg></button>
+        <button class="audio-play"><svg class="ico-play" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l10 6-10 6z"/></svg><svg class="ico-pause" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2h3v12H4zm5 0h3v12H9z"/></svg></button>
+        <div class="audio-track"><div class="audio-dot"></div></div>
+        <div class="audio-time"><span class="audio-progress">0:00</span></div>
+        <button class="audio-speed" data-speed="1">1×</button>
+        <button class="audio-volume"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+      </div>
+
+      <div class="score-cards">
+        <div class="score-card">
+          <div class="score-label">PUNTAJE</div>
+          <div class="score-value" id="finalScore">—</div>
+        </div>
+        <div class="score-card">
+          <div class="score-label">ESTADO</div>
+          <div class="score-value" id="finalStatus">—</div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h2 class="block-title">Próximos cursos sugeridos</h2>
+        <div class="next-courses">
+          <div class="next-course-card">
+            <div class="ncc-code">P-A.5</div>
+            <div class="ncc-body">
+              <div class="ncc-title">Pensamiento estoico para decisiones bajo presión</div>
+              <div class="ncc-sub">Complemento natural · cómo decidir con calma en momentos de máxima incertidumbre.</div>
+            </div>
+          </div>
+          <div class="next-course-card">
+            <div class="ncc-code">P-A.1</div>
+            <div class="ncc-body">
+              <div class="ncc-title">El arte de la guerra aplicado a los negocios</div>
+              <div class="ncc-sub">Extensión estratégica · Sun Tzu desde el ángulo de competencia empresarial.</div>
+            </div>
+          </div>
+          <div class="next-course-card">
+            <div class="ncc-code">P-B.1</div>
+            <div class="ncc-body">
+              <div class="ncc-title">Dinámicas de poder en la vida profesional</div>
+              <div class="ncc-sub">Profundización · cómo navegar política organizacional sin perder principios.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="signoff">
+        <div class="signoff-logo">AACROM · AU READY v6</div>
+        <p>Curso P-A.2 · El príncipe de Maquiavelo · liderazgo sin ingenuidad<br/>Línea P · Pensamiento clásico aplicado</p>
+      </div>
+    </article>
+
+  </main>
+</div>
+
+<script src="js/scorm-wrapper.js"></script>
+<script src="js/course.js"></script>
+</body>
+</html>

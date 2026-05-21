@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<manifest identifier="aacrom_pa1_arte_guerra"
+          version="1.0"
+          xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+          xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd
+                              http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd
+                              http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd">
+
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+  </metadata>
+
+  <organizations default="aacrom_org">
+    <organization identifier="aacrom_org">
+      <title>P-A.1 · El arte de la guerra aplicado a los negocios</title>
+      <item identifier="item_1" identifierref="resource_1" isvisible="true">
+        <title>El arte de la guerra aplicado a los negocios</title>
+        <adlcp:masteryscore>70</adlcp:masteryscore>
+      </item>
+    </organization>
+  </organizations>
+
+  <resources>
+    <resource identifier="resource_1"
+              type="webcontent"
+              adlcp:scormtype="sco"
+              href="index.html">
+
+      <file href="index.html"/>
+      <file href="api-wrapper.js"/>
+      <file href="player.js"/>
+      <file href="styles.css"/>
+      <file href="course.json"/>
+
+      <file href="assets/audio/audio_P01_bienvenida.mp3"/>
+      <file href="assets/audio/audio_P02_objetivos.mp3"/>
+      <file href="assets/audio/audio_P03_intro_m1.mp3"/>
+      <file href="assets/audio/audio_P04_conocerse.mp3"/>
+      <file href="assets/audio/audio_P05_competidor.mp3"/>
+      <file href="assets/audio/audio_P06_inteligencia_moderna.mp3"/>
+      <file href="assets/audio/audio_P07_caso_britt.mp3"/>
+      <file href="assets/audio/audio_P08_cierre_m1.mp3"/>
+      <file href="assets/audio/audio_P10_intro_m2.mp3"/>
+      <file href="assets/audio/audio_P11_tipos_terreno.mp3"/>
+      <file href="assets/audio/audio_P12_debilidades_gigante.mp3"/>
+      <file href="assets/audio/audio_P13_estrategia_nicho.mp3"/>
+      <file href="assets/audio/audio_P14_caso_automercado.mp3"/>
+      <file href="assets/audio/audio_P15_cierre_m2.mp3"/>
+      <file href="assets/audio/audio_P16_sorting_intro.mp3"/>
+      <file href="assets/audio/audio_P17_intro_m3.mp3"/>
+      <file href="assets/audio/audio_P18_costo_guerra.mp3"/>
+      <file href="assets/audio/audio_P19_momentum.mp3"/>
+      <file href="assets/audio/audio_P20_maniobra_indirecta.mp3"/>
+      <file href="assets/audio/audio_P21_caso_bancos.mp3"/>
+      <file href="assets/audio/audio_P22_cierre_m3.mp3"/>
+      <file href="assets/audio/audio_P24_intro_m4.mp3"/>
+      <file href="assets/audio/audio_P25_liderazgo.mp3"/>
+      <file href="assets/audio/audio_P26_jugadas_decisivas.mp3"/>
+      <file href="assets/audio/audio_P27_matriz_decision.mp3"/>
+      <file href="assets/audio/audio_P27_quad_confrontar.mp3"/>
+      <file href="assets/audio/audio_P27_quad_esperar.mp3"/>
+      <file href="assets/audio/audio_P27_quad_evitar.mp3"/>
+      <file href="assets/audio/audio_P27_quad_posicionarse.mp3"/>
+      <file href="assets/audio/audio_P28_L2_andres.mp3"/>
+      <file href="assets/audio/audio_P28_L3_sofia.mp3"/>
+      <file href="assets/audio/audio_P28_L4_andres.mp3"/>
+      <file href="assets/audio/audio_P28_L5_sofia.mp3"/>
+      <file href="assets/audio/audio_P28_L6_andres.mp3"/>
+      <file href="assets/audio/audio_P28_L7_sofia.mp3"/>
+      <file href="assets/audio/audio_P28_L8_andres.mp3"/>
+      <file href="assets/audio/audio_P28_L9_narrador.mp3"/>
+      <file href="assets/audio/audio_P28_consecuencia_A.mp3"/>
+      <file href="assets/audio/audio_P28_consecuencia_B.mp3"/>
+      <file href="assets/audio/audio_P28_consecuencia_C.mp3"/>
+      <file href="assets/audio/audio_P28_consecuencia_D.mp3"/>
+      <file href="assets/audio/audio_P28_convergente.mp3"/>
+      <file href="assets/audio/audio_P28_entrada.mp3"/>
+      <file href="assets/audio/audio_P28_linea1_sofia.mp3"/>
+      <file href="assets/audio/audio_P29_cierre_m4.mp3"/>
+      <file href="assets/audio/audio_P31_sintesis.mp3"/>
+      <file href="assets/images/fondo_arte_guerra_1.jpg"/>
+      <file href="assets/images/fondo_arte_guerra_2.jpg"/>
+      <file href="assets/images/fondo_arte_guerra_3.jpg"/>
+      <file href="assets/images/fondo_samurai_verificacion.jpg"/>
+      <file href="assets/images/imagen_P01_portada.jpg"/>
+      <file href="assets/images/imagen_P02_objetivos.jpg"/>
+      <file href="assets/images/imagen_P03_intro_m1.jpg"/>
+      <file href="assets/images/imagen_P03_intro_m1_v3.jpg"/>
+      <file href="assets/images/imagen_P04_conocerse.jpg"/>
+      <file href="assets/images/imagen_P04_conocerse_v3.jpg"/>
+      <file href="assets/images/imagen_P04_reflexion_v4.jpg"/>
+      <file href="assets/images/imagen_P05_competidor.jpg"/>
+      <file href="assets/images/imagen_P06_inteligencia.jpg"/>
+      <file href="assets/images/imagen_P07_cafe_britt.jpg"/>
+      <file href="assets/images/imagen_P08_cierre_m1.jpg"/>
+      <file href="assets/images/imagen_P08_cierre_m1_v3.jpg"/>
+      <file href="assets/images/imagen_P10_terreno.jpg"/>
+      <file href="assets/images/imagen_P12_gigante_debil.jpg"/>
+      <file href="assets/images/imagen_P12_gigante_v3.jpg"/>
+      <file href="assets/images/imagen_P13_nicho.jpg"/>
+      <file href="assets/images/imagen_P14_automercado.jpg"/>
+      <file href="assets/images/imagen_P14_supermercado_v4.jpg"/>
+      <file href="assets/images/imagen_P15_cierre_m2.jpg"/>
+      <file href="assets/images/imagen_P17_maniobra.jpg"/>
+      <file href="assets/images/imagen_P17_maniobra_v2.jpg"/>
+      <file href="assets/images/imagen_P18_costo_guerra.jpg"/>
+      <file href="assets/images/imagen_P19_momentum.jpg"/>
+      <file href="assets/images/imagen_P19_momentum_v2.jpg"/>
+      <file href="assets/images/imagen_P19_momentum_v3.jpg"/>
+      <file href="assets/images/imagen_P20_camino_indirecto.jpg"/>
+      <file href="assets/images/imagen_P21_bancos.jpg"/>
+      <file href="assets/images/imagen_P21_bancos_v2.jpg"/>
+      <file href="assets/images/imagen_P22_cierre_m3.jpg"/>
+      <file href="assets/images/imagen_P22_cierre_m3_outro.jpg"/>
+      <file href="assets/images/imagen_P24_ejecucion.jpg"/>
+      <file href="assets/images/imagen_P24_ejecucion_v2.jpg"/>
+      <file href="assets/images/imagen_P25_liderazgo.jpg"/>
+      <file href="assets/images/imagen_P25_liderazgo_v2.jpg"/>
+      <file href="assets/images/imagen_P25_liderazgo_v3.jpg"/>
+      <file href="assets/images/imagen_P26_decisiva_v3.jpg"/>
+      <file href="assets/images/imagen_P26_jugada_decisiva.jpg"/>
+      <file href="assets/images/imagen_P26_jugada_decisiva_v2.jpg"/>
+      <file href="assets/images/imagen_P27_matriz_decision.jpg"/>
+      <file href="assets/images/imagen_P28_dialogo.jpg"/>
+      <file href="assets/images/imagen_P28_escena_datos.jpg"/>
+      <file href="assets/images/imagen_P28_escena_equipo.jpg"/>
+      <file href="assets/images/imagen_P28_escena_sala.jpg"/>
+      <file href="assets/images/imagen_P28_sala_juntas.jpg"/>
+      <file href="assets/images/imagen_P29_cierre_m4.jpg"/>
+      <file href="assets/images/imagen_P31_sintesis.jpg"/>
+      <file href="recursos/catalogo_audios.docx"/>
+      <file href="recursos/creditos_imagenes.docx"/>
+
+    </resource>
+  </resources>
+
+</manifest>

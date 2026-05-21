@@ -1,0 +1,895 @@
+{
+  "code": "P-A.1",
+  "title": "El arte de la guerra aplicado a los negocios",
+  "subtitle": "Decidir con criterio cuando hay un competidor del otro lado",
+  "duration": "45 minutos",
+  "author": "Aacrom",
+  "passingScore": 70,
+  "theme": {
+    "primary": "#1F3864",
+    "accent": "#C9A227",
+    "title": "#1F3864",
+    "text": "#2C2C2C",
+    "background": "#FFFFFF",
+    "font": "'Open Sans', 'Helvetica Neue', Arial, sans-serif"
+  },
+  "modules": [
+    {
+      "id": "apertura",
+      "title": "Aspectos introductorios",
+      "screens": [
+        {
+          "id": "p1",
+          "type": "course_cover",
+          "moduleTitle": "Aspectos introductorios",
+          "title": "Bienvenida",
+          "subtitle": "El arte de la guerra aplicado a los negocios",
+          "image": "imagen_P01_portada.jpg",
+          "audio": "audio_P01_bienvenida.mp3",
+          "body": [
+            "Le damos la bienvenida al curso: <strong>El arte de la guerra aplicado a los negocios</strong>.",
+            "Durante los próximos cuarenta y cinco minutos vamos a recorrer las ideas centrales del clásico de Sun Tzu, llevadas a las decisiones competitivas que usted enfrenta hoy.",
+            "La idea no es citar a un autor antiguo. Es aplicarlo a su empresa, a su emprendimiento, a su próxima jugada estratégica."
+          ]
+        },
+        {
+          "id": "p2",
+          "type": "statement_list",
+          "moduleTitle": "Aspectos introductorios",
+          "title": "Lo que va a aprender",
+          "statement": "Al finalizar este curso podrá analizar una situación competitiva real y decidir cuándo confrontar, evitar, posicionarse o esperar, con criterio fundamentado.",
+          "intro": "En concreto, va a aprender a:",
+          "items": [
+            "Identificar las fortalezas y debilidades propias frente al competidor principal.",
+            "Reconocer el tipo de \"terreno\" donde opera su empresa y los nichos donde puede ganar.",
+            "Aplicar criterios de timing, velocidad y adaptación al planear acciones competitivas.",
+            "Decidir cuándo conviene confrontar, evitar, posicionarse o esperar ante una jugada estratégica."
+          ],
+          "audio": "audio_P02_objetivos.mp3",
+          "image": "imagen_P02_objetivos.jpg"
+        }
+      ]
+    },
+    {
+      "id": "m1",
+      "title": "Módulo 1: Conocer al enemigo y a uno mismo",
+      "screens": [
+        {
+          "id": "p3",
+          "type": "module_intro",
+          "moduleTitle": "Módulo 1",
+          "title": "Conocer al enemigo y a uno mismo",
+          "image": "imagen_P03_intro_m1_v3.jpg",
+          "audio": "audio_P03_intro_m1.mp3",
+          "statement": "Si conoce a su enemigo y se conoce a sí mismo, no temerá cien batallas.",
+          "citation": "Sun Tzu, El arte de la guerra, capítulo 3"
+        },
+        {
+          "id": "p4",
+          "type": "paragraph_audio",
+          "moduleTitle": "Módulo 1",
+          "title": "Conocerse a uno mismo",
+          "image": "imagen_P04_reflexion_v4.jpg",
+          "audio": "audio_P04_conocerse.mp3",
+          "body": "Antes de mirar afuera, mire adentro. Sun Tzu enseña que la mitad de la batalla se gana o se pierde por la honestidad con la que uno se evalúa. En la práctica empresarial eso significa preguntarse sin filtro: ¿qué hacemos realmente bien y por qué nos compran los clientes? ¿Dónde nos cuesta competir? ¿Cuánto aire —caja, equipo, paciencia del mercado— tenemos para sostener una jugada larga? Las respuestas honestas son incómodas. Las respuestas maquilladas cuestan caro."
+        },
+        {
+          "id": "p5",
+          "type": "hotspots",
+          "moduleTitle": "Módulo 1",
+          "title": "Conocer al competidor",
+          "image": "imagen_P05_competidor.jpg",
+          "intro": "Conocer al competidor no es saber cómo se llama. Es leer cinco dimensiones que, juntas, le dicen cómo pelea y dónde puede ser desafiado. Toque cada una.",
+          "hotspots": [
+            {
+              "label": "Oferta",
+              "content": "¿Qué venden, a quién y con qué propuesta de valor? Identifique qué problema resuelven mejor que usted y dónde su oferta podría diferenciarse."
+            },
+            {
+              "label": "Precio",
+              "content": "¿Cómo se posicionan en precio? ¿Qué margen aparente manejan? Un precio muy bajo sostenido suele significar escala, subsidio cruzado, o quema de caja."
+            },
+            {
+              "label": "Canal",
+              "content": "¿Dónde los encuentra el cliente final? Físico, digital, distribuidores, alianzas. El canal define qué tan rápido pueden defenderse cuando alguien los reta."
+            },
+            {
+              "label": "Reputación",
+              "content": "¿Qué dicen los clientes, los ex empleados y la prensa? La reputación es un activo que tarda años en construirse y meses en perderse."
+            },
+            {
+              "label": "Recursos",
+              "content": "¿Con qué músculo cuentan? Caja, marca, personal clave, tecnología, alianzas estratégicas. Los recursos definen cuánto pueden aguantar una pelea larga."
+            }
+          ],
+          "audio": "audio_P05_competidor.mp3"
+        },
+        {
+          "id": "p6",
+          "type": "tabs",
+          "moduleTitle": "Módulo 1",
+          "title": "Inteligencia de mercado moderna",
+          "intro": "Sun Tzu llamaba \"espías\" a los informantes que daban ventaja al general. Hoy esa inteligencia se construye desde tres frentes legales, baratos y accesibles.",
+          "tabs": [
+            {
+              "title": "Fuentes formales",
+              "content": "<ul><li>Informes sectoriales de cámaras y gremios.</li><li>Estados financieros publicados (sociedades anónimas, cooperativas reguladas).</li><li>Registros públicos (Registro Nacional, Sugef, Sutel, según el sector).</li><li>Datos del INEC, BCCR y Procomer si exporta.</li><li>Prensa especializada y bases de datos sectoriales.</li></ul>"
+            },
+            {
+              "title": "Conversación con el ecosistema",
+              "content": "<ul><li>Clientes del competidor (cómo los trata, qué prometen, qué incumplen).</li><li>Ex empleados sin acuerdos de confidencialidad: por qué se fueron, qué se cuece adentro.</li><li>Proveedores y distribuidores compartidos: pulso del flujo y de los volúmenes.</li><li>Gremios y eventos sectoriales: conversaciones informales bien dirigidas valen más que cualquier reporte.</li></ul>"
+            },
+            {
+              "title": "Rastro digital",
+              "content": "<ul><li>Sitio web del competidor: qué destaca, qué esconde, con qué frecuencia actualiza.</li><li>Redes sociales y reviews: qué quejas se repiten, qué elogios suenan forzados.</li><li>Ofertas de trabajo activas: dónde están contratando es dónde están apostando.</li><li>Presencia en eventos, patrocinios y notas de prensa: qué territorio están ocupando.</li></ul>"
+            }
+          ],
+          "audio": "audio_P06_inteligencia_moderna.mp3",
+          "image": "imagen_P06_inteligencia.jpg"
+        },
+        {
+          "id": "p7",
+          "type": "case_study",
+          "moduleTitle": "Módulo 1",
+          "title": "Caso: Café Britt",
+          "subtitle": "Saber dónde no pelear",
+          "image": "imagen_P07_cafe_britt.jpg",
+          "audio": "audio_P07_caso_britt.mp3",
+          "body": "Cuando Café Britt arrancó a finales de los años ochenta, las marcas globales dominaban el café de supermercado por volumen y precio. Britt no intentó competir ahí: hizo lo opuesto. Se conoció a sí mismo —era pequeño, ágil, costarricense con historia que contar— y conoció a su competidor, enorme, lento y sin esa historia local. Apostó al canal de tiendas en aeropuertos, regalos corporativos y exportación gourmet. Décadas después sigue siendo un caso reconocido de estrategia de nicho en la región. La lección no es que el café haya sido mágico: <strong>fue saber dónde no pelear</strong>."
+        },
+        {
+          "id": "p8",
+          "type": "module_outro",
+          "moduleTitle": "Módulo 1",
+          "title": "Lo esencial de este módulo",
+          "items": [
+            "La honestidad consigo mismo es media batalla ganada.",
+            "Conocer al competidor son cinco dimensiones, no un nombre.",
+            "La inteligencia moderna no requiere espías: requiere disciplina para mirar fuentes formales, conversar con el ecosistema y leer el rastro digital."
+          ],
+          "audio": "audio_P08_cierre_m1.mp3",
+          "image": "imagen_P08_cierre_m1_v3.jpg"
+        },
+        {
+          "id": "p9",
+          "type": "knowledge_check",
+          "moduleTitle": "Módulo 1",
+          "title": "Verifique lo aprendido",
+          "questions": [
+            {
+              "type": "single",
+              "stem": "Una empresa de software costarricense con quince colaboradores considera entrar al mercado de gestión empresarial, donde ya operan dos multinacionales grandes con precios bajos y soporte regional. Antes de invertir en el lanzamiento, ¿qué debería hacer primero?",
+              "options": [
+                "Reducir el precio por debajo del de las multinacionales para captar atención rápida.",
+                "Hacer una autoevaluación honesta de fortalezas y debilidades, y mapear al competidor en cinco dimensiones.",
+                "Lanzar una campaña agresiva en redes sociales antes de que la competencia reaccione.",
+                "Contratar consultores que hayan trabajado para las multinacionales para conocer sus estrategias internas."
+              ],
+              "correct": 1,
+              "feedback": "Exacto. Sun Tzu pone primero el diagnóstico interno y externo. Sin eso, cualquier movimiento es a ciegas."
+            },
+            {
+              "type": "single",
+              "stem": "Para investigar a un competidor antes de un lanzamiento, una emprendedora dispone de tiempo limitado. ¿Cuál combinación de fuentes le da el mejor balance entre profundidad y costo?",
+              "options": [
+                "Solo conversar con clientes del competidor en redes sociales.",
+                "Solo leer los estados financieros publicados.",
+                "Combinar fuentes formales, conversación con el ecosistema y rastro digital del propio competidor.",
+                "Contratar una agencia de investigación de mercado para que lo haga todo."
+              ],
+              "correct": 2,
+              "feedback": "Los tres frentes se complementan. Lo formal da estructura, la conversación da matices, el rastro digital muestra lo que el competidor prioriza hoy."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "m2",
+      "title": "Módulo 2: Elegir el terreno",
+      "screens": [
+        {
+          "id": "p10",
+          "type": "module_intro",
+          "moduleTitle": "Módulo 2",
+          "title": "Elegir el terreno: nichos y posición",
+          "image": "imagen_P10_terreno.jpg",
+          "audio": "audio_P10_intro_m2.mp3",
+          "statement": "Para tener éxito en la batalla, ataque allí donde el otro no está preparado y aparezca donde no lo esperan.",
+          "citation": "Sun Tzu, El arte de la guerra, capítulo 6"
+        },
+        {
+          "id": "p11",
+          "type": "accordion",
+          "moduleTitle": "Módulo 2",
+          "title": "Tipos de terreno empresarial",
+          "intro": "No todos los mercados se compiten igual. Reconocer el terreno donde está parado le dice cuánta ventaja tiene quien llegó primero, cuán caro es entrar y cuán caro es salir.",
+          "items": [
+            {
+              "title": "Mercado abierto",
+              "content": "Muchos competidores, entrada y salida fáciles, márgenes apretados. La batalla se gana por ejecución y servicio. Ejemplos: restaurantes de comida rápida, retail tradicional, consultoría general."
+            },
+            {
+              "title": "Mercado clave",
+              "content": "Quien lo controla controla todo lo que pasa alrededor. Suele ser una plataforma, una infraestructura o un canal único. Ejemplos: plataformas de pago, marketplaces dominantes, infraestructura de telecomunicaciones."
+            },
+            {
+              "title": "Mercado intersección",
+              "content": "Donde se cruzan dos o más sectores y aparece una oportunidad nueva. Suele estar mal atendido por los jugadores establecidos. Ejemplos: fintech, edtech, agritech, healthtech."
+            },
+            {
+              "title": "Mercado difícil",
+              "content": "Barreras altas: regulación, capital, certificaciones, tecnología propietaria. Entrar es lento y caro, pero quien entra queda protegido. Ejemplos: banca, seguros, farmacéutico, energía."
+            },
+            {
+              "title": "Mercado callejón",
+              "content": "Fácil entrar pero costoso salir. Una vez adentro hay activos hundidos y contratos largos. Suele tener pocos jugadores grandes y márgenes apretados. Ejemplos: commodities, manufactura tradicional intensiva en capital."
+            }
+          ],
+          "audio": "audio_P11_tipos_terreno.mp3"
+        },
+        {
+          "id": "p12",
+          "type": "paragraph_audio",
+          "moduleTitle": "Módulo 2",
+          "title": "Puntos débiles del gigante",
+          "image": "imagen_P12_gigante_v3.jpg",
+          "audio": "audio_P12_debilidades_gigante.mp3",
+          "body": "Las empresas grandes no son invulnerables. Su tamaño, que es su mayor fortaleza, también las hace lentas. Tres puntos débiles aparecen casi siempre. <strong>Primero, la velocidad</strong>: aprobar un cambio les toma semanas o meses, mientras una empresa pequeña lo decide en una mañana. <strong>Segundo, el segmento de baja prioridad</strong>: ningún gigante puede atender bien a todos sus clientes; los clientes pequeños o atípicos suelen ser maltratados o ignorados. <strong>Y tercero, los costos fijos</strong>: cada metro cuadrado, cada nivel jerárquico y cada sistema heredado les pesa. Donde el gigante es lento, despreocupado o pesado, ahí hay espacio para ganar."
+        },
+        {
+          "id": "p13",
+          "type": "statement_paragraph",
+          "moduleTitle": "Módulo 2",
+          "title": "La estrategia de nicho",
+          "image": "imagen_P13_nicho.jpg",
+          "audio": "audio_P13_estrategia_nicho.mp3",
+          "statement": "Un nicho es un terreno donde usted puede ser el número uno, no donde es el número treinta.",
+          "subheading": "Cómo se reconoce un buen nicho",
+          "body": "Hay tres preguntas que distinguen un nicho real de un mercado pequeño donde nadie quiere estar. <strong>Primero</strong>: ¿hay clientes dispuestos a pagar por lo que usted ofrece de forma diferenciada? Sin demanda solvente no hay nicho, hay frustración. <strong>Segundo</strong>: ¿tiene usted una ventaja sostenible en ese terreno —conocimiento, ubicación, relación, agilidad— que el grande no pueda copiar fácil? Si la ventaja es solo un precio bajo, dura hasta que al grande le importe. <strong>Y tercero</strong>: ¿es lo bastante grande para que usted crezca, pero lo bastante incómodo para que el gigante no quiera meterse?"
+        },
+        {
+          "id": "p14",
+          "type": "case_study",
+          "moduleTitle": "Módulo 2",
+          "title": "Caso: Auto Mercado frente a Walmart",
+          "subtitle": "Premium vs masivo: terreno bien elegido",
+          "image": "imagen_P14_supermercado_v4.jpg",
+          "audio": "audio_P14_caso_automercado.mp3",
+          "body": "Cuando Walmart consolidó su presencia en Costa Rica adquiriendo cadenas locales, la lógica predecible decía que los supermercados costarricenses iban a perder. Auto Mercado, sin embargo, no intentó competir cabeza con cabeza por precio. Eligió un terreno distinto: el segmento premium urbano. Sus tiendas se ubicaron en zonas de mayor poder adquisitivo, su surtido se diferenció con marcas importadas y productos de alta calidad, y su experiencia de compra apostó al servicio. Mientras Walmart dominaba el terreno masivo, donde la batalla es por centavos, Auto Mercado se quedó con un nicho diferenciado donde el gigante no tenía ventaja. La lección no es que un terreno sea mejor que otro. <strong>Es que cada terreno se gana con armas distintas, y elegir el terreno equivocado es perder antes de empezar</strong>."
+        },
+        {
+          "id": "p15",
+          "type": "module_outro",
+          "moduleTitle": "Módulo 2",
+          "title": "Lo esencial de este módulo",
+          "items": [
+            "No todos los mercados se ganan igual. Reconozca el terreno antes de planear el movimiento.",
+            "Los gigantes son lentos, descuidados con segmentos pequeños y pesados de costos. Ahí hay espacio para ganar.",
+            "Un buen nicho tiene clientes que pagan, ventaja sostenible que no es solo precio, y es incómodo para el grande."
+          ],
+          "audio": "audio_P15_cierre_m2.mp3",
+          "image": "imagen_P15_cierre_m2.jpg"
+        },
+        {
+          "id": "p16",
+          "type": "sorting",
+          "moduleTitle": "Módulo 2",
+          "title": "Clasifique cada situación",
+          "instruction": "Arrastre cada situación a la categoría de terreno empresarial que le corresponde.",
+          "categories": [
+            "Mercado abierto",
+            "Mercado clave",
+            "Mercado intersección",
+            "Mercado difícil",
+            "Mercado callejón"
+          ],
+          "items": [
+            {
+              "text": "Una pyme abre un restaurante de comida rápida en una plaza con cinco competidores cercanos.",
+              "category": 0
+            },
+            {
+              "text": "Una startup logra ser la única plataforma de pagos móviles que conecta a los bancos del país con los comercios pequeños.",
+              "category": 1
+            },
+            {
+              "text": "Una empresa lanza una app que combina contabilidad con asesoría tributaria automatizada para microempresas.",
+              "category": 2
+            },
+            {
+              "text": "Una emprendedora quiere entrar al sector farmacéutico genérico con su propia marca de medicamentos.",
+              "category": 3
+            },
+            {
+              "text": "Un productor decide entrar al mercado de granos commodities a precio internacional.",
+              "category": 4
+            }
+          ],
+          "feedback": "Cada tipo de terreno tiene su lógica. Los abiertos se ganan por ejecución diaria. Los clave por velocidad para llegar primero. Los de intersección por entender los dos sectores que se cruzan. Los difíciles por paciencia y capital. Y los callejón, mejor no entrar, o entrar con un plan claro de salida.",
+          "audio": "audio_P16_sorting_intro.mp3",
+          "category_explanations": [
+            {
+              "category_name": "Mercado abierto",
+              "correct_item": "Una pyme abre un restaurante de comida rápida en una plaza con cinco competidores cercanos.",
+              "explanation": "Mucha competencia, entrada y salida fáciles, márgenes apretados. Se gana por ejecución diaria y servicio."
+            },
+            {
+              "category_name": "Mercado clave",
+              "correct_item": "Una startup logra ser la única plataforma de pagos móviles que conecta a los bancos del país con los comercios pequeños.",
+              "explanation": "Quien controla la plataforma controla todo lo que pasa alrededor. Velocidad para llegar primero define al ganador."
+            },
+            {
+              "category_name": "Mercado intersección",
+              "correct_item": "Una empresa lanza una app que combina contabilidad con asesoría tributaria automatizada para microempresas.",
+              "explanation": "Cruza dos sectores (contabilidad + tributario) creando una oportunidad mal atendida por jugadores establecidos."
+            },
+            {
+              "category_name": "Mercado difícil",
+              "correct_item": "Una emprendedora quiere entrar al sector farmacéutico genérico con su propia marca de medicamentos.",
+              "explanation": "Barreras altas de regulación, certificaciones y capital. Entrar es lento y caro, pero quien entra queda protegido."
+            },
+            {
+              "category_name": "Mercado callejón",
+              "correct_item": "Un productor decide entrar al mercado de granos commodities a precio internacional.",
+              "explanation": "Fácil entrar pero costoso salir, con activos hundidos y márgenes apretados. Mejor no entrar, o entrar con plan de salida claro."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "m3",
+      "title": "Módulo 3: Maniobrar",
+      "screens": [
+        {
+          "id": "p17",
+          "type": "module_intro",
+          "moduleTitle": "Módulo 3",
+          "title": "Maniobrar: timing, recursos y velocidad",
+          "image": "imagen_P17_maniobra_v2.jpg",
+          "audio": "audio_P17_intro_m3.mp3",
+          "statement": "La rapidez es la esencia de la guerra: aproveche lo que el competidor aún no ha alcanzado, vaya por caminos que no espera y golpee donde no ha tomado precauciones.",
+          "citation": "Sun Tzu, El arte de la guerra, capítulo 11"
+        },
+        {
+          "id": "p18",
+          "type": "tabs",
+          "title": "El costo de la guerra prolongada",
+          "moduleTitle": "Módulo 3",
+          "image": "imagen_P18_costo_guerra.jpg",
+          "eyebrow": "MÓDULO 3 · MANIOBRAR",
+          "audio": "audio_P18_costo_guerra.mp3",
+          "statement": "Ninguna empresa pelea para siempre. Si la campaña se alarga, lo que se agota primero no es el plan: es el recurso que más le cuesta reponer.",
+          "intro": "Tres sectores, tres velocidades. En cada uno, el recurso que se agota primero es distinto:",
+          "tabs": [
+            {
+              "title": "Software / SaaS",
+              "content": "<p><strong>Una startup costarricense de SaaS</strong> lanza al mercado un producto con descuentos agresivos para captar clientes antes que dos competidores regionales. La campaña funciona los primeros tres meses: la base de usuarios crece rápido.</p><p>Pero los descuentos sostenidos retrasan el break-even más allá de la siguiente ronda de inversión. A los seis meses la caja se agota y el equipo se ve forzado a una venta apresurada o a despidos.</p><div class=\"example-lesson\"><strong>Lo que se agota primero: la caja.</strong> En software la velocidad importa, pero velocidad sin runway calculado es suicidio. Antes de la guerra de precios pregúntese: <em>¿cuántos meses de caja tengo si esto se extiende al doble del plan?</em></div>"
+            },
+            {
+              "title": "Construcción",
+              "content": "<p><strong>Una constructora pyme</strong> se enfrasca en un litigio con una empresa más grande por una licencia de proyecto que considera injustamente revocada. La pelea legal le da la razón parcial dos años después.</p><p>Para entonces, los activos comprometidos en ese proyecto — terreno, maquinaria, equipo asignado — llevan veinticuatro meses inmovilizados sin generar ingresos. La victoria legal es real, pero la empresa nunca recupera lo que dejó de ganar en ese tiempo.</p><div class=\"example-lesson\"><strong>Lo que se agota primero: el costo de oportunidad.</strong> En construcción los costos hundidos crecen lento pero suman fuerte. Antes del litigio pregúntese: <em>¿qué dejo de hacer mientras esto se resuelve?</em></div>"
+            },
+            {
+              "title": "Restaurante",
+              "content": "<p><strong>Un restaurante pequeño en Escazú</strong> entra en guerra de precios con una cadena nueva que se instala en la misma plaza. Durante cinco meses sostiene descuentos del treinta por ciento para no perder clientela.</p><p>Las ventas se mantienen, pero el equipo trabaja con menos propinas, dos meseros buenos renuncian, la calidad baja, y al final del año el restaurante pierde más por rotación de personal que lo que perdió la cadena.</p><div class=\"example-lesson\"><strong>Lo que se agota primero: la moral del equipo.</strong> En servicios la guerra de precios la pierde el más pequeño, porque la moral del equipo es su mayor activo, no el margen. Antes de bajar precios pregúntese: <em>¿estoy desgastando lo que más me cuesta reponer?</em></div>"
+            }
+          ],
+          "conclusion": "Tres sectores, tres velocidades, tres recursos distintos que se agotan. La pregunta antes de cualquier campaña prolongada no es <strong>«¿puedo aguantar?»</strong> sino <strong>«¿qué recurso se me agota primero, y cuánto me dura?»</strong>"
+        },
+        {
+          "id": "p19",
+          "type": "paragraph_audio",
+          "moduleTitle": "Módulo 3",
+          "title": "Velocidad y momentum",
+          "image": "imagen_P19_momentum_v3.jpg",
+          "audio": "audio_P19_momentum.mp3",
+          "body": "Hay momentos en que el que se mueve primero gana, y hay momentos en que conviene esperar. Sun Tzu llama \"momentum\" al impulso de una decisión bien tomada en el instante correcto: una vez que se inicia, no se puede frenar. Los movimientos rápidos funcionan cuando hay un cliente nuevo por captar, una tendencia emergente que el grande aún no detectó, un proveedor que cambia de manos, una crisis que abre un espacio. Los movimientos lentos funcionan cuando los recursos son escasos, cuando el mercado no está maduro o cuando el competidor está cometiendo errores y conviene dejarlo seguir."
+        },
+        {
+          "id": "p20",
+          "type": "tabs",
+          "moduleTitle": "Módulo 3",
+          "title": "Maniobra indirecta",
+          "intro": "No siempre el camino más corto es el mejor. Sun Tzu enseña que la maniobra indirecta —rodear, sorprender, aliarse— suele costar menos y rendir más que el ataque frontal.",
+          "tabs": [
+            {
+              "title": "Sorpresa",
+              "content": "Atacar donde y cuando el competidor no espera. No hace falta ser más grande, basta ser inesperado. Un lanzamiento en una temporada que nadie usa, un cambio de canal sin previo aviso, una alianza con un actor improbable. La sorpresa exige sigilo: lo que se anuncia con seis meses de antelación deja de serlo."
+            },
+            {
+              "title": "Alianza",
+              "content": "Sumar fuerzas con otros para multiplicar capacidades sin gastar caja propia. Distribuidores que ya tienen la red, partners tecnológicos que aportan lo que a usted le falta, intercambios entre empresas complementarias. La alianza convierte recursos ajenos en músculo propio, siempre que el incentivo sea mutuo y la confianza esté trabajada."
+            },
+            {
+              "title": "Ataque lateral",
+              "content": "No competir donde el grande es fuerte, sino donde es débil. Si el grande domina el cliente corporativo, vaya al pequeño. Si domina el canal físico, vaya al digital. Si domina el cliente urbano, vaya al regional. El ataque lateral evita el frente del competidor y se queda con el espacio que él no defiende bien."
+            }
+          ],
+          "audio": "audio_P20_maniobra_indirecta.mp3",
+          "image": "imagen_P20_camino_indirecto.jpg"
+        },
+        {
+          "id": "p21",
+          "type": "case_study",
+          "moduleTitle": "Módulo 3",
+          "title": "Caso: bancos digitales",
+          "subtitle": "Maniobra lateral mientras otro defiende lo conocido",
+          "image": "imagen_P21_bancos_v2.jpg",
+          "audio": "audio_P21_caso_bancos.mp3",
+          "body": "Durante años, la banca tradicional costarricense ofreció a sus clientes los mismos servicios de siempre: visitar la sucursal, hacer fila, llenar papeles. Cuando bancos privados como BAC Credomatic y Promerica apostaron temprano por banca móvil, transferencias instantáneas y atención digital simplificada, no atacaron de frente: maniobraron alrededor de la fortaleza tradicional —las redes de sucursales físicas— y se metieron por el flanco que los grandes tardaban en defender, la experiencia digital ágil. Cuando los más grandes reaccionaron, los privados ya habían acumulado hábito de cliente. <strong>La lección no es sobre bancos. Es sobre lo que pasa cuando un competidor se mueve por el camino lateral mientras el otro defiende el camino que ya conoce</strong>."
+        },
+        {
+          "id": "p22",
+          "type": "module_outro",
+          "moduleTitle": "Módulo 3",
+          "title": "Lo esencial de este módulo",
+          "items": [
+            "Ninguna campaña dura para siempre. Antes de empezar un movimiento, calcule cuánto puede sostenerlo y qué pasa si dura el doble.",
+            "El momentum se construye en el instante correcto. Muévase rápido cuando hay oportunidad clara; espere cuando los recursos escasean o el competidor está fallando solo.",
+            "La maniobra indirecta —sorpresa, alianza, ataque lateral— suele costar menos y rendir más que el ataque frontal."
+          ],
+          "audio": "audio_P22_cierre_m3.mp3",
+          "image": "imagen_P22_cierre_m3_outro.jpg"
+        },
+        {
+          "id": "p23",
+          "type": "knowledge_check",
+          "moduleTitle": "Módulo 3",
+          "title": "Verifique lo aprendido",
+          "questions": [
+            {
+              "type": "multiple",
+              "stem": "Una empresa piensa lanzar una guerra de precios contra un competidor más grande. ¿Qué señales le deberían hacer reconsiderar el lanzamiento? Seleccione todas las que apliquen.",
+              "options": [
+                "La empresa tiene reservas de caja para sostener pérdidas durante seis meses, pero el competidor podría sostenerlas por varios años.",
+                "El equipo comercial ya cerró las metas del trimestre.",
+                "Los proveedores avisaron que sus costos van a subir un quince por ciento en los próximos meses.",
+                "El competidor ha estado descuidando su atención al cliente y perdiendo cuentas grandes por su cuenta.",
+                "Una crisis económica reciente hizo que muchos clientes prioricen el precio antes que la lealtad."
+              ],
+              "correct": [
+                0,
+                2
+              ],
+              "feedback": "Si el competidor aguanta más tiempo que usted, usted se queda sin caja primero (advertencia central del capítulo 2). Si los costos suben, una guerra de precios comprime el margen aún más."
+            },
+            {
+              "type": "single",
+              "stem": "Una emprendedora con un servicio de delivery local detecta que una empresa internacional grande está por entrar al mercado con precios bajos pero atención despersonalizada. ¿Cuál maniobra tiene más sentido?",
+              "options": [
+                "Bajar agresivamente los precios para competir antes de que el grande llegue.",
+                "Aliarse con cinco restaurantes locales que valoren atención personalizada para asegurar exclusividad de delivery con ellos.",
+                "Comunicar a sus clientes actuales que el competidor está por llegar para advertirles que tengan cuidado.",
+                "Esperar a que el grande llegue y luego decidir qué hacer."
+              ],
+              "correct": 1,
+              "feedback": "Es una maniobra indirecta de alianza. Asegura el flanco que el grande no podrá cubrir y construye momentum sin gastar en una guerra de precios que no puede sostener."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "m4",
+      "title": "Módulo 4: Ejecución y decisiones",
+      "screens": [
+        {
+          "id": "p24",
+          "type": "module_intro",
+          "moduleTitle": "Módulo 4",
+          "title": "Ejecución y decisiones decisivas",
+          "image": "imagen_P24_ejecucion_v2.jpg",
+          "audio": "audio_P24_intro_m4.mp3",
+          "statement": "El estratega victorioso entra en batalla cuando la victoria ya está prácticamente decidida. El derrotado entra primero y busca la victoria después.",
+          "citation": "Sun Tzu, El arte de la guerra, capítulo 4"
+        },
+        {
+          "id": "p25",
+          "type": "paragraph_audio",
+          "moduleTitle": "Módulo 4",
+          "title": "Liderar al equipo en la incertidumbre",
+          "image": "imagen_P25_liderazgo_v3.jpg",
+          "audio": "audio_P25_liderazgo.mp3",
+          "body": "Una decisión estratégica nunca la ejecuta una sola persona. Para que funcione, el equipo tiene que entenderla, creerla y sostenerla cuando las cosas se ponen difíciles. Sun Tzu, al hablar del ejército en marcha, recuerda que la moral del equipo es tan determinante como el plan. Tres responsabilidades caen sobre quien lidera: <strong>comunicar la dirección con claridad</strong> —no toda la información, pero sí la suficiente para que cada persona sepa por qué hace lo que hace—; <strong>leer las señales tempranas</strong>, tanto del entorno como del propio equipo, cuando algo empieza a fallar; <strong>y proteger la moral</strong>, especialmente cuando los primeros resultados no llegan al ritmo esperado."
+        },
+        {
+          "id": "p26",
+          "type": "statement_paragraph",
+          "moduleTitle": "Módulo 4",
+          "title": "Jugadas decisivas",
+          "image": "imagen_P26_decisiva_v3.jpg",
+          "audio": "audio_P26_jugadas_decisivas.mp3",
+          "statement": "Hay movimientos que cambian la partida. Pero solo se hacen una vez. Si fallan, no hay segunda oportunidad.",
+          "subheading": "Jugadas decisivas",
+          "body": "Sun Tzu habla del \"ataque con fuego\" como el movimiento más extremo: alto impacto, alto costo, poco margen para retroceder. En el mundo empresarial son las jugadas que cambian la trayectoria de la empresa: un lanzamiento grande, una adquisición, una reorganización profunda, cerrar una línea de negocio, entrar masivamente a un mercado nuevo. Antes de hacer una jugada decisiva, tres condiciones deben cumplirse. <strong>La situación lo justifica</strong>: no es una jugada por ambición, es una jugada por necesidad u oportunidad clara. <strong>Los recursos alcanzan</strong> para sostenerla aunque dure el doble del tiempo previsto. <strong>Y existe un plan</strong> para los días siguientes, porque después del movimiento decisivo el trabajo recién empieza."
+        },
+        {
+          "id": "p27",
+          "type": "decision_matrix",
+          "moduleTitle": "Módulo 4",
+          "title": "Matriz de decisión",
+          "image": "imagen_P27_matriz_decision.jpg",
+          "intro": "Las cuatro decisiones estratégicas se ordenan según dos preguntas: ¿qué tan bien conozco al competidor? y ¿qué tan fuerte es mi posición en el terreno? Toque cada cuadrante.",
+          "xAxis": "Conocimiento del competidor →",
+          "yAxis": "↑ Ventaja propia en el terreno",
+          "quadrants": [
+            {
+              "label": "POSICIONARSE",
+              "position": "tl",
+              "color": "#C9A227",
+              "content": "Tiene ventaja en el terreno, pero no conoce bien al competidor. Antes de confrontar, invierta en inteligencia: lea, escuche, observe. La ventaja sin información se desperdicia. Posicionarse es ganar tiempo y datos antes del movimiento.",
+              "audio": "audio_P27_quad_posicionarse.mp3"
+            },
+            {
+              "label": "CONFRONTAR",
+              "position": "tr",
+              "color": "#1F7A42",
+              "content": "Cuando conoce bien al competidor y tiene ventaja en el terreno, las condiciones para confrontar están dadas. El movimiento puede iniciarse con expectativa razonable de éxito. Ejemplos: lanzar el producto cuando el competidor está distraído, ampliar la cuota cuando el cliente ya prefiere su propuesta.",
+              "audio": "audio_P27_quad_confrontar.mp3"
+            },
+            {
+              "label": "ESPERAR",
+              "position": "bl",
+              "color": "#777",
+              "content": "No sabe lo suficiente y no tiene ventaja clara. Esperar es una decisión, no parálisis. Aproveche el tiempo para conocer al competidor, fortalecer la posición o cambiar de terreno. La impaciencia en este cuadrante es la que más errores genera.",
+              "audio": "audio_P27_quad_esperar.mp3"
+            },
+            {
+              "label": "EVITAR",
+              "position": "br",
+              "color": "#B02A2A",
+              "content": "Conoce bien al competidor y sabe que ese terreno no es para usted. No insista. Reasigne los recursos a otro frente donde sí tenga ventaja. Persistir donde no se puede ganar es la forma más cara de perder.",
+              "audio": "audio_P27_quad_evitar.mp3"
+            }
+          ],
+          "audio": "audio_P27_matriz_decision.mp3"
+        },
+        {
+          "id": "p28",
+          "type": "decision_scenario",
+          "moduleTitle": "Módulo 4",
+          "title": "Decisión estratégica: caso del comité",
+          "image": "imagen_P28_escena_sala.jpg",
+          "intro_audio": "audio_P28_entrada.mp3",
+          "intro_text": "Está en una sala de juntas de la operación costarricense de una multinacional de tecnología. La manufactura en el país enfrenta presión de costos de plantas en Asia. El comité está dividido. Usted es el tercer voto.",
+          "dialogue": [
+            {
+              "character": "Sofía Ramírez",
+              "role": "Directora de Operaciones",
+              "audio": "audio_P28_linea1_sofia.mp3",
+              "text": "Antes de que opine, quiero que vea lo que tenemos. Casi dos décadas de operación. Equipos especializados, proveedores locales que crecieron con nosotros, ingenieros que se formaron acá. Eso no aparece en un Excel, pero existe."
+            },
+            {
+              "character": "Andrés Mora",
+              "role": "Director Financiero",
+              "audio": "audio_P28_L2_andres.mp3",
+              "text": "No discuto que existe, Sofía. Discuto si podemos pagarlo. La planta en Asia produce lo mismo, con la misma calidad, a una fracción del costo. Cada trimestre que esperamos, perdemos margen."
+            },
+            {
+              "character": "Sofía Ramírez",
+              "role": "Directora de Operaciones",
+              "audio": "audio_P28_L3_sofia.mp3",
+              "text": "La planta en Asia no resolvió todo. Tuvieron problemas de calidad los primeros años. Acá tenemos un ecosistema probado, talento técnico que la corporación reconoce. Esa parte sí compite."
+            },
+            {
+              "character": "Andrés Mora",
+              "role": "Director Financiero",
+              "audio": "audio_P28_L4_andres.mp3",
+              "text": "Esa parte, sí. La investigación, el desarrollo, los servicios. Esa parte es competitiva. El problema no es toda la operación: es la manufactura. Y la manufactura es la que consume más caja."
+            },
+            {
+              "character": "Sofía Ramírez",
+              "role": "Directora de Operaciones",
+              "audio": "audio_P28_L5_sofia.mp3",
+              "text": "Entonces estamos hablando de cerrar la manufactura. ¿Eso es lo que está proponiendo?"
+            },
+            {
+              "character": "Andrés Mora",
+              "role": "Director Financiero",
+              "audio": "audio_P28_L6_andres.mp3",
+              "text": "Estoy proponiendo evaluar todas las opciones, incluida esa. Lo que no podemos hacer es seguir un trimestre más sin decidir."
+            },
+            {
+              "character": "Sofía Ramírez",
+              "role": "Directora de Operaciones",
+              "audio": "audio_P28_L7_sofia.mp3",
+              "text": "Detrás de cada decisión hay personas. Eso lo sabe usted tan bien como yo. Pero también sé que defender lo indefendible nos puede costar la operación completa."
+            },
+            {
+              "character": "Andrés Mora",
+              "role": "Director Financiero",
+              "audio": "audio_P28_L8_andres.mp3",
+              "text": "La decisión la tiene usted. Cuatro caminos. Cada uno con consecuencias. Conviene escogerlo con la cabeza fría."
+            },
+            {
+              "character": "Narrador",
+              "role": "",
+              "audio": "audio_P28_L9_narrador.mp3",
+              "text": "¿Qué recomienda al comité?"
+            }
+          ],
+          "options": [
+            {
+              "id": "A",
+              "label": "Mantener toda la operación en Costa Rica",
+              "subtitle": "Defender el ecosistema construido y la inversión instalada.",
+              "audio": "audio_P28_consecuencia_A.mp3",
+              "result": "Defender lo conocido cuando ya no se puede ganar",
+              "outcome": "Pasan los meses. La corporación se impacienta. Los márgenes siguen presionados, la caja se desgasta, y la decisión que evitó hoy regresa al comité en un año, en peores condiciones. Sun Tzu lo advirtió en el capítulo 2: las campañas prolongadas donde no se puede ganar agotan los recursos antes de que cambie el resultado.",
+              "correct": false
+            },
+            {
+              "id": "B",
+              "label": "Cerrar la operación completa",
+              "subtitle": "Consolidar todo en Asia y retirarse del país.",
+              "audio": "audio_P28_consecuencia_B.mp3",
+              "result": "Renunciar a la ventaja real",
+              "outcome": "La operación cierra. La corporación consolida en Asia y, con el tiempo, se da cuenta de algo: el talento de investigación y desarrollo que tenía en Costa Rica no se replica fácil afuera. Esa ventaja, real y diferenciada, se perdió en el mismo movimiento que cerró la manufactura. Sun Tzu, capítulo 6: nunca abandone el terreno donde sí tiene ventaja.",
+              "correct": false
+            },
+            {
+              "id": "C",
+              "label": "Cerrar manufactura, mantener I+D y servicios",
+              "subtitle": "Salir donde no se puede ganar, mantener donde sí.",
+              "audio": "audio_P28_consecuencia_C.mp3",
+              "result": "Confrontar donde no se puede ganar, sostener donde sí",
+              "outcome": "La decisión duele: hay personal afectado, hay comunicación difícil, hay un proceso de transición que toma meses. Pero la operación se reordena. Lo que era pérdida deja de serlo. Lo que era ventaja —investigación, desarrollo, servicios— recibe inversión adicional y crece. La empresa mantiene presencia estratégica en el país, en el terreno donde sí compite. Aplicó dos principios del curso: evitar donde no se podía ganar, posicionarse donde sí.",
+              "correct": true
+            },
+            {
+              "id": "D",
+              "label": "Reducir gradualmente, sin anuncio",
+              "subtitle": "Comprar tiempo. Disminuir de a poco sin comunicar.",
+              "audio": "audio_P28_consecuencia_D.mp3",
+              "result": "Decisión a medias",
+              "outcome": "Los rumores empiezan antes que los anuncios. El talento valioso, el primero en irse, se va antes de que usted decida quién debía quedarse. La incertidumbre interna desgasta al equipo más que la decisión franca habría desgastado. Seis meses después, la decisión que evitó comunicar tiene que tomarse igual, pero ya sin la confianza del equipo. Sun Tzu: las jugadas decisivas no se hacen tibias.",
+              "correct": false
+            }
+          ],
+          "convergent_audio": "audio_P28_convergente.mp3",
+          "convergent_title": "¿Qué pasó en la vida real?",
+          "convergent_text": "Este escenario está inspirado en una decisión real tomada por Intel en su operación costarricense hace varios años. La compañía decidió cerrar la línea de manufactura ante la presión de costos de plantas asiáticas, y al mismo tiempo invirtió en mantener y expandir sus operaciones de investigación, desarrollo y servicios financieros en Costa Rica, que sí eran competitivas globalmente. La decisión fue dolorosa, pero preservó la ventaja real, evitó seguir compitiendo donde no podía ganar, y mantuvo presencia estratégica en el país. Es la aplicación práctica de varios principios que vimos en este curso.",
+          "eyebrow": "MÓDULO 4 · DECISIÓN INTEGRADORA",
+          "scenes": [
+            {
+              "image": "imagen_P28_escena_sala.jpg",
+              "caption": "El comité reunido. La decisión no se puede aplazar."
+            },
+            {
+              "image": "imagen_P28_escena_datos.jpg",
+              "caption": "Los números presionan. La planta en Asia produce a una fracción del costo."
+            },
+            {
+              "image": "imagen_P28_escena_equipo.jpg",
+              "caption": "El equipo formado durante años. Talento que no se replica fácil."
+            }
+          ]
+        },
+        {
+          "id": "p29",
+          "type": "module_outro",
+          "moduleTitle": "Módulo 4",
+          "title": "Lo esencial de este módulo",
+          "items": [
+            "El liderazgo en la incertidumbre se sostiene con comunicación clara, lectura temprana de señales y cuidado de la moral del equipo.",
+            "Las jugadas decisivas se hacen cuando la situación lo justifica, los recursos sostienen el doble del tiempo previsto y hay plan para los días siguientes.",
+            "Cuatro decisiones cubren casi todo escenario competitivo: confrontar, posicionarse, evitar o esperar."
+          ],
+          "audio": "audio_P29_cierre_m4.mp3",
+          "image": "imagen_P29_cierre_m4.jpg"
+        },
+        {
+          "id": "p30",
+          "type": "knowledge_check",
+          "moduleTitle": "Módulo 4",
+          "title": "Verifique lo aprendido",
+          "questions": [
+            {
+              "type": "single",
+              "stem": "Una empresa lleva ocho meses peleando un mercado donde es claramente más débil. Las pérdidas siguen aumentando y el equipo está agotado. ¿Qué corresponde hacer?",
+              "options": [
+                "Doblar la apuesta y lanzar una campaña agresiva.",
+                "Reconocer que la posición es insostenible, salir de ese terreno y reasignar recursos.",
+                "Esperar tres meses más para ver si las cosas mejoran solas.",
+                "Comunicar al equipo que la situación está mejor de lo que parece, para sostener la moral."
+              ],
+              "correct": 1,
+              "feedback": "Es el cuadrante \"Evitar\" de la matriz: alto conocimiento del competidor + baja ventaja propia. Persistir donde no se puede ganar es la forma más cara de perder."
+            },
+            {
+              "type": "single",
+              "stem": "Un emprendedor está por lanzar un producto en cuatro provincias con campaña masiva. Tiene caja para sostener tres meses. El estudio de mercado no se actualiza desde hace ocho meses. ¿Qué le falta verificar?",
+              "options": [
+                "Que la marca esté lista visualmente.",
+                "Que los recursos alcancen para sostener al menos el doble del tiempo previsto, y que el estudio de mercado siga vigente.",
+                "Que el equipo de ventas esté motivado.",
+                "Que los socios estén de acuerdo con el cronograma."
+              ],
+              "correct": 1,
+              "feedback": "Aplica las dos primeras condiciones de una jugada decisiva: recursos sosteniendo el doble del tiempo previsto e información vigente."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cierre",
+      "title": "Cierre y evaluación",
+      "screens": [
+        {
+          "id": "p31",
+          "type": "statement_list",
+          "moduleTitle": "Cierre",
+          "title": "Cuatro principios para llevar al día a día",
+          "image": "imagen_P31_sintesis.jpg",
+          "audio": "audio_P31_sintesis.mp3",
+          "statement": "La buena estrategia no necesita que usted sea el más grande. Necesita que sepa dónde está parado, hacia dónde va y cuándo conviene moverse.",
+          "intro": "Cuatro principios para decidir bajo competencia",
+          "items": [
+            "<strong>Conozca al competidor y a usted mismo</strong>: la mitad de la batalla se gana con honestidad antes de empezar.",
+            "<strong>Elija el terreno</strong>: no compita donde el gigante manda. Encuentre el nicho donde su ventaja sea real y sostenible.",
+            "<strong>Maniobre con criterio</strong>: ninguna campaña dura para siempre. Use velocidad cuando hay oportunidad y maniobra indirecta cuando el frontal no rinde.",
+            "<strong>Decida con preparación</strong>: confronte, posicione, evite o espere según cuánto conoce al competidor y cuánta ventaja tiene en el terreno."
+          ]
+        },
+        {
+          "id": "p32",
+          "type": "quiz",
+          "moduleTitle": "Cierre",
+          "title": "Evaluación final",
+          "intro": "10 preguntas que integran los cuatro módulos. La mayoría son escenarios cortos donde debe aplicar los principios. Tómese su tiempo: la prisa es la que más errores genera.",
+          "passingScore": 70,
+          "questions": [
+            {
+              "type": "single",
+              "stem": "Una pyme contable descubre que su principal cliente (40% de los ingresos) se va a la competencia. ¿Cuál es el paso más útil según el principio de \"conocerse a uno mismo\"?",
+              "options": [
+                "Reducir tarifas inmediatamente para atraer clientes nuevos.",
+                "Hacer una autoevaluación honesta: ¿por qué se fue ese cliente? ¿Qué nos diferencia del que se lo llevó?",
+                "Reasignar al equipo a captar tres clientes pequeños lo antes posible.",
+                "Comunicar a los demás clientes que la empresa está creciendo."
+              ],
+              "correct": 1
+            },
+            {
+              "type": "matching",
+              "stem": "Relacione cada dimensión del análisis del competidor con la pregunta que la describe.",
+              "pairs": [
+                {
+                  "left": "Oferta",
+                  "right": "¿Qué venden y a quién?"
+                },
+                {
+                  "left": "Precio",
+                  "right": "¿Cómo se posicionan en precio y con qué margen aparente?"
+                },
+                {
+                  "left": "Canal",
+                  "right": "¿Por dónde llega el cliente al competidor?"
+                },
+                {
+                  "left": "Reputación",
+                  "right": "¿Qué dicen de ellos los clientes y la prensa?"
+                },
+                {
+                  "left": "Recursos",
+                  "right": "¿Con cuánta caja, marca, talento y tecnología cuentan?"
+                }
+              ]
+            },
+            {
+              "type": "single",
+              "stem": "Una emprendedora quiere lanzar una marca propia de medicamentos genéricos. El sector exige certificaciones estrictas, plantas con BPM e inversión considerable. Una vez dentro, las mismas barreras protegen. Esto es un caso clásico de:",
+              "options": [
+                "Mercado abierto.",
+                "Mercado clave.",
+                "Mercado intersección.",
+                "Mercado difícil.",
+                "Mercado callejón."
+              ],
+              "correct": 3
+            },
+            {
+              "type": "matching",
+              "stem": "Relacione cada criterio de un buen nicho con la pregunta que lo verifica.",
+              "pairs": [
+                {
+                  "left": "Demanda solvente",
+                  "right": "¿Hay clientes dispuestos a pagar por esta diferenciación?"
+                },
+                {
+                  "left": "Ventaja sostenible",
+                  "right": "¿Tengo algo que el grande no pueda copiar fácil, distinto del precio?"
+                },
+                {
+                  "left": "Tamaño adecuado",
+                  "right": "¿Es lo bastante grande para crecer pero incómodo para el gigante?"
+                }
+              ]
+            },
+            {
+              "type": "single",
+              "stem": "Una empresa pequeña piensa lanzar una campaña agresiva de descuentos contra una cadena grande regional. La cadena tiene caja para sostener pérdidas durante años; la empresa pequeña, durante seis meses. Esta jugada:",
+              "options": [
+                "Es buena porque le da visibilidad rápida.",
+                "Es buena porque el cliente nunca paga lealtad.",
+                "Es peligrosa: el competidor sostiene la guerra mucho más tiempo y la pequeña se queda sin caja primero.",
+                "Es buena porque genera presión sobre los márgenes del competidor."
+              ],
+              "correct": 2
+            },
+            {
+              "type": "multiple",
+              "stem": "¿Cuáles son ejemplos de maniobra indirecta según el curso? Seleccione todas las que apliquen.",
+              "options": [
+                "Aliarse con tres proveedores locales para asegurar exclusividad de un insumo clave.",
+                "Lanzar una promoción el mismo día que el competidor, en el mismo canal y al mismo precio.",
+                "Lanzar un producto en una temporada que ningún competidor está atendiendo.",
+                "Atender el segmento de microempresas que la competencia ignora por baja rentabilidad.",
+                "Igualar uno a uno cada movimiento del competidor."
+              ],
+              "correct": [
+                0,
+                2,
+                3
+              ]
+            },
+            {
+              "type": "single",
+              "stem": "Una empresa conoce a fondo a su competidor (márgenes, debilidades, fatiga de servicio). Su propia posición es débil: menos caja, equipo más pequeño, propuesta similar. Según la matriz, ¿qué corresponde?",
+              "options": [
+                "Confrontar.",
+                "Posicionarse.",
+                "Evitar.",
+                "Esperar."
+              ],
+              "correct": 2
+            },
+            {
+              "type": "matching",
+              "stem": "Relacione cada condición para una jugada decisiva con la razón que la sostiene.",
+              "pairs": [
+                {
+                  "left": "La situación lo justifica",
+                  "right": "No es por ambición, es por necesidad u oportunidad clara."
+                },
+                {
+                  "left": "Recursos sostienen el doble del tiempo previsto",
+                  "right": "Los plazos optimistas casi nunca se cumplen; la holgura previene quedar sin caja."
+                },
+                {
+                  "left": "Existe plan para los días siguientes",
+                  "right": "Después del movimiento decisivo el trabajo recién empieza."
+                }
+              ]
+            },
+            {
+              "type": "single",
+              "stem": "Un emprendedor con un café gourmet en San José quiere expandirse. Opción 1: zona comercial de alto tráfico con cuatro cafeterías similares. Opción 2: zona empresarial sub-atendida donde no hay café de calidad y los oficinistas dependen de cadenas baratas. ¿Qué le aconseja?",
+              "options": [
+                "La zona comercial: más tráfico, más ventas potenciales.",
+                "La zona empresarial: nicho con clientes desatendidos donde su propuesta tiene ventaja real.",
+                "Las dos a la vez: la diversificación reduce el riesgo.",
+                "Ninguna: esperar a tener más capital."
+              ],
+              "correct": 1
+            },
+            {
+              "type": "single",
+              "stem": "Una empresa de tecnología detecta que un competidor mucho más grande está a punto de entrar a su mercado con una versión gratuita. La empresa tiene seis meses de caja, conoce la debilidad del competidor (soporte local) y tiene relación cercana con sus clientes actuales. ¿Cuál es la mejor maniobra?",
+              "options": [
+                "Bajar el precio del producto al mínimo.",
+                "Anticiparse: firmar contratos anuales con sus clientes principales y reforzar el soporte local —el flanco débil del competidor— antes de su entrada.",
+                "Esperar a ver cómo entra el competidor y luego ajustar.",
+                "Aceptar que va a perder participación y reducir operaciones para preservar caja."
+              ],
+              "correct": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

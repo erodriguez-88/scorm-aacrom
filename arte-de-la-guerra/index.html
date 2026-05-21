@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>El arte de la guerra aplicado a los negocios · Aacrom</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- SCORM API wrapper (debe cargar antes que el player) -->
+  <script src="api-wrapper.js"></script>
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <h1 id="course-title">El arte de la guerra aplicado a los negocios</h1>
+        <div class="progress-wrapper">
+          <div class="progress-bar"><div id="progress-fill"></div></div>
+          <div id="progress-text">0% COMPLETADO</div>
+        </div>
+      </div>
+      <nav id="module-nav"></nav>
+    </aside>
+
+    <main id="main">
+      <header id="topbar">
+        <button id="menu-toggle" aria-label="Menú">☰</button>
+        <div id="screen-counter">1 de 32</div>
+        <button id="dark-toggle" aria-label="Cambiar modo">☾ Oscuro</button>
+      </header>
+      <section id="screen-container"></section>
+      <footer id="footer-nav">
+        <button id="btn-prev" class="nav-btn">← Anterior</button>
+        <button id="btn-next" class="nav-btn primary">Continuar →</button>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Inicializar SCORM antes de que el player arranque
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.AacromSCORM) {
+        window.AacromSCORM.initialize();
+      }
+    });
+  </script>
+
+  <script src="player.js"></script>
+</body>
+</html>
