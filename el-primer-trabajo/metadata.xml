@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lom xmlns="http://www.imsglobal.org/xsd/imsmd_rootv1p2p1"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd">
+  <general>
+    <title>
+      <langstring xml:lang="es">Curso Aacrom</langstring>
+    </title>
+    <description>
+      <langstring xml:lang="es">Curso producido con la plantilla Aacrom v1.0</langstring>
+    </description>
+    <language>es</language>
+  </general>
+  <metametadata>
+    <metadatascheme>ADL SCORM 1.2</metadatascheme>
+  </metametadata>
+  <technical>
+    <format>text/html</format>
+  </technical>
+</lom>

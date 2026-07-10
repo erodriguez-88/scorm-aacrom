@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="aacrom_course_manifest"
+          version="1.0"
+          xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+          xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd
+                              http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+  </metadata>
+
+  <organizations default="aacrom_organization">
+    <organization identifier="aacrom_organization">
+      <title>El primer trabajo: buscarlo, conseguirlo, no perderlo</title>
+      <item identifier="item_1" identifierref="resource_1" isvisible="true">
+        <title>Curso Aacrom</title>
+        <adlcp:masteryscore>80</adlcp:masteryscore>
+      </item>
+    </organization>
+  </organizations>
+
+  <resources>
+    <resource identifier="resource_1"
+              type="webcontent"
+              adlcp:scormtype="sco"
+              href="scormdriver/index.html">
+
+      <!-- Driver SCORM -->
+      <file href="scormdriver/index.html"/>
+      <file href="scormdriver/scormdriver.js"/>
+      <file href="scormdriver/api-wrapper.js"/>
+
+      <!-- Contenido principal -->
+      <file href="content/index.html"/>
+      <file href="content/course.json"/>
+
+      <!-- Runtime de la plantilla Aacrom -->
+      <file href="content/lib/aacrom-runtime.js"/>
+      <file href="content/lib/aacrom-runtime.css"/>
+
+      <!-- Componentes (sub-etapa 3.2) -->
+      <file href="content/lib/components/text-heading.js"/>
+      <file href="content/lib/components/text-paragraph.js"/>
+      <file href="content/lib/components/multimedia-image.js"/>
+      <file href="content/lib/components/divider-continue.js"/>
+
+      <!-- Componentes (sub-etapa 3.3) -->
+      <file href="content/lib/components/multimedia-audio.js"/>
+      <file href="content/lib/components/multimedia-video.js"/>
+      <file href="content/lib/components/quiz-engine.js"/>
+
+      <!-- Componentes (sub-etapa 3.4) -->
+      <file href="content/lib/components/interactive-labeled-graphic.js"/>
+      <file href="content/lib/components/external-block.js"/>
+      <file href="content/lib/components/interactive-accordion.js"/>
+      <file href="content/lib/components/interactive-tabs.js"/>
+      <file href="content/lib/components/interactive-flashcards.js"/>
+      <file href="content/lib/components/interactive-process.js"/>
+      <file href="content/lib/components/interactive-timeline.js"/>
+      <file href="content/lib/components/impact-statement.js"/>
+      <file href="content/lib/components/knowledge-check.js"/>
+      <file href="content/lib/components/divider-section.js"/>
+      <file href="content/lib/components/text-list.js"/>
+      <file href="content/lib/components/text-table.js"/>
+      <file href="content/lib/components/interactive-buttons.js"/>
+      <file href="content/lib/components/interactive-sorting.js"/>
+      <file href="content/lib/components/interactive-scenario.js"/>
+      <file href="content/lib/components/multimedia-gallery.js"/>
+      <file href="content/lib/components/multimedia-attachment.js"/>
+      <file href="content/lib/components/multimedia-embed.js"/>
+      <file href="content/lib/components/chart.js"/>
+
+      <!-- Assets de demostración -->
+      <file href="content/assets/images/demo-1.svg"/>
+      <file href="content/assets/images/demo-2.svg"/>
+      <file href="content/assets/images/cocina-demo.svg"/>
+      <file href="content/assets/audio/demo-tone.mp3"/>
+
+      <!-- Paquete externo de demostración -->
+      <file href="content/external/storyline-demo-actividad/index.html"/>
+      <file href="content/assets/video/demo.mp4"/>
+
+    </resource>
+  </resources>
+
+</manifest>
