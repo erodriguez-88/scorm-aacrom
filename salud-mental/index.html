@@ -1,0 +1,2360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Salud mental en el trabajo · Aacrom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================
+   THEME — Aacrom Rise
+   ============================================ */
+:root {
+  --aacrom-primary: #1F3864;
+  --aacrom-primary-light: #2E5497;
+  --aacrom-accent: #C9A227;
+  --aacrom-accent-light: #E8C667;
+  --aacrom-text: #2C2C2C;
+  --aacrom-text-muted: #6B6B6B;
+  --aacrom-bg: #FFFFFF;
+  --aacrom-bg-soft: #F7F8FA;
+  --aacrom-border: #E5E7EB;
+  --aacrom-success: #1F7A42;
+  --aacrom-danger: #B02A2A;
+  --sidebar-width: 320px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--aacrom-text);
+  background: var(--aacrom-bg);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+#sidebar {
+  width: var(--sidebar-width);
+  background: var(--aacrom-primary);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+  padding: 32px 28px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+#course-title {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 28px;
+}
+
+.progress-wrapper { margin-top: 8px; }
+
+.progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.18);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+#progress-fill {
+  height: 100%;
+  width: 0%;
+  background: white;
+  transition: width 0.4s ease;
+}
+
+#progress-text {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+#module-nav {
+  padding: 20px 0;
+  flex: 1;
+}
+
+.module-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 28px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.4;
+  color: rgba(255,255,255,0.9);
+  border-left: 3px solid transparent;
+  transition: background 0.15s, border-left-color 0.15s;
+}
+
+.module-item:hover { background: rgba(255,255,255,0.06); }
+
+.module-item.active {
+  background: rgba(255,255,255,0.12);
+  border-left-color: var(--aacrom-accent);
+  font-weight: 600;
+}
+
+.module-item .icon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.module-item .check {
+  margin-left: auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.45);
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.module-item.current .check {
+  border-color: var(--aacrom-accent);
+  border-style: dashed;
+  animation: spin 4s linear infinite;
+}
+
+.module-item.completed .check {
+  background: var(--aacrom-accent);
+  border-color: var(--aacrom-accent);
+  position: relative;
+}
+
+.module-item.completed .check::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--aacrom-primary);
+  font-weight: 900;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ============================================
+   MAIN
+   ============================================ */
+#main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--aacrom-bg);
+}
+
+#topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 48px;
+  background: var(--aacrom-bg);
+  border-bottom: 1px solid var(--aacrom-border);
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+#menu-toggle {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--aacrom-text);
+  padding: 4px 8px;
+  display: none;
+}
+
+#screen-counter {
+  font-size: 13px;
+  color: var(--aacrom-text-muted);
+  font-weight: 600;
+}
+
+#screen-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+  position: relative;
+}
+
+/* ============================================
+   SCREEN — Header con onda decorativa
+   ============================================ */
+.screen-header {
+  position: relative;
+  padding: 60px 64px 50px;
+  background: var(--aacrom-bg-soft);
+  overflow: hidden;
+}
+
+.screen-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: var(--aacrom-bg);
+  clip-path: polygon(0 100%, 0 40%, 50% 70%, 100% 30%, 100% 100%);
+}
+
+.screen-header h1 {
+  font-size: 44px;
+  font-weight: 700;
+  color: var(--aacrom-text);
+  line-height: 1.15;
+  position: relative;
+  z-index: 1;
+  max-width: 80%;
+}
+
+.screen-header .header-line {
+  width: 80px;
+  height: 4px;
+  background: var(--aacrom-text);
+  margin-top: 18px;
+  position: relative;
+  z-index: 1;
+}
+
+.screen-header.with-image {
+  background-size: cover;
+  background-position: right center;
+  background-blend-mode: lighten;
+}
+
+.screen-header.with-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(247,248,250,0.97) 0%, rgba(247,248,250,0.85) 50%, rgba(247,248,250,0.4) 100%);
+}
+
+.screen-header > * { position: relative; z-index: 1; }
+
+/* ============================================
+   SCREEN BODY
+   ============================================ */
+.screen-body {
+  padding: 50px 64px 80px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.subtitle-blue {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--aacrom-primary);
+  text-align: center;
+  margin: 30px 0 24px;
+}
+
+/* Bloque de instrucciones dorado */
+.instructions-box {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 30px auto;
+  padding: 0;
+  font-size: 22px;
+  max-width: 900px;
+}
+
+.instructions-box .badge-icon {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  background: var(--aacrom-accent);
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.instructions-box .badge-icon::before {
+  content: '!';
+  font-size: 32px;
+  font-weight: 900;
+  color: white;
+}
+
+.instructions-box .badge-icon::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 2.5px dashed var(--aacrom-accent);
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+.instructions-box .text {
+  font-size: 22px;
+  line-height: 1.4;
+  color: var(--aacrom-text);
+}
+
+.instructions-box .text strong {
+  color: var(--aacrom-primary);
+  font-weight: 700;
+}
+
+/* Reproductor de audio */
+audio {
+  display: block;
+  width: 100%;
+  max-width: 700px;
+  margin: 30px auto;
+  height: 44px;
+}
+
+audio::-webkit-media-controls-panel {
+  background-color: #F0F2F5;
+}
+
+/* Texto cuerpo de la pantalla */
+.screen-body p {
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  text-align: center;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.screen-body p.left { text-align: left; }
+.screen-body p.justify { text-align: justify; }
+
+.screen-body p strong { color: var(--aacrom-primary); font-weight: 700; }
+
+/* ============================================
+   STATEMENT (cita destacada)
+   ============================================ */
+.statement {
+  background: var(--aacrom-bg-soft);
+  border-left: 5px solid var(--aacrom-accent);
+  padding: 32px 40px;
+  margin: 30px auto;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--aacrom-primary);
+  max-width: 900px;
+  font-style: italic;
+}
+
+.statement::before {
+  content: '"';
+  font-size: 60px;
+  line-height: 0;
+  color: var(--aacrom-accent);
+  vertical-align: -20px;
+  margin-right: 8px;
+  font-family: Georgia, serif;
+}
+
+.statement-citation {
+  display: block;
+  margin-top: 14px;
+  font-size: 14px;
+  font-style: normal;
+  color: var(--aacrom-text-muted);
+  font-weight: 500;
+}
+
+/* ============================================
+   LIST
+   ============================================ */
+.aacrom-list {
+  list-style: none;
+  margin: 30px auto;
+  max-width: 900px;
+  padding: 0;
+}
+
+.aacrom-list li {
+  display: flex;
+  gap: 18px;
+  padding: 18px 24px;
+  background: var(--aacrom-bg-soft);
+  margin-bottom: 12px;
+  border-radius: 8px;
+  font-size: 17px;
+  line-height: 1.5;
+  border-left: 4px solid var(--aacrom-accent);
+}
+
+.aacrom-list li::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--aacrom-accent);
+  flex-shrink: 0;
+  margin-top: 9px;
+}
+
+/* ============================================
+   CASE CARD (cards con texto sobre imagen)
+   ============================================ */
+.case-card-wrapper {
+  position: relative;
+  margin: 30px auto;
+  max-width: 1000px;
+  min-height: 480px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+}
+
+.case-card-wrapper .bg-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.case-card-wrapper .bg-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.5) 100%);
+}
+
+.case-card-wrapper .card-content {
+  position: relative;
+  z-index: 1;
+  background: white;
+  border-radius: 20px;
+  padding: 36px 44px;
+  margin: 130px auto 40px;
+  max-width: 720px;
+  font-size: 18px;
+  line-height: 1.6;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  text-align: justify;
+}
+
+.case-card-wrapper .card-content strong {
+  color: var(--aacrom-primary);
+  font-weight: 700;
+}
+
+.case-card-wrapper .card-subtitle {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--aacrom-accent);
+  margin-bottom: 20px;
+}
+
+/* ============================================
+   TABS
+   ============================================ */
+.tabs-container {
+  margin: 30px auto;
+  max-width: 900px;
+}
+
+.tabs-nav {
+  display: flex;
+  gap: 4px;
+  border-bottom: 2px solid var(--aacrom-border);
+  margin-bottom: 0;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 16px 20px;
+  border: none;
+  background: var(--aacrom-bg-soft);
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--aacrom-text-muted);
+  border-radius: 8px 8px 0 0;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.tab-btn:hover { background: #EEF1F5; color: var(--aacrom-text); }
+
+.tab-btn.active {
+  background: var(--aacrom-primary);
+  color: white;
+}
+
+.tab-panel {
+  display: none;
+  background: var(--aacrom-bg-soft);
+  padding: 30px 36px;
+  border-radius: 0 0 12px 12px;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.tab-panel.active { display: block; animation: fadeIn 0.3s; }
+.tab-panel ul { padding-left: 20px; }
+.tab-panel li { margin-bottom: 10px; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ============================================
+   ACCORDION
+   ============================================ */
+.accordion {
+  margin: 30px auto;
+  max-width: 900px;
+}
+
+.accordion-item {
+  margin-bottom: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--aacrom-border);
+}
+
+.accordion-header {
+  padding: 18px 24px;
+  background: var(--aacrom-bg-soft);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--aacrom-primary);
+  transition: background 0.2s;
+}
+
+.accordion-header:hover { background: #EEF1F5; }
+
+.accordion-header .toggle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--aacrom-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 300;
+  transition: transform 0.3s;
+}
+
+.accordion-item.open .toggle { transform: rotate(45deg); }
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  background: white;
+}
+
+.accordion-item.open .accordion-content {
+  max-height: 500px;
+}
+
+.accordion-content-inner {
+  padding: 20px 24px;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+/* ============================================
+   HOTSPOTS
+   ============================================ */
+.hotspots-container {
+  position: relative;
+  margin: 30px auto;
+  max-width: 900px;
+}
+
+.hotspots-image {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+}
+
+.hotspots-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.hotspot-btn {
+  padding: 16px 20px;
+  background: var(--aacrom-bg-soft);
+  border: 2px solid var(--aacrom-border);
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--aacrom-primary);
+  transition: all 0.2s;
+  font-family: inherit;
+  position: relative;
+}
+
+.hotspot-btn::before {
+  content: '+';
+  display: block;
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--aacrom-accent);
+  margin-bottom: 4px;
+}
+
+.hotspot-btn:hover {
+  background: white;
+  border-color: var(--aacrom-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(31,56,100,0.12);
+}
+
+.hotspot-btn.viewed {
+  background: var(--aacrom-primary);
+  color: white;
+  border-color: var(--aacrom-primary);
+}
+
+.hotspot-btn.viewed::before { color: var(--aacrom-accent-light); }
+
+.hotspot-content {
+  margin-top: 24px;
+  padding: 24px 30px;
+  background: var(--aacrom-bg-soft);
+  border-left: 4px solid var(--aacrom-accent);
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.65;
+  display: none;
+}
+
+.hotspot-content.show { display: block; animation: fadeIn 0.3s; }
+
+/* ============================================
+   DECISION MATRIX (4 cuadrantes)
+   ============================================ */
+.matrix-container {
+  position: relative;
+  margin: 30px auto;
+  max-width: 800px;
+  padding: 40px 60px 30px;
+}
+
+.matrix-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 8px;
+  aspect-ratio: 1.2;
+  position: relative;
+}
+
+.matrix-quadrant {
+  border-radius: 10px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: white;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  position: relative;
+  min-height: 180px;
+}
+
+.matrix-quadrant:hover { transform: scale(1.03); box-shadow: 0 8px 24px rgba(0,0,0,0.18); }
+
+.matrix-quadrant.active { box-shadow: 0 0 0 3px var(--aacrom-accent); }
+
+.matrix-label-x, .matrix-label-y {
+  position: absolute;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--aacrom-text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.matrix-label-x {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.matrix-label-y {
+  left: -20px;
+  top: 50%;
+  transform: rotate(-90deg) translateX(50%);
+  transform-origin: center;
+}
+
+.matrix-content {
+  margin-top: 30px;
+  padding: 24px 30px;
+  background: var(--aacrom-bg-soft);
+  border-left: 4px solid var(--aacrom-accent);
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.65;
+  display: none;
+}
+
+.matrix-content.show { display: block; animation: fadeIn 0.3s; }
+
+/* ============================================
+   DECISION SCENARIO
+   ============================================ */
+.scenario-container { margin: 20px auto; max-width: 1000px; }
+
+.scenario-intro-card {
+  background: var(--aacrom-bg-soft);
+  padding: 30px 36px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  font-size: 17px;
+  line-height: 1.65;
+  border-left: 4px solid var(--aacrom-primary);
+}
+
+.dialogue-container { margin: 30px 0; }
+
+.dialogue-line {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 18px;
+  align-items: flex-start;
+  opacity: 0.4;
+  transition: opacity 0.3s;
+}
+
+.dialogue-line.played, .dialogue-line.active { opacity: 1; }
+.dialogue-line.active { background: rgba(201, 162, 39, 0.07); border-radius: 10px; padding: 10px 14px; margin: 8px -14px 8px -14px; }
+
+.dialogue-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: white;
+  font-size: 14px;
+  flex-shrink: 0;
+  background: var(--aacrom-primary);
+}
+
+.dialogue-avatar.andres { background: #4A5C77; }
+.dialogue-avatar.narrator { background: var(--aacrom-text-muted); font-size: 18px; }
+
+.dialogue-body { flex: 1; }
+
+.dialogue-character {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--aacrom-primary);
+  margin-bottom: 4px;
+  letter-spacing: 0.3px;
+}
+
+.dialogue-character .role {
+  font-weight: 400;
+  color: var(--aacrom-text-muted);
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.dialogue-text {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--aacrom-text);
+}
+
+.dialogue-line audio { margin: 8px 0 0; max-width: 100%; height: 36px; }
+
+.scenario-question {
+  margin-top: 30px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--aacrom-primary);
+  text-align: center;
+}
+
+.scenario-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.scenario-option-btn {
+  padding: 22px 24px;
+  background: white;
+  border: 2px solid var(--aacrom-border);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.scenario-option-btn:hover {
+  border-color: var(--aacrom-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(31,56,100,0.1);
+}
+
+.scenario-option-btn .option-id {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--aacrom-primary);
+  color: white;
+  text-align: center;
+  line-height: 28px;
+  font-weight: 700;
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.scenario-option-btn .option-label {
+  font-weight: 700;
+  color: var(--aacrom-primary);
+  font-size: 16px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.scenario-option-btn .option-sub {
+  font-size: 14px;
+  color: var(--aacrom-text-muted);
+  line-height: 1.5;
+}
+
+.scenario-result {
+  margin-top: 24px;
+  padding: 30px 36px;
+  border-radius: 12px;
+  background: var(--aacrom-bg-soft);
+  border-left: 5px solid var(--aacrom-accent);
+}
+
+.scenario-result.correct { border-left-color: var(--aacrom-success); }
+.scenario-result.incorrect { border-left-color: var(--aacrom-danger); }
+
+.scenario-result-badge {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 20px;
+  background: var(--aacrom-accent);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+}
+
+.scenario-result.correct .scenario-result-badge { background: var(--aacrom-success); }
+.scenario-result.incorrect .scenario-result-badge { background: var(--aacrom-danger); }
+
+.scenario-result h4 {
+  font-size: 22px;
+  color: var(--aacrom-primary);
+  margin-bottom: 12px;
+}
+
+.scenario-result p { font-size: 16px; line-height: 1.65; text-align: left; }
+
+.scenario-actions { margin-top: 24px; display: flex; gap: 12px; justify-content: center; }
+
+.scenario-convergent {
+  margin-top: 30px;
+  padding: 30px 36px;
+  background: linear-gradient(135deg, var(--aacrom-primary) 0%, var(--aacrom-primary-light) 100%);
+  color: white;
+  border-radius: 16px;
+  display: none;
+}
+
+.scenario-convergent.show { display: block; animation: fadeIn 0.4s; }
+.scenario-convergent h4 {
+  font-size: 24px;
+  color: var(--aacrom-accent);
+  margin-bottom: 16px;
+}
+.scenario-convergent p { color: white; font-size: 16px; line-height: 1.7; text-align: left; }
+
+/* ============================================
+   KNOWLEDGE CHECK / QUIZ
+   ============================================ */
+.question-card {
+  background: var(--aacrom-bg-soft);
+  padding: 32px 40px;
+  border-radius: 14px;
+  margin: 24px auto;
+  max-width: 900px;
+}
+
+.question-counter {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--aacrom-accent);
+  margin-bottom: 10px;
+}
+
+.question-stem {
+  font-size: 18px;
+  line-height: 1.55;
+  margin-bottom: 24px;
+  font-weight: 600;
+  color: var(--aacrom-primary);
+}
+
+.option-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 20px;
+  background: white;
+  border: 2px solid var(--aacrom-border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.option-row:hover { border-color: var(--aacrom-accent); }
+
+.option-row.selected { border-color: var(--aacrom-primary); background: #EEF2F8; }
+
+.option-row.correct { border-color: var(--aacrom-success); background: #E8F5EC; }
+.option-row.incorrect { border-color: var(--aacrom-danger); background: #FBEAEA; }
+
+.option-row input { width: 18px; height: 18px; margin-top: 2px; cursor: pointer; flex-shrink: 0; accent-color: var(--aacrom-primary); }
+.option-row label { flex: 1; cursor: pointer; font-size: 16px; line-height: 1.5; }
+
+.matching-grid {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.matching-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 14px;
+}
+
+.matching-cell {
+  padding: 16px 20px;
+  background: white;
+  border: 2px solid var(--aacrom-border);
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.matching-cell.left { background: var(--aacrom-primary); color: white; border-color: var(--aacrom-primary); font-weight: 600; }
+
+.matching-arrow { font-size: 24px; color: var(--aacrom-accent); }
+
+.feedback-box {
+  margin-top: 20px;
+  padding: 20px 26px;
+  border-radius: 10px;
+  background: white;
+  border-left: 4px solid var(--aacrom-accent);
+  display: none;
+}
+
+.feedback-box.show { display: block; animation: fadeIn 0.3s; }
+.feedback-box.correct { border-left-color: var(--aacrom-success); }
+.feedback-box.incorrect { border-left-color: var(--aacrom-danger); }
+.feedback-box .feedback-title {
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--aacrom-primary);
+  font-size: 16px;
+}
+.feedback-box.correct .feedback-title { color: var(--aacrom-success); }
+.feedback-box.incorrect .feedback-title { color: var(--aacrom-danger); }
+.feedback-box p { font-size: 15px; line-height: 1.6; text-align: left; }
+
+.quiz-submit {
+  margin: 30px auto 0;
+  display: block;
+  padding: 14px 38px;
+  font-size: 16px;
+  font-weight: 700;
+  background: var(--aacrom-primary);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.3px;
+  transition: background 0.2s;
+}
+
+.quiz-submit:hover:not(:disabled) { background: var(--aacrom-primary-light); }
+.quiz-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.quiz-result-summary {
+  text-align: center;
+  padding: 40px 30px;
+  background: var(--aacrom-bg-soft);
+  border-radius: 14px;
+  margin: 24px auto;
+  max-width: 700px;
+}
+
+.quiz-result-summary .score {
+  font-size: 64px;
+  font-weight: 700;
+  color: var(--aacrom-primary);
+  line-height: 1;
+}
+
+.quiz-result-summary .score .total { color: var(--aacrom-text-muted); font-size: 32px; }
+
+.quiz-result-summary .label {
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  color: var(--aacrom-text-muted);
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.quiz-result-summary .badge {
+  display: inline-block;
+  padding: 8px 24px;
+  margin-top: 18px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+.quiz-result-summary .badge.passed { background: var(--aacrom-success); color: white; }
+.quiz-result-summary .badge.failed { background: var(--aacrom-danger); color: white; }
+
+.quiz-result-summary p { margin-top: 20px; font-size: 16px; line-height: 1.6; }
+
+/* ============================================
+   SORTING (drag & drop)
+   ============================================ */
+.sorting-container { margin: 30px auto; max-width: 1100px; }
+
+.sorting-items-pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 20px;
+  background: var(--aacrom-bg-soft);
+  border-radius: 12px;
+  min-height: 80px;
+  margin-bottom: 20px;
+}
+
+.sortable-item {
+  padding: 12px 18px;
+  background: white;
+  border: 2px solid var(--aacrom-border);
+  border-radius: 8px;
+  cursor: grab;
+  font-size: 14px;
+  line-height: 1.4;
+  max-width: 320px;
+  transition: all 0.2s;
+}
+
+.sortable-item:hover { border-color: var(--aacrom-accent); }
+.sortable-item.dragging { opacity: 0.4; }
+.sortable-item.correct-placed { border-color: var(--aacrom-success); background: #E8F5EC; }
+.sortable-item.wrong-placed { border-color: var(--aacrom-danger); background: #FBEAEA; }
+
+.sorting-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.sorting-category {
+  background: white;
+  border: 2px dashed var(--aacrom-border);
+  border-radius: 12px;
+  padding: 18px;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sorting-category.drag-over { border-color: var(--aacrom-accent); background: #FFF9E8; }
+
+.sorting-category-title {
+  font-weight: 700;
+  color: var(--aacrom-primary);
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--aacrom-border);
+}
+
+.sorting-drop-zone { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+
+/* ============================================
+   FOOTER NAV
+   ============================================ */
+#footer-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 48px;
+  border-top: 1px solid var(--aacrom-border);
+  background: var(--aacrom-bg);
+  flex-shrink: 0;
+}
+
+.nav-btn {
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  background: transparent;
+  color: var(--aacrom-primary);
+  border: 2px solid var(--aacrom-primary);
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: var(--aacrom-primary);
+  color: white;
+}
+
+.nav-btn.primary {
+  background: var(--aacrom-primary);
+  color: white;
+}
+
+.nav-btn.primary:hover:not(:disabled) {
+  background: var(--aacrom-primary-light);
+  border-color: var(--aacrom-primary-light);
+}
+
+.nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 900px) {
+  :root { --sidebar-width: 280px; }
+  #sidebar {
+    position: fixed;
+    top: 0; bottom: 0; left: 0;
+    z-index: 10;
+    transform: translateX(-100%);
+  }
+  #sidebar.open { transform: translateX(0); }
+  #menu-toggle { display: block; }
+  .screen-header { padding: 40px 24px 30px; }
+  .screen-header h1 { font-size: 32px; max-width: 100%; }
+  .screen-body { padding: 30px 20px 60px; }
+  .screen-body p, .statement { font-size: 16px; }
+  .subtitle-blue { font-size: 26px; }
+  .instructions-box .text { font-size: 16px; }
+  .matrix-grid { grid-template-columns: 1fr; grid-template-rows: repeat(4, auto); aspect-ratio: auto; }
+  .scenario-options { grid-template-columns: 1fr; }
+  .case-card-wrapper .card-content { margin: 60px 16px 30px; padding: 24px 20px; }
+  .matching-row { grid-template-columns: 1fr; }
+  .matching-arrow { display: none; }
+  #footer-nav { padding: 12px 20px; }
+  #topbar { padding: 14px 20px; }
+}
+
+/* Modo oscuro (preview) */
+body.dark-mode {
+  --aacrom-text: #E8E9EB;
+  --aacrom-text-muted: #A0A4AC;
+  --aacrom-bg: #1A1D24;
+  --aacrom-bg-soft: #252934;
+  --aacrom-border: #3A3F4A;
+}
+body.dark-mode #sidebar { background: #0D1A33; }
+body.dark-mode .screen-header { background: #252934; }
+body.dark-mode .screen-header::after { background: var(--aacrom-bg); }
+body.dark-mode .screen-header h1 { color: #E8E9EB; }
+body.dark-mode .screen-header .header-line { background: #C9A227; }
+body.dark-mode .statement { background: #252934; color: #E8C667; }
+body.dark-mode .aacrom-list li { background: #252934; color: #E8E9EB; }
+body.dark-mode .tab-panel, body.dark-mode .accordion-header, body.dark-mode .hotspot-btn, body.dark-mode .scenario-intro-card, body.dark-mode .option-row { background: #252934; color: #E8E9EB; }
+body.dark-mode .accordion-content, body.dark-mode .scenario-option-btn, body.dark-mode .matching-cell:not(.left) { background: #1A1D24; color: #E8E9EB; }
+body.dark-mode .case-card-wrapper .card-content { background: #2D323D; color: #E8E9EB; }
+body.dark-mode .scenario-result, body.dark-mode .question-card, body.dark-mode .quiz-result-summary, body.dark-mode .matrix-content, body.dark-mode .hotspot-content { background: #252934; color: #E8E9EB; }
+body.dark-mode .feedback-box { background: #1A1D24; }
+body.dark-mode #topbar, body.dark-mode #footer-nav { background: var(--aacrom-bg); border-color: var(--aacrom-border); }
+body.dark-mode select { color: #E8E9EB; }
+
+/* Botón modo oscuro */
+#dark-toggle {
+  background: transparent;
+  border: 1px solid var(--aacrom-border);
+  color: var(--aacrom-text);
+  cursor: pointer;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+#dark-toggle:hover { background: var(--aacrom-bg-soft); }
+
+/* Badge de preview */
+#preview-badge {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #C9A227;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  z-index: 100;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+}
+
+
+/* Tipos custom v1 (heredados del C-S.1) */
+.module-label { display: inline-block; font-size: 13px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--aacrom-accent); background: rgba(201, 162, 39, 0.08); padding: 6px 16px; border-radius: 4px; margin-bottom: 18px; position: relative; z-index: 1; }
+.screen-header .module-label { margin-bottom: 14px; }
+.next-steps-heading { font-size: 16px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--aacrom-primary); text-align: center; margin: 40px auto 16px; padding-bottom: 12px; border-bottom: 2px solid var(--aacrom-accent); max-width: 400px; }
+.module-hero-image { width: 100%; max-width: 1000px; margin: 20px auto 30px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 28px rgba(0,0,0,0.12); height: 280px; background-size: cover; background-position: center; }
+.aacrom-paragraphs { max-width: 900px; margin: 30px auto; }
+.aacrom-paragraphs p { font-size: 17px; line-height: 1.75; margin-bottom: 18px; text-align: justify; color: var(--aacrom-text); }
+.aacrom-paragraphs p strong { color: var(--aacrom-primary); font-weight: 700; }
+.closing-message-box { margin: 36px auto 0; max-width: 800px; padding: 32px 40px; background: linear-gradient(135deg, var(--aacrom-primary) 0%, var(--aacrom-primary-light) 100%); color: white; border-radius: 14px; font-size: 17px; line-height: 1.7; text-align: left; box-shadow: 0 12px 32px rgba(31, 56, 100, 0.25); }
+.closing-message-box strong { color: var(--aacrom-accent-light); }
+.instructions-callout { display: flex; align-items: center; gap: 24px; background: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 32px; border-left: 6px solid #C9A227; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06); position: relative; z-index: 1; }
+.callout-icon { flex-shrink: 0; width: 56px; height: 56px; border-radius: 50%; background: #C9A227; color: white; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 800; font-family: Georgia, serif; }
+.callout-text { flex: 1; color: #2C2C2C; font-size: 17px; line-height: 1.55; font-weight: 500; }
+.callout-text strong { color: #1F3864; font-weight: 800; font-size: 18px; display: inline-block; margin-right: 4px; }
+.dialogue-line { opacity: 1 !important; }
+
+/* FIX 1: callout convergente — strong en color claro sobre fondo azul */
+.scenario-convergent p strong { color: #E8C667 !important; font-weight: 700; }
+.scenario-convergent p em { color: rgba(255,255,255,0.95) !important; }
+
+/* FIX 2: matrix-quadrant texto navy legible */
+.matrix-quadrant { color: #1F3864 !important; text-shadow: none !important; font-size: 20px; font-weight: 800; line-height: 1.3; }
+.matrix-quadrant.active { box-shadow: 0 0 0 3px #C9A227, 0 8px 24px rgba(0,0,0,0.15) !important; }
+.matrix-label-x, .matrix-label-y { color: #1F3864 !important; font-weight: 800 !important; text-transform: uppercase; letter-spacing: 1.5px; }
+
+/* NUEVO: course_cover_objective (portada nueva) */
+.cover-objective { min-height: 700px; display: flex; flex-direction: column; background: linear-gradient(135deg, #1F3864 0%, #2A4A82 100%); color: white; position: relative; overflow: hidden; }
+.cover-objective::before { content: ''; position: absolute; inset: 0; background-image: var(--cover-bg); background-size: cover; background-position: center; opacity: 0.18; z-index: 0; }
+.cover-objective-content { position: relative; z-index: 1; padding: 60px 70px; display: flex; flex-direction: column; height: 100%; flex: 1; }
+.cover-objective .course-code { font-size: 13px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: #E8C667; margin-bottom: 24px; }
+.cover-objective h1 { font-size: 52px; font-weight: 800; line-height: 1.1; margin: 0 0 16px 0; color: white; }
+.cover-objective .subtitle { font-size: 22px; font-weight: 400; color: rgba(255,255,255,0.85); margin-bottom: 50px; line-height: 1.4; font-style: italic; }
+.cover-objective .objective-label { font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #E8C667; margin-bottom: 14px; }
+.cover-objective .objective-text { font-size: 18px; line-height: 1.7; color: rgba(255,255,255,0.95); border-left: 4px solid #C9A227; padding-left: 24px; margin-bottom: 50px; max-width: 900px; }
+.cover-objective .ficha { display: flex; gap: 0; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 28px; }
+.cover-objective .ficha-item { flex: 1; border-right: 1px solid rgba(255,255,255,0.15); padding: 0 20px; }
+.cover-objective .ficha-item:first-child { padding-left: 0; }
+.cover-objective .ficha-item:last-child { border-right: none; padding-right: 0; }
+.cover-objective .ficha-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(232, 198, 103, 0.85); margin-bottom: 6px; }
+.cover-objective .ficha-value { font-size: 18px; font-weight: 700; color: white; }
+
+/* NUEVO: hero_image (slider/banner) */
+.hero-image-screen { min-height: 700px; position: relative; display: flex; flex-direction: column; overflow: hidden; }
+.hero-image-bg { position: relative; height: 460px; background-size: cover; background-position: center; display: flex; align-items: flex-end; justify-content: center; }
+.hero-image-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(31,56,100,0.15) 0%, rgba(31,56,100,0.85) 100%); }
+.hero-image-title { position: relative; z-index: 1; color: white; font-size: 38px; font-weight: 800; text-align: center; padding: 0 40px 60px; text-shadow: 0 2px 12px rgba(0,0,0,0.4); }
+.hero-image-statement { background: white; padding: 60px 70px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.hero-image-statement p { font-size: 26px; font-weight: 600; color: #1F3864; line-height: 1.5; max-width: 800px; margin: 0 auto; position: relative; }
+.hero-image-statement p::before { content: '"'; font-family: Georgia, serif; font-size: 90px; color: #C9A227; position: absolute; top: -40px; left: -20px; opacity: 0.4; line-height: 1; }
+.hero-image-footer { background: #1F3864; color: #E8C667; padding: 22px 40px; text-align: center; font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+
+body.dark-mode .module-label { background: rgba(232, 198, 103, 0.12); color: var(--aacrom-accent-light); }
+body.dark-mode .aacrom-paragraphs p { color: #E8E9EB; }
+body.dark-mode .next-steps-heading { color: var(--aacrom-accent-light); }
+body.dark-mode .instructions-callout { background: #2A3447; border-left-color: #E8C667; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+body.dark-mode .callout-text { color: #E8E9EB; }
+body.dark-mode .callout-text strong { color: #E8C667; }
+body.dark-mode .hero-image-statement { background: #1A1F2C; }
+body.dark-mode .hero-image-statement p { color: #E8E9EB; }
+
+</style>
+<style>#preview-badge{display:none !important;}</style>
+  <script src="scorm_api.js"></script>
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <h1 id="course-title">Salud mental en el trabajo</h1>
+        <div class="progress-wrapper">
+          <div class="progress-bar"><div id="progress-fill"></div></div>
+          <div id="progress-text">0% COMPLETADO</div>
+        </div>
+      </div>
+      <nav id="module-nav"></nav>
+    </aside>
+    <main id="main">
+      <header id="topbar">
+        <button id="menu-toggle" aria-label="Menú">☰</button>
+        <div style="display:flex;align-items:center;gap:16px">
+          <div id="screen-counter">1 de 30</div>
+          <button id="dark-toggle" title="Cambiar modo">☾ Oscuro</button>
+        </div>
+      </header>
+      <section id="screen-container"></section>
+      <footer id="footer-nav">
+        <button id="btn-prev" class="nav-btn">← Anterior</button>
+        <button id="btn-next" class="nav-btn primary">Continuar →</button>
+      </footer>
+    </main>
+  </div>
+  
+  <script>
+    /* AacromSCORM se implementa en scorm_api.js */
+    window.COURSE_DATA = {"code": "C-C.5", "title": "Salud mental en el trabajo", "subtitle": "Reconocer, cuidarse y acompañar: salud mental como práctica colectiva", "duration": "35 minutos", "author": "Aacrom", "passingScore": 80, "theme": {"primary": "#1F3864", "accent": "#C9A227", "title": "#1F3864", "text": "#2C2C2C", "background": "#FFFFFF", "fontFamily": "Open Sans"}, "modules": [{"id": "m0", "title": "Apertura", "screens": [{"id": "p_cover", "type": "course_cover_objective", "moduleTitle": "Apertura", "title": "Salud mental en el trabajo", "subtitle": "Reconocer, cuidarse y acompañar: salud mental como práctica colectiva", "image": "assets/images/img_01.jpg", "objective": "Reconocer las señales de agotamiento y sobrecarga en uno mismo y en otros, aplicar prácticas concretas de autocuidado laboral, y saber cómo acompañar respetuosamente a compañeros que estén pasando por momentos difíciles, distinguiendo cuándo corresponde sugerir ayuda profesional.", "ficha": [{"label": "Duración", "value": "35 min"}, {"label": "Línea", "value": "C — Corporativa"}, {"label": "Aprobación", "value": "80%"}]}, {"id": "p_slider", "type": "hero_image", "moduleTitle": "Apertura", "title": "Cuidar la salud mental también es trabajo", "image": "assets/images/img_02.jpg", "statement": "No se trata solo de aguantar más. Se trata de notar a tiempo, cuidarse con sentido y saber acompañar al otro cuando no está bien.", "footer": "RECONOCER · CUIDARSE · ACOMPAÑAR"}, {"id": "p3", "type": "course_cover", "moduleTitle": "Apertura", "title": "Bienvenida", "subtitle": "Por qué este curso, para qué le va a servir", "image": "assets/images/img_03.jpg", "audio": "assets/audio/audio_01.mp3", "audio_script": "Le damos la bienvenida a este curso. La salud mental en el trabajo es uno de esos temas que todos sabemos que importa... pero del que pocas veces hablamos en serio. El silencio cuesta. Cuesta agotamiento, cuesta ausencias, cuesta gente buena que se quema. En los próximos treinta y cinco minutos vamos a hacer tres cosas. Primero, entender qué es y qué no es la salud mental en el trabajo. Segundo, aprender a cuidarse uno mismo... antes de tocar fondo. Y tercero, saber cómo acompañar a un compañero o colaborador que esté pasando por un momento difícil. Sin diagnosticar. Sin invadir. Pero también... sin mirar para otro lado.", "body": ["Este curso no le va a enseñar psicología clínica. No es ese su propósito. Su propósito es darle herramientas prácticas para reconocer cuándo algo no anda bien en uno mismo o en un compañero, y saber qué hacer en consecuencia.", "La salud mental en el trabajo no es responsabilidad solamente del área de bienestar ni del psicólogo. Es algo que se construye todos los días, en las pequeñas conversaciones, en los límites que se respetan, en las pausas que se toman, y en la atención que ponemos a las personas con las que trabajamos.", "Lo que viene es práctico, breve y específico. La idea es que termine el curso sabiendo tres cosas que pueda aplicar mañana mismo."]}]}, {"id": "m1", "title": "Módulo 1: Entender la salud mental en el trabajo", "screens": [{"id": "p4", "type": "module_intro_full", "moduleTitle": "Módulo 1: Entender la salud mental en el trabajo", "moduleLabel": "MÓDULO 1", "title": "Entender antes de actuar", "image": "assets/images/img_04.jpg", "audio": "assets/audio/audio_02.mp3", "audio_script": "Le damos la bienvenida al primer módulo. Antes de hablar de qué hacer... necesitamos hablar de qué estamos viendo. Hay mucha confusión sobre la salud mental en el trabajo. Se mezclan ideas... se exageran términos... y a veces, sin querer, se trivializa lo que merece atención. Este módulo le da el marco. Qué es y qué no es salud mental laboral. El espectro del bienestar al agotamiento. Los mitos más comunes... que conviene desactivar. Y los factores del ambiente de trabajo que protegen o desgastan. Empecemos.", "statement": "No es debilidad ni capricho. Es un componente de la vida laboral tan real como la productividad o la seguridad física.", "citation": "Principio operativo del módulo", "paragraphs": ["La salud mental en el trabajo se mueve en un terreno delicado. Si se ignora, se confunde con falta de profesionalismo o se trata como tema tabú, las personas terminan sufriendo en silencio hasta que el costo es alto: ausentismo, rotación, errores, conflictos. Si se exagera, se medicaliza todo y se diagnostica sin formación, lo que también hace daño.", "Lo que buscamos en este módulo es darle un marco claro. Saber qué cosas son parte del cuidado básico de la salud mental laboral (autocuidado, equilibrio, conexión social, pausas) y qué cosas exceden lo que un compañero o líder puede manejar y requieren apoyo profesional. Esa distinción cambia todo.", "El módulo dura unos diez minutos y termina con una verificación corta para asegurarnos de que las ideas centrales quedaron claras."], "nextSteps": "Lo que va a encontrar en este módulo", "learnItems": ["Qué es la salud mental laboral y qué no lo es.", "El espectro: del bienestar al agotamiento, pasando por la fatiga y el sobrepaso.", "Cinco mitos comunes que conviene desactivar.", "Factores del ambiente laboral que protegen y factores que aumentan el riesgo."]}, {"id": "p5", "type": "statement_paragraphs", "moduleTitle": "Módulo 1: Entender la salud mental en el trabajo", "title": "Qué es (y qué no es) salud mental en el trabajo", "image": null, "statement": "La salud mental laboral no es ausencia de estrés. Es la capacidad de funcionar bien, recuperarse cuando algo cuesta, y mantener un equilibrio sostenible en el tiempo.", "paragraphs": ["<strong>Qué SÍ es:</strong> la salud mental laboral incluye el bienestar emocional cotidiano, el manejo razonable de la presión, los vínculos con compañeros y líderes, el sentido del trabajo que se hace, y la capacidad de pedir ayuda cuando algo nos supera. Todo esto se entrena y se cuida.", "<strong>Qué NO es:</strong> no es la ausencia total de momentos difíciles. Todos los profesionales atraviesan semanas duras, proyectos que pesan, conflictos. Sentir esto no es señal de un problema de salud mental: es señal de estar vivo en un trabajo demandante. La diferencia importante está en si las personas pueden recuperarse o si los efectos se acumulan sin freno.", "<strong>Tampoco es un sinónimo de trastorno clínico:</strong> condiciones como ansiedad clínica o depresión son situaciones médicas que requieren acompañamiento profesional. Hablar de ellas en este curso sería irresponsable porque no somos profesionales clínicos. Lo que sí podemos hacer es aprender a notar cuándo conviene sugerir ese acompañamiento."], "intro": null, "items": []}, {"id": "p6", "type": "tabs", "moduleTitle": "Módulo 1: Entender la salud mental en el trabajo", "title": "El espectro: del bienestar a la crisis", "image": null, "intro": "La salud mental laboral no es un interruptor de encendido y apagado. Es un espectro con cuatro estados que conviene reconocer. Las personas pueden moverse entre estos estados varias veces a lo largo del año.", "tabs": [{"title": "1. Bienestar", "content": "<strong>Cómo se siente:</strong> energía estable, ánimo bueno la mayor parte del tiempo, sensación de que el trabajo aporta valor, descanso adecuado, vínculos sanos con el equipo.<br><br><strong>Lo que conviene hacer:</strong> sostener lo que está funcionando. El bienestar no se mantiene solo: requiere prácticas consistentes (pausas, límites, conexión social, sueño)."}, {"title": "2. Fatiga", "content": "<strong>Cómo se siente:</strong> cansancio que no se va con un fin de semana, irritabilidad ocasional, sensación de estar al día con esfuerzo, ganas de aislarse más de lo habitual. Es reversible con descanso real y ajustes de carga.<br><br><strong>Lo que conviene hacer:</strong> tomarse esto como una señal, no un fracaso. Revisar carga laboral, recuperar sueño y ejercicio, pedir ayuda concreta. Es el momento en que las intervenciones tempranas funcionan mejor."}, {"title": "3. Agotamiento", "content": "<strong>Cómo se siente:</strong> cansancio constante que ya no se compensa con descanso habitual, distancia emocional del trabajo, sensación de ineficacia, errores que antes no se cometían, cinismo hacia los proyectos. El cuerpo y la mente piden parar.<br><br><strong>Lo que conviene hacer:</strong> el agotamiento sostenido no se 'aguanta'. Requiere intervenciones más profundas: cambios reales en la carga, pausas extendidas, conversaciones con el líder o RRHH, y muchas veces evaluación profesional."}, {"title": "4. Crisis", "content": "<strong>Cómo se siente:</strong> dificultad significativa para funcionar en el día a día, ansiedad o tristeza persistentes que afectan el trabajo y la vida personal, deseos de no continuar, pensamientos preocupantes. Lo emocional ya no se contiene con las herramientas habituales.<br><br><strong>Lo que conviene hacer:</strong> en esta zona, el ámbito laboral no es suficiente. Se necesita apoyo profesional especializado. El rol del entorno laboral es facilitar que ese apoyo se busque, no intentar sustituirlo."}]}, {"id": "p7", "type": "accordion", "moduleTitle": "Módulo 1: Entender la salud mental en el trabajo", "title": "Cinco mitos comunes que conviene desactivar", "image": null, "intro": "Estos mitos circulan en muchos ambientes laborales. No son malintencionados, pero hacen daño porque retrasan acciones de cuidado y refuerzan el silencio.", "items": [{"title": "Mito 1 · 'Si trabajas duro, no tenés tiempo de pensar en eso'", "content": "<strong>La realidad:</strong> precisamente trabajar duro y bien requiere atención a cómo se está. Las personas agotadas trabajan más horas pero producen menos calidad. El cuidado mental no compite con el rendimiento: lo sostiene en el tiempo."}, {"title": "Mito 2 · 'En el trabajo no se habla de cosas personales'", "content": "<strong>La realidad:</strong> no se trata de convertir la oficina en un consultorio. Se trata de reconocer que las personas no dejan su vida emocional en la puerta. Una conversación breve, respetuosa, en el momento justo, puede prevenir consecuencias serias. No es entrometerse: es estar atento."}, {"title": "Mito 3 · 'Pedir ayuda es señal de debilidad'", "content": "<strong>La realidad:</strong> pedir ayuda es señal de criterio. Las personas que reconocen cuándo algo las supera y buscan apoyo se recuperan mejor y más rápido. Los profesionales que esperan demasiado tiempo terminan necesitando intervenciones más extensas."}, {"title": "Mito 4 · 'Eso le pasa solo a gente débil'", "content": "<strong>La realidad:</strong> las personas más expuestas a problemas de salud mental laboral suelen ser justamente las más comprometidas, las que asumen más carga, las que no saben decir que no. El agotamiento no es un fallo personal: es una respuesta predecible a condiciones específicas."}, {"title": "Mito 5 · 'Se le pasa con vacaciones'", "content": "<strong>La realidad:</strong> las vacaciones ayudan, pero no resuelven causas estructurales. Si alguien vuelve de vacaciones y a las dos semanas está igual que antes, el problema no era el cansancio acumulado. Era algo en cómo está organizado el trabajo, o algo que necesita una mirada más profunda."}]}, {"id": "p8", "type": "sorting", "moduleTitle": "Módulo 1: Entender la salud mental en el trabajo", "title": "Factores del ambiente laboral: ¿protege o aumenta el riesgo?", "image": null, "instruction": "Arrastre cada factor a la columna correspondiente. Algunos son menos obvios de lo que parecen.", "categories": ["Protege la salud mental", "Aumenta el riesgo"], "items": [{"text": "Tener claridad sobre lo que se espera de uno en el trabajo.", "category": 0}, {"text": "Reuniones que se extienden sin agenda clara ni cierre.", "category": 1}, {"text": "Reconocimiento explícito del trabajo bien hecho.", "category": 0}, {"text": "Cambios constantes en prioridades sin explicación.", "category": 1}, {"text": "Posibilidad de hacer pausas reales durante la jornada.", "category": 0}, {"text": "Líder que pide trabajo fuera de hora como costumbre.", "category": 1}, {"text": "Tener un compañero de confianza con quien conversar.", "category": 0}, {"text": "Cultura donde quejarse del exceso se ve como falta de compromiso.", "category": 1}]}, {"id": "p9", "type": "knowledge_check", "moduleTitle": "Módulo 1: Entender la salud mental en el trabajo", "title": "Verifique lo aprendido", "image": null, "questions": [{"type": "single", "stem": "Una persona del equipo lleva tres semanas más callada de lo normal, comete errores que antes no cometía, y dice estar 'solo cansada'. ¿En qué punto del espectro parece estar?", "options": ["Bienestar: probablemente solo tuvo una mala semana.", "Fatiga sostenida o agotamiento: las señales acumuladas en varias semanas son una alerta concreta.", "Crisis: hay que llevarla a urgencias inmediatamente.", "No tiene nada que ver con salud mental laboral."], "correctAnswer": 1, "correct": 1, "feedback": {"correct": "Correcto. Tres semanas de cambios sostenidos en ánimo, conducta y rendimiento son una señal clara de que conviene actuar (preguntar, ofrecer apoyo, sugerir descanso o evaluación). No es crisis pero tampoco es un mal día.", "incorrect": "Recuerde: lo que importa es la <strong>duración y acumulación</strong> de las señales, no si en un día puntual la persona está mal. Tres semanas de cambios consistentes es una señal de fatiga sostenida o agotamiento incipiente, que merece atención."}}, {"type": "single", "stem": "¿Cuál de estos mitos sobre salud mental en el trabajo es FALSO?", "options": ["Las vacaciones resuelven la mayoría de los problemas de agotamiento laboral.", "El agotamiento laboral suele afectar más a las personas comprometidas que a las descuidadas.", "Hablar de cómo está alguien con respeto y discreción no es invasión de privacidad.", "Pedir ayuda profesional cuando uno la necesita es señal de criterio, no de debilidad."], "correctAnswer": 0, "correct": 0, "feedback": {"correct": "Correcto. Las vacaciones son útiles pero no resuelven causas estructurales. Si alguien vuelve de vacaciones y dos semanas después está igual, el problema no era el cansancio puntual.", "incorrect": "Revise: las vacaciones ayudan pero no resuelven causas estructurales del agotamiento. Las otras tres afirmaciones son verdaderas."}}]}, {"id": "p10", "type": "module_outro", "moduleTitle": "Módulo 1: Entender la salud mental en el trabajo", "title": "Lo que cierra este módulo", "image": null, "items": ["<strong>Salud mental laboral no es ausencia de momentos difíciles.</strong> Es la capacidad de funcionar bien, recuperarse cuando algo cuesta y mantener un equilibrio sostenible. No es debilidad ni capricho.", "<strong>El espectro tiene cuatro estados:</strong> bienestar, fatiga, agotamiento, crisis. Las personas se mueven entre estos. Lo importante no es nunca tener momentos difíciles, sino notarlos y actuar antes de que escalen.", "<strong>El ambiente laboral pesa.</strong> Hay factores que protegen (claridad, reconocimiento, pausas reales, vínculos sanos) y factores que aumentan el riesgo (sobrecarga sostenida, cambios sin sentido, cultura del aguante). El curso siguiente trabaja cómo cuidarse uno mismo dentro de esas condiciones."]}]}, {"id": "m2", "title": "Módulo 2: Cuidarse a uno mismo", "screens": [{"id": "p11", "type": "module_intro_full", "moduleTitle": "Módulo 2: Cuidarse a uno mismo", "moduleLabel": "MÓDULO 2", "title": "Cuidarse a uno mismo", "image": "assets/images/img_05.jpg", "audio": "assets/audio/audio_03.mp3", "audio_script": "Le damos la bienvenida al módulo dos. Antes de poder cuidar a otros... hay que saber cuidarse uno. No por egoísmo. Por una razón práctica. Una persona agotada no puede sostener a otra. En este módulo vamos a aprender a notar las señales tempranas en uno mismo. Cuatro áreas a observar: el cuerpo, el ánimo, la conducta y el pensamiento. Veremos un caso real. Cuatro prácticas concretas de autocuidado en el día. Y una herramienta para decidir qué hacer con cada estresor del día a día. Y al final, cuándo dejar de intentar resolverlo solo... y buscar ayuda profesional. Empecemos.", "statement": "Notar las señales temprano cuesta menos que recuperarse después de tocar fondo.", "citation": "Principio operativo del módulo", "paragraphs": ["La mayoría de las personas que terminan con agotamiento sostenido no llegaron ahí de un día para otro. Llegaron porque normalizaron señales tempranas durante semanas o meses. 'Es solo cansancio'. 'Ya pasa esta semana difícil'. 'Después de este proyecto descanso'. Cada una de esas frases es razonable. Sumadas durante tres meses, son una receta.", "Este módulo trabaja la prevención: aprender a notar antes, actuar antes, y saber cuándo lo que uno puede hacer ya no alcanza."], "nextSteps": "Lo que va a encontrar en este módulo", "learnItems": ["Cuatro áreas para observar señales tempranas: cuerpo, ánimo, conducta, pensamiento.", "Cuatro prácticas concretas de autocuidado en el día laboral.", "Una herramienta para decidir qué hacer con cada estresor.", "Indicadores claros para saber cuándo conviene buscar ayuda profesional."]}, {"id": "p12", "type": "tabs", "moduleTitle": "Módulo 2: Cuidarse a uno mismo", "title": "Señales tempranas en uno mismo: cuatro áreas a observar", "image": null, "intro": "Las señales tempranas suelen ser sutiles. La clave no es preocuparse por una semana mala, sino notar patrones sostenidos en varias semanas en una o más de estas áreas.", "tabs": [{"title": "Cuerpo", "content": "<strong>Qué observar:</strong> sueño que no repara, tensión sostenida en hombros o mandíbula, dolores de cabeza más frecuentes, alteraciones digestivas, ganas constantes de bostezar a media mañana, deseo de azúcar o cafeína para sostener el día.<br><br><strong>Lo que indica:</strong> el cuerpo es honesto. Suele dar señales antes que la mente porque no tiene la opción de racionalizarlas. Tomar estas señales como información, no como queja."}, {"title": "Ánimo", "content": "<strong>Qué observar:</strong> irritabilidad ante cosas pequeñas, sensación de que nada es suficiente, menor entusiasmo por proyectos que antes motivaban, momentos de tristeza sin causa clara, sensación de estar 'apagado' o de estar en automático.<br><br><strong>Lo que indica:</strong> el ánimo es el termómetro emocional del trabajo. Una semana mala es normal. Tres semanas sostenidas de baja energía emocional es señal de actuar."}, {"title": "Conducta", "content": "<strong>Qué observar:</strong> evitar reuniones que antes interesaban, postergar tareas que antes se hacían sin dificultad, reducir contacto social en el trabajo, dejar de almorzar acompañado, trabajar más horas pero sentir que se avanza menos.<br><br><strong>Lo que indica:</strong> la conducta cambia antes que la conciencia. Si uno se descubre evitando cosas que antes no evitaba, es un dato. No es debilidad: es señal."}, {"title": "Pensamiento", "content": "<strong>Qué observar:</strong> dificultad para concentrarse, pensamientos repetitivos sobre el trabajo fuera del horario, sensación de no poder desconectar, autocrítica más severa de lo habitual, pensar que 'todo recae sobre mí', dificultad para tomar decisiones que antes eran fáciles.<br><br><strong>Lo que indica:</strong> los patrones de pensamiento son los más difíciles de notar porque los confundimos con 'cómo somos'. Si nota que su cabeza no descansa, esa es información."}]}, {"id": "p13", "type": "case_study", "moduleTitle": "Módulo 2: Cuidarse a uno mismo", "title": "Caso: Daniela, que normalizaba el agotamiento", "image": "assets/images/img_06.jpg", "audio": "assets/audio/audio_04.mp3", "audio_script": "Daniela es directora de marketing. Cuarenta y un años. Quince personas a cargo. Durante seis meses sintió que algo no iba bien. Le costaba dormir aunque estuviera exhausta. Tenía dolor de cabeza casi todos los días. Y empezó a evitar las reuniones de equipo... que antes le gustaban. Se decía a sí misma: es solo el último trimestre. Ya pasa. Pero el trimestre se convirtió en seis meses. Una compañera con quien tenía confianza le preguntó un día... ¿cómo estás de verdad? Y por primera vez en mucho tiempo... Daniela no contestó automático. Pensó la respuesta. Y dijo: no estoy bien. Esa conversación... fue el punto en el que algo cambió.", "subtitle": "Las señales no son fallos morales. Son datos.", "body": "Daniela tomó dos decisiones esa semana. La primera: pedir una semana de descanso real, no respondiendo correos. La segunda: agendar una consulta con una psicóloga para entender qué le estaba pasando. Lo que descubrió en consulta no fue una patología. Fue un patrón: durante meses había estado normalizando señales que su cuerpo y su mente le daban con insistencia.<br><br>Tres meses después, Daniela seguía con su rol y seguía con carga alta. Lo que cambió fue que aprendió a <strong>notar antes</strong>. Cuando el cuerpo empieza a quejarse, cuando el ánimo se apaga, cuando la conducta se vuelve evitativa, ya no se dice 'ya pasa'. Se pregunta '¿qué está pasando?' y actúa.<br><br><strong>En síntesis:</strong> Daniela no era débil. Era una profesional comprometida que confundió aguantar con resolver. Las señales tempranas no son problemas; son información para actuar antes de que se vuelvan problemas."}, {"id": "p14", "type": "sorting", "moduleTitle": "Módulo 2: Cuidarse a uno mismo", "title": "Carga manejable o sobrecarga: clasifique cada situación", "image": null, "instruction": "Las dos situaciones se parecen pero son distintas. Clasifique cada caso según la pista detrás de la palabra: ¿es desafío que estira sano, o es presión que desgasta sin recuperación?", "categories": ["Carga manejable (sostenible)", "Sobrecarga (acumulativa)"], "items": [{"text": "Una semana intensa por una entrega importante, con descanso real al terminar.", "category": 0}, {"text": "Tres semanas seguidas de jornadas extendidas sin saber cuándo terminará.", "category": 1}, {"text": "Aprender una tarea nueva que cuesta los primeros días pero se va dominando.", "category": 0}, {"text": "Sentir que no importa cuánto trabaje, las prioridades cambian cada semana.", "category": 1}, {"text": "Discusión puntual con un compañero que se resuelve en pocos días.", "category": 0}, {"text": "Tensión sostenida con un colega o jefe sin posibilidad de hablarlo abiertamente.", "category": 1}, {"text": "Trabajar el sábado para terminar un proyecto, recuperando el domingo.", "category": 0}, {"text": "Trabajar fines de semana de forma habitual durante meses sin poder parar.", "category": 1}]}, {"id": "p15", "type": "accordion", "moduleTitle": "Módulo 2: Cuidarse a uno mismo", "title": "Cuatro prácticas de autocuidado en el día laboral", "image": null, "intro": "Estas cuatro prácticas tienen un denominador común: son pequeñas, ejecutables incluso en días difíciles, y se acumulan en el tiempo. No requieren transformación: requieren consistencia.", "items": [{"title": "1. Micropausas: parar antes de necesitarlo", "content": "<strong>Qué es:</strong> pausas breves (uno a tres minutos) entre tareas o reuniones. Levantarse, mirar lejos, respirar consciente, tomar agua.<br><br><strong>Por qué funciona:</strong> el cerebro no sostiene atención profunda durante horas continuas. Las micropausas no son tiempo perdido: son la condición que hace posible que la siguiente hora produzca trabajo de calidad.<br><br><strong>Cómo empezar:</strong> programar tres alarmas en el día (10:30, 12:30, 15:30) para una pausa de dos minutos."}, {"title": "2. Límites: lo que entra y lo que no", "content": "<strong>Qué es:</strong> decisiones conscientes sobre qué se acepta y qué no en la jornada. Una hora del día sin reuniones. Apagar notificaciones en una franja. Decir 'no' o 'todavía no' cuando corresponde.<br><br><strong>Por qué funciona:</strong> la salud mental laboral se erosiona cuando no hay frontera entre 'trabajo' y 'todo lo demás'. Sin límites, todo es trabajo, y todo es urgente, todo el tiempo.<br><br><strong>Cómo empezar:</strong> definir UNA franja del día protegida (una hora sin reuniones, o sin chat) y respetarla durante dos semanas. Ver el efecto."}, {"title": "3. Recuperación cognitiva: descansar la cabeza, no solo el cuerpo", "content": "<strong>Qué es:</strong> cambiar de modo mental durante el día. Caminar sin pantalla, conversar de algo no laboral en el almuerzo, mirar por la ventana cinco minutos.<br><br><strong>Por qué funciona:</strong> el cuerpo se recupera con descanso físico. La mente necesita <em>cambio de actividad</em>. Si pasa de la reunión a revisar el celular, no hubo recuperación: hubo cambio de pantalla.<br><br><strong>Cómo empezar:</strong> al menos un almuerzo a la semana lejos del escritorio y de la pantalla. Subir a uno por semana cuando lo sienta natural."}, {"title": "4. Conexión social: el equipo es protección", "content": "<strong>Qué es:</strong> sostener vínculos breves pero reales con uno o dos compañeros de confianza. Conversaciones de cinco minutos, almuerzos cortos, mensajes ocasionales que no son trabajo.<br><br><strong>Por qué funciona:</strong> la salud mental laboral correlaciona fuerte con tener al menos una persona en el trabajo con quien se pueda conversar sin máscara. No es debilidad: es un factor protector documentado.<br><br><strong>Cómo empezar:</strong> identifique a una persona del trabajo con quien tiene buena química. Tome la iniciativa de un almuerzo o un café esta semana."}]}, {"id": "p16", "type": "decision_matrix", "moduleTitle": "Módulo 2: Cuidarse a uno mismo", "title": "Estresores: una matriz para decidir qué hacer con cada uno", "image": null, "intro": "No todos los estresores se manejan igual. Esta matriz cruza dos dimensiones (qué tanto puedo influir × qué tanto me afecta) para ayudarle a decidir dónde invertir energía y qué soltar.", "xAxis": "Impacto (bajo ↔ alto)", "yAxis": "Controlabilidad (baja ↔ alta)", "quadrants": [{"position": "bl", "label": "Soltar", "subtitle": "Bajo control · Bajo impacto", "content": "Cosas que no puede cambiar y que tampoco lo afectan mucho. <strong>El error frecuente es perder energía rumiándolas.</strong><br><br><strong>Ejemplos:</strong> comentario incómodo en una reunión que ya pasó, decisión organizacional menor que no le toca directamente, política externa.<br><br><strong>Qué hacer:</strong> reconocer el malestar momentáneo, dejarlo ir, no construir narrativa alrededor.", "color": "#E8F0F7"}, {"position": "tl", "label": "Aceptar y cuidarse", "subtitle": "Bajo control · Alto impacto", "content": "Cosas que no puede cambiar pero que sí lo afectan fuerte. <strong>La energía va al cuidado personal, no al intento de control.</strong><br><br><strong>Ejemplos:</strong> reestructuración de la empresa, cambio de jefe que no eligió, contexto económico difícil.<br><br><strong>Qué hacer:</strong> aceptar lo dado, fortalecer sus prácticas de cuidado (sueño, ejercicio, conexión), buscar apoyo. Lo que no puede cambiar se atraviesa mejor cuidando lo que sí depende de uno.", "color": "#FAF6E8"}, {"position": "br", "label": "Decidir si vale la pena", "subtitle": "Alto control · Bajo impacto", "content": "Cosas que puede cambiar pero que afectan poco. <strong>Riesgo: gastar energía en lo que no devolverá retorno.</strong><br><br><strong>Ejemplos:</strong> perfeccionar un detalle estético menor, reorganizar el escritorio cuando hay tareas más críticas, debatir formato de plantilla.<br><br><strong>Qué hacer:</strong> evaluar si vale la pena. A veces sí (porque dan satisfacción rápida); a veces no (porque desplazan lo importante). La pregunta es: '¿qué pierdo si no hago esto hoy?'", "color": "#FBE9D3"}, {"position": "tr", "label": "Actuar", "subtitle": "Alto control · Alto impacto", "content": "<strong>Es la zona donde más vale la pena invertir energía.</strong> Cosas que puede cambiar y que mueven la aguja.<br><br><strong>Ejemplos:</strong> hablar con su líder sobre carga, definir límites con un cliente, agendar consulta profesional, pedir ayuda concreta a un compañero, reorganizar la semana.<br><br><strong>Qué hacer:</strong> identificar la acción concreta más pequeña, hacerla esta semana, no posponer. Aquí el costo de no actuar es alto.", "color": "#DAF1E3"}]}, {"id": "p17", "type": "statement_paragraphs", "moduleTitle": "Módulo 2: Cuidarse a uno mismo", "title": "Cuándo conviene buscar ayuda profesional", "image": "assets/images/img_07.jpg", "statement": "Buscar ayuda profesional no es un fracaso del autocuidado. Es una herramienta más del autocuidado, para cuando lo que uno puede hacer ya no alcanza.", "paragraphs": ["El autocuidado tiene un techo. Hay momentos en que las prácticas personales no son suficientes y conviene una mirada profesional especializada. No es debilidad: es criterio. Los profesionales (psicólogos, psiquiatras, médicos especialistas en salud ocupacional) tienen formación específica para situaciones que no se resuelven con buenas intenciones."], "intro": "Estos son indicadores claros de que conviene buscar acompañamiento profesional. No tienen que estar todos: con dos o tres sostenidos durante semanas, ya es razón suficiente.", "items": ["<strong>Las señales tempranas se mantienen o crecen</strong> a pesar de haber ajustado autocuidado, carga, descanso y vínculos durante al menos cuatro semanas.", "<strong>El malestar afecta áreas fuera del trabajo</strong>: sueño persistentemente alterado, irritabilidad con familia o amigos, pérdida sostenida del interés en cosas que antes daban placer.", "<strong>Aparecen estrategias poco sanas para sobrellevar</strong>: aumento significativo de alcohol, consumo de medicamentos sin indicación, aislamiento social marcado, descuido de la higiene básica.", "<strong>Hay pensamientos que asustan o resultan difíciles de manejar</strong>: ideas persistentes de inutilidad, miedo intenso sin motivo claro, pensamientos de no querer continuar. En este caso, no esperar: buscar apoyo cuanto antes.", "<strong>La persona siente que ya no puede sola</strong>. Esta frase es por sí sola un indicador. No requiere validación externa: si alguien siente que no puede, conviene buscar a alguien especializado."]}, {"id": "p18", "type": "knowledge_check", "moduleTitle": "Módulo 2: Cuidarse a uno mismo", "title": "Verifique lo aprendido", "image": null, "questions": [{"type": "single", "stem": "Marcela lleva tres semanas durmiendo mal, evita las reuniones de equipo, y se descubre revisando correos los domingos. Según la matriz del módulo, su situación con la sobrecarga laboral es 'alto impacto, alta controlabilidad' (puede hablar con su jefe). ¿En qué cuadrante debe actuar?", "options": ["Soltar: no vale la pena gastar energía.", "Aceptar y cuidarse: solo puede esperar.", "Actuar: es la zona donde más vale la pena invertir energía.", "Decidir si vale la pena: probablemente no aporte mucho hacerlo."], "correctAnswer": 2, "correct": 2, "feedback": {"correct": "Correcto. Alto impacto + alta controlabilidad es exactamente la zona donde conviene actuar primero. Es donde la acción concreta produce el mayor cambio. En este caso, agendar la conversación con el jefe esta semana.", "incorrect": "Revise el principio de la matriz: cuando algo me afecta mucho Y puedo influir en ello, esa es la zona donde la acción produce el mayor cambio. No actuar tiene un costo alto."}}, {"type": "single", "stem": "¿Cuál de estas prácticas describe mejor la 'recuperación cognitiva' durante el día?", "options": ["Trabajar más rápido para terminar antes y descansar al final del día.", "Cambiar de actividad mental durante el día: caminar sin pantalla, conversar de algo no laboral.", "Tomar más cafeína entre reuniones para sostener la concentración.", "Revisar redes sociales o noticias entre tarea y tarea."], "correctAnswer": 1, "correct": 1, "feedback": {"correct": "Correcto. Recuperación cognitiva = cambio de modo mental, no solo cambio de pantalla. Caminar sin celular, conversar de algo no laboral, mirar por la ventana. El cerebro necesita cambiar de actividad, no acumular más estímulos.", "incorrect": "Recuerde: recuperación cognitiva es <em>cambiar de modo</em>, no más estímulos. Revisar redes o tomar café no es recuperación: es seguir en modo de entrada de información."}}, {"type": "multiple", "stem": "¿Cuáles de estos son indicadores claros para sugerir buscar ayuda profesional? (Marque todas las correctas.)", "options": ["Las señales tempranas se mantienen por varias semanas a pesar del autocuidado.", "Una semana mala después de una entrega exigente.", "Aparecen estrategias poco sanas (aumento de alcohol, aislamiento marcado).", "Pensamientos persistentes que resultan difíciles de manejar."], "correctAnswer": [0, 2, 3], "correct": [0, 2, 3], "feedback": {"correct": "Correcto. La opción 2 es una semana puntual difícil, parte normal del trabajo. Las otras tres son indicadores claros de que el autocuidado solo ya no alcanza.", "incorrect": "Revise: una semana mala después de una entrega exigente es parte normal del trabajo y se recupera con descanso. Las otras tres opciones son señales sostenidas que sí requieren acompañamiento profesional."}}]}, {"id": "p19", "type": "module_outro", "moduleTitle": "Módulo 2: Cuidarse a uno mismo", "title": "Lo que cierra este módulo", "image": null, "items": ["<strong>Notar las señales temprano cuesta menos que recuperarse después.</strong> Cuatro áreas a observar: cuerpo, ánimo, conducta y pensamiento. No una mala semana: tres semanas sostenidas.", "<strong>Cuatro prácticas de autocuidado en el día:</strong> micropausas, límites, recuperación cognitiva, conexión social. Pequeñas y consistentes valen más que grandes y esporádicas.", "<strong>Buscar ayuda profesional no es un fracaso del autocuidado.</strong> Es una herramienta más, para cuando lo que uno puede hacer ya no alcanza. Los indicadores son claros: señales que no ceden, malestar que sale del trabajo, estrategias poco sanas, pensamientos difíciles de manejar, o la sensación de no poder sola."]}]}, {"id": "m3", "title": "Módulo 3: Acompañar a otros", "screens": [{"id": "p20", "type": "module_intro_full", "moduleTitle": "Módulo 3: Acompañar a otros", "moduleLabel": "MÓDULO 3", "title": "Acompañar sin invadir, ayudar sin sustituir", "image": "assets/images/img_08.jpg", "audio": "assets/audio/audio_05.mp3", "audio_script": "Le damos la bienvenida al tercer módulo. Ya vimos cómo cuidarse uno mismo. Ahora hablemos de algo más difícil. Cómo acompañar a un compañero o colaborador que no está bien. Hay dos errores frecuentes en esto. Uno: mirar para otro lado. Convencernos de que no es nuestro asunto. Dos: querer resolver. Diagnosticar... aconsejar mucho... asumir el rol de terapeuta sin serlo. Los dos errores hacen daño. El curso le va a dar una vía intermedia. Notar a tiempo. Abrir una conversación. Sin invadir. Y saber hasta dónde llega su rol... y dónde empieza el del profesional. Empecemos.", "statement": "Acompañar bien no es resolver. Es estar presente, abrir conversación y facilitar el siguiente paso.", "citation": "Principio operativo del módulo", "paragraphs": ["El compañero o líder no es psicólogo. No tiene que diagnosticar ni dar terapia. Pero sí está en una posición privilegiada: ve cómo está la persona en el día a día, nota cambios que un profesional no podría notar sin estar ahí, y tiene un vínculo de confianza que puede facilitar conversaciones difíciles.", "Hacer bien este rol no requiere conocimientos clínicos. Requiere atención, prudencia y saber cuándo correrse para que otro profesional intervenga. Este módulo trabaja específicamente eso."], "nextSteps": "Lo que va a encontrar en este módulo", "learnItems": ["Cómo notar cambios en otros sin invadir su privacidad.", "Caso de un líder que detectó a tiempo y lo que hizo.", "Decisión: ¿cómo abordaría usted la situación?", "Cuatro principios para conducir una conversación de apoyo.", "Errores comunes al intentar ayudar."]}, {"id": "p21", "type": "statement_paragraphs", "moduleTitle": "Módulo 3: Acompañar a otros", "title": "Por qué importa el rol del compañero y del líder", "image": null, "statement": "Las personas que pasan por momentos difíciles en el trabajo no siempre buscan ayuda solas. A veces necesitan que alguien las abra la puerta.", "paragraphs": ["Hay una idea cómoda que dice que la salud mental es 'algo personal' y que cada uno la maneja como puede. La idea es cómoda porque libera al entorno laboral de responsabilidad. Pero es incompleta. Los compañeros y los líderes ven cosas que otros no ven: cambios sutiles, conductas que se modifican, silencios nuevos. Ese conocimiento, bien usado, salva.", "<strong>El rol del compañero no es ser terapeuta.</strong> Tampoco es resolver. Es notar, preguntar bien, escuchar sin juzgar, y facilitar el paso siguiente cuando hace falta. Eso es todo, y eso es mucho.", "<strong>El rol del líder agrega una capa:</strong> también puede ajustar carga, dar tiempo, defender espacios de descanso, y proteger la dignidad de la persona en el equipo. Un líder atento previene problemas que un profesional clínico no llegaría a ver."], "intro": null, "items": []}, {"id": "p22", "type": "hotspots", "moduleTitle": "Módulo 3: Acompañar a otros", "title": "Cómo notar cambios en otros sin invadir", "image": "assets/images/img_09.jpg", "intro": "No se trata de vigilar a nadie. Se trata de notar cuatro tipos de cambios observables —sin necesidad de intromisión— que cuando se sostienen en el tiempo pueden ser señal de que algo está pesando demasiado.", "hotspots": [{"label": "Cambios en la energía", "content": "<strong>Qué observar:</strong> alguien que antes participaba activamente en reuniones y ahora está más callado. Movimientos más lentos. Cara de cansancio sostenido durante varias semanas.<br><br><strong>Qué NO hacer:</strong> asumir que ya sabe la razón. Puede ser muchas cosas, algunas laborales, otras no."}, {"label": "Cambios en el contacto social", "content": "<strong>Qué observar:</strong> deja de almorzar acompañado, se ausenta de espacios informales, evita conversaciones que antes tenía. Trabaja con la puerta cerrada o se aísla en el auricular.<br><br><strong>Qué NO hacer:</strong> presionar para que socialice. El aislamiento puede ser signo de cansancio extremo o de que está procesando algo. La presión empeora."}, {"label": "Cambios en el rendimiento o la atención", "content": "<strong>Qué observar:</strong> errores que antes no cometía, demoras inhabituales, falta de concentración en reuniones, olvidos. No es 'falta de profesionalismo': muchas veces es señal de carga acumulada.<br><br><strong>Qué NO hacer:</strong> tomarlo como falla de actitud y reclamar. Conviene preguntar antes de juzgar."}, {"label": "Cambios en cómo habla de su trabajo", "content": "<strong>Qué observar:</strong> tono cínico nuevo, sensación de futilidad ('da lo mismo lo que haga'), menos compromiso con proyectos que antes le interesaban, comentarios sobre 'aguantar' o 'sobrevivir'.<br><br><strong>Qué NO hacer:</strong> minimizar con 'a todos nos pasa'. Una semana es normal; un patrón sostenido es señal."}]}, {"id": "p23", "type": "case_study", "moduleTitle": "Módulo 3: Acompañar a otros", "title": "Caso: Carlos, líder que detectó a tiempo", "image": "assets/images/img_10.jpg", "audio": "assets/audio/audio_06.mp3", "audio_script": "Carlos es gerente de operaciones. Cuarenta y siete años. Ocho personas a cargo. Hace tres meses notó algo en uno de sus colaboradores. Tomás. Treinta y dos años. Bueno en lo suyo. Tomás llevaba un mes y medio... más callado. Llegaba tarde a las reuniones. Cometía pequeños errores en cosas que dominaba. Carlos podría haber hecho dos cosas equivocadas. Reclamarle por el rendimiento. O ignorarlo y esperar que mejorara solo. Hizo algo distinto. Lo invitó a tomar un café. Sin agenda. Y le dijo algo simple: 'Te noto distinto últimamente. No quiero presionarte... pero si en algún momento querés conversar... yo estoy.' Y nada más. Tomás no contestó en ese momento. Pero dos días después... fue a buscar a Carlos.", "subtitle": "Acompañar bien casi nunca exige acción heroica", "body": "Lo que hizo Carlos parece sencillo. Y lo es. Pero hay tres decisiones importantes detrás:<br><br><strong>Primero, eligió el momento y el lugar.</strong> No fue una conversación en una reunión de equipo. No fue por chat. Fue un café, en privado, con tiempo. El contexto importa tanto como las palabras.<br><br><strong>Segundo, no diagnosticó.</strong> No le dijo a Tomás 'creo que estás deprimido' ni 'parece que tenés burnout'. Solo dijo 'te noto distinto'. Esa fórmula respeta a la persona y abre conversación.<br><br><strong>Tercero, no exigió respuesta.</strong> Dejó la puerta abierta y se fue. No forzó. Tomás necesitó dos días para decidir hablar. Esa pausa fue posible porque Carlos no presionó.<br><br>Cuando Tomás finalmente fue a buscarlo, le contó que estaba pasando un momento difícil en lo personal y que el trabajo se le había vuelto muy pesado. Carlos no intentó resolverlo: ajustó dos cargas concretas, le sugirió que considerara una consulta profesional, y le aseguró confidencialidad.<br><br><strong>En síntesis:</strong> Carlos no resolvió el problema de Tomás. Lo que hizo fue abrir la puerta y mantenerla abierta. Eso, muchas veces, es exactamente lo que se necesita."}, {"id": "p24", "type": "decision_scenario", "moduleTitle": "Módulo 3: Acompañar a otros", "title": "¿Cómo aborda usted la situación?", "image": "assets/images/img_11.jpg", "instructions": "<strong>Instrucciones:</strong> lea el caso, evalúe las cuatro opciones, y elija la más adecuada. Cada opción tiene una consecuencia. Tómese un momento antes de decidir.", "intro_text": "<strong>El caso.</strong> Hace tres semanas nota a un compañero de su equipo distinto. Llega más tarde a las reuniones, está más callado, dejó de ir a los almuerzos del equipo y comete pequeños errores en tareas que antes hacía sin problema. No tiene certeza sobre qué está pasando, pero algo le indica que no es solo un mal momento puntual.", "question_text": "¿Cómo aborda usted la situación?", "dialogue": [{"character": "Compañero", "role": "del mismo equipo", "text": "Estoy bien, todo bien. Es que hay mucho trabajo este mes. Igual gracias por preguntar.", "audio": null, "audio_script": null}], "options": [{"id": "A", "label": "Mejor no meterse: es tema personal", "subtitle": "Esperar a que pase o a que la persona pida ayuda explícitamente.", "correct": false, "result": "Mirar para otro lado tiene costo", "outcome": "Esta opción confunde respeto con desinterés. Si los cambios son sostenidos por tres semanas, el silencio no es respeto: es ausencia. Muchas personas no piden ayuda explícitamente aunque la necesiten; esperan que alguien les abra la puerta. Acompañar respetuosamente no es invadir: es estar disponible."}, {"id": "B", "label": "Avisar a RRHH para que ellos manejen el tema", "subtitle": "Derivar el tema directamente al área especializada.", "correct": false, "result": "Saltar pasos puede romper la confianza", "outcome": "RRHH es un recurso importante, pero saltarse directamente al área formal sin haber tenido antes una conversación humana puede sentirse como una denuncia y romper la confianza del compañero. Hay casos donde sí corresponde (riesgo claro, situaciones graves), pero como primer paso ante señales sostenidas pero no extremas, una conversación privada respetuosa es mejor primer movimiento."}, {"id": "C", "label": "Buscarlo en privado y abrir la puerta sin presionar", "subtitle": "Acercarse en un momento tranquilo, sin agenda formal: 'te noto distinto últimamente, si querés conversar yo estoy'.", "correct": true, "result": "Lo que la evidencia respalda como acompañamiento bien hecho", "outcome": "Excelente. Esta opción combina las tres claves del módulo: <strong>privacidad</strong> (no en grupo ni público), <strong>respeto</strong> (no diagnosticar, no asumir saber qué pasa), y <strong>no presionar</strong> (dejar la puerta abierta, no exigir respuesta). Muchas personas necesitan dos o tres días para decidir si quieren hablar. Esta forma respeta ese tiempo."}, {"id": "D", "label": "Comentar el tema en la próxima reunión del equipo", "subtitle": "Aprovechar la reunión semanal para hablar del bienestar general del equipo, sin nombrar a nadie.", "correct": false, "result": "Bien intencionado, pero poco efectivo", "outcome": "Hablar del tema en abstracto en reunión de equipo puede ser útil como gesto cultural, pero rara vez es lo que necesita una persona específica que está pasando un momento difícil. La persona se sentirá observada y será menos probable que se abra. Para casos específicos, la conversación privada funciona mejor."}], "convergent_title": "Acompañar bien parece pequeño desde afuera", "convergent_text": "Hay una intuición fuerte que sabotea la opción correcta: la sensación de que 'una conversación de café no es suficiente'. Cuando alguien está pasando un momento difícil, parece que <strong>se necesita una intervención mayor</strong>: derivar, involucrar a otros, resolver. Pero el acompañamiento que mejor funciona suele ser el más pequeño y respetuoso: <em>abrir una puerta y mantenerla abierta</em>. La persona elige cuándo y cómo entrar. La paradoja es que esa pequeña acción, hecha bien, es la que más frecuentemente facilita el siguiente paso, incluyendo la búsqueda de ayuda profesional cuando corresponde.", "convergent_audio": "assets/audio/audio_07.mp3", "convergent_audio_script": "Hay una intuición fuerte que sabotea la opción correcta. Cuando alguien está pasando un momento difícil, parece que se necesita una intervención mayor. Derivar... involucrar a otros... resolver. Pero el acompañamiento que mejor funciona suele ser el más pequeño y respetuoso. Abrir una puerta. Y mantenerla abierta. La persona elige cuándo y cómo entrar. La paradoja es esta. Esa pequeña acción, hecha bien... es la que más frecuentemente facilita el siguiente paso. Incluyendo la búsqueda de ayuda profesional... cuando corresponde."}, {"id": "p25", "type": "accordion", "moduleTitle": "Módulo 3: Acompañar a otros", "title": "Cómo conducir la conversación: cuatro principios", "image": null, "intro": "Una vez que la persona acepta hablar, hay cuatro principios que hacen la diferencia entre una conversación que ayuda y una que incomoda o cierra puertas.", "items": [{"title": "1. Escuchar antes de opinar", "content": "<strong>Qué hacer:</strong> dejar que la persona cuente lo que necesite contar. Hacer preguntas abiertas ('¿cómo te sentís con eso?'), no preguntas cerradas o juicios disfrazados de pregunta ('¿no sería mejor que...?').<br><br><strong>Por qué importa:</strong> muchas personas en momentos difíciles ya tienen quien les dé consejos. Lo que escasea es alguien que escuche sin interrumpir, sin solucionar, sin redirigir. Esa escucha es por sí sola un cuidado."}, {"title": "2. Validar sin diagnosticar", "content": "<strong>Qué hacer:</strong> reconocer la dificultad que la persona expresa ('parece que está siendo muy duro', 'tiene sentido que te sientas así'). NO interpretar ('lo que vos tenés es ansiedad') ni etiquetar ('estás quemado').<br><br><strong>Por qué importa:</strong> validar no es decir 'todo está bien' ni 'tenés razón en todo'. Es reconocer que lo que la persona siente es real, sin asignarle un nombre clínico que no le corresponde a uno dar."}, {"title": "3. Respetar tiempos y privacidad", "content": "<strong>Qué hacer:</strong> no presionar para más detalles de los que la persona quiera dar. No contar después a terceros lo que escuchó (a menos que haya riesgo claro, en cuyo caso conviene consultarlo con la persona primero).<br><br><strong>Por qué importa:</strong> la confianza se construye con discreción. Una sola filtración rompe la posibilidad de que esa persona o cualquier otra del equipo se abra en el futuro."}, {"title": "4. Saber hasta dónde llega el rol", "content": "<strong>Qué hacer:</strong> si lo que escucha excede su capacidad o se siente perdido, sugerir apoyo profesional con respeto: 'hay cosas que están fuera de lo que yo puedo acompañar; ¿pensaste en buscar a alguien especializado?' Si hay programas internos (psicología corporativa, EAP), mencionarlos.<br><br><strong>Por qué importa:</strong> sustituir al profesional hace daño. Las personas necesitan distintas capas de apoyo: compañeros, líderes Y profesionales. Cada una hace lo suyo. Saber cuándo correrse es parte del cuidado."}]}, {"id": "p26", "type": "statement_paragraphs", "moduleTitle": "Módulo 3: Acompañar a otros", "title": "Lo que NO conviene hacer al acompañar", "image": null, "statement": "Las intenciones buenas no siempre se traducen en acciones buenas. Estos errores comunes vienen del lugar correcto pero terminan dañando.", "paragraphs": ["Casi todos los que cometen estos errores lo hacen por querer ayudar. Pero saber qué evitar es tan importante como saber qué hacer."], "intro": "Errores comunes al intentar acompañar a alguien", "items": ["<strong>Diagnosticar.</strong> Decir 'lo que tenés es ansiedad', 'eso es burnout' o 'creo que estás deprimido'. Aunque crea acertar, no es su rol y puede ser equivocado. Mejor describir lo que observa ('te noto más cansado últimamente') que ponerle nombre clínico.", "<strong>Comparar.</strong> 'A mí me pasó lo mismo y...', 'mi prima también pasó por eso'. La intención es solidaria pero suele desplazar el foco de la persona que está hablando. Reservar la propia historia para más adelante, si surge naturalmente.", "<strong>Minimizar.</strong> 'No es para tanto', 'a todos nos pasa', 'tenés que pensar positivo'. Aunque vengan de cariño, estas frases comunican: 'lo que sentís no es válido'. Cierran la conversación.", "<strong>Sobreinvolucrarse.</strong> Empezar a llamar todos los días, exigir actualizaciones, asumir responsabilidad por la mejora de la persona. El acompañamiento sostenible es discreto, no intrusivo. La persona necesita espacio.", "<strong>Contar a terceros sin permiso.</strong> Compartir lo conversado con otros, aunque sea con buena intención. La confidencialidad es la base. Si cree que hay riesgo serio que exige involucrar a otros (un caso muy puntual), conviene avisarle a la persona primero."]}, {"id": "p27", "type": "knowledge_check", "moduleTitle": "Módulo 3: Acompañar a otros", "title": "Verifique lo aprendido", "image": null, "questions": [{"type": "single", "stem": "Su compañero de equipo le cuenta que está pasando un momento difícil. Le dice que se siente muy cansado, que duerme mal y que ya no le gusta su trabajo. ¿Cuál sería la mejor respuesta inicial?", "options": ["'A mí me pasó lo mismo el año pasado, lo que te conviene hacer es...'", "'Eso suena a burnout claro, deberías ver a un psicólogo.'", "'Parece que está siendo muy duro. ¿Querés contarme más sobre cómo te sentís?'", "'No te preocupes, eso le pasa a todos. Tomate unas vacaciones.'"], "correctAnswer": 2, "correct": 2, "feedback": {"correct": "Correcto. La respuesta valida la dificultad sin diagnosticar, no compara con experiencia propia, y abre conversación con una pregunta abierta. Es el principio 'escuchar antes de opinar' aplicado.", "incorrect": "Recuerde los cuatro principios: escuchar antes de opinar, validar sin diagnosticar, respetar tiempos. Las opciones que comparan, diagnostican o minimizan suelen cerrar conversación aunque vengan de buena intención."}}, {"type": "single", "stem": "¿En cuál de estas situaciones SÍ corresponde involucrar a RRHH o al área de salud sin esperar?", "options": ["Cuando un compañero está más callado de lo normal hace tres semanas.", "Cuando una persona deja de ir a los almuerzos del equipo.", "Cuando se observa o se escucha algo que sugiere riesgo serio para la persona o para otros.", "Cuando un compañero rinde menos en un proyecto puntual."], "correctAnswer": 2, "correct": 2, "feedback": {"correct": "Correcto. El riesgo serio (para la persona o para otros) es la excepción donde la confidencialidad cede ante la seguridad. En esos casos, conviene avisar a la persona primero (siempre que sea posible) y luego involucrar al área formal. Las otras situaciones se manejan con conversación privada y respeto.", "incorrect": "Revise: las situaciones cotidianas (más callado, rendimiento bajo, evita almuerzos) se manejan primero con conversación humana, no con derivación formal. La excepción es cuando hay riesgo serio."}}]}, {"id": "p28", "type": "module_outro", "moduleTitle": "Módulo 3: Acompañar a otros", "title": "Lo que cierra este módulo", "image": null, "items": ["<strong>Acompañar bien no es resolver.</strong> Es estar presente, abrir conversación y facilitar el siguiente paso. El compañero o líder no es psicólogo, y eso está bien: su rol es otro y es valioso.", "<strong>Cuatro principios para conversar:</strong> escuchar antes de opinar, validar sin diagnosticar, respetar tiempos y privacidad, y saber hasta dónde llega el rol. Sugerir apoyo profesional cuando excede.", "<strong>Cinco errores comunes a evitar:</strong> diagnosticar, comparar con experiencia propia, minimizar, sobreinvolucrarse, y contar a terceros sin permiso. Las buenas intenciones no bastan si la ejecución cierra puertas."]}]}, {"id": "m4", "title": "Cierre y evaluación", "screens": [{"id": "p29", "type": "quiz", "moduleTitle": "Cierre y evaluación", "title": "Evaluación final del curso", "image": null, "intro": "Diez preguntas sobre lo trabajado en los tres módulos. Para aprobar necesita 80% o más (8 de 10).", "passingScore": 80, "questions": [{"type": "single", "stem": "¿Cuál de estas descripciones representa mejor el espectro de la salud mental laboral?", "options": ["Hay dos estados: estás bien o tenés un problema clínico.", "Hay cuatro estados (bienestar, fatiga, agotamiento, crisis) y las personas se mueven entre ellos.", "Solo importa el bienestar; los demás estados son responsabilidad médica.", "Es un fenómeno individual, no tiene relación con el ambiente laboral."], "correctAnswer": 1, "correct": 1}, {"type": "single", "stem": "Ana lleva tres meses con jornadas extendidas, dolor de cabeza diario, y sensación de que nada que haga es suficiente. Ya ajustó descanso y nada cambia. ¿Cuál es el paso más apropiado?", "options": ["Aguantar dos meses más, hasta el fin del proyecto.", "Buscar acompañamiento profesional: las señales sostenidas que no ceden con autocuidado son indicador claro.", "Cambiar de empresa cuanto antes.", "Tomar vitaminas y café para sostener mejor el ritmo."], "correctAnswer": 1, "correct": 1}, {"type": "single", "stem": "Una persona del equipo aparece más callada hace varias semanas. Usted quiere acercarse. ¿Cuál es el mejor primer paso?", "options": ["Decirle frente al equipo en la próxima reunión que la nota distinta.", "Avisarle a su jefe directamente para que la cite a una reunión formal.", "Buscarla en un momento privado, sin agenda formal, y abrir la puerta sin presionar.", "Mandarle un correo formal pidiéndole una reunión para hablar de su rendimiento."], "correctAnswer": 2, "correct": 2}, {"type": "single", "stem": "Según la matriz del módulo 2, ¿qué conviene hacer con un estresor de ALTO impacto y BAJA controlabilidad (algo que no puedo cambiar pero me afecta mucho)?", "options": ["Soltarlo, no merece atención.", "Aceptarlo y reforzar el cuidado personal (sueño, ejercicio, conexión, apoyo).", "Pelear contra él hasta cambiarlo.", "Renunciar al trabajo."], "correctAnswer": 1, "correct": 1}, {"type": "single", "stem": "Un compañero le confía que está pasando un momento difícil. Le cuenta detalles sobre su salud emocional. ¿Qué corresponde hacer?", "options": ["Compartir lo escuchado con otros del equipo para que también estén atentos.", "Mantener la confidencialidad; si percibe riesgo serio, conversar con la persona antes de involucrar a otros.", "Reportar a RRHH inmediatamente sin avisarle a la persona.", "Olvidar lo conversado y no volver a tocar el tema."], "correctAnswer": 1, "correct": 1}, {"type": "single", "stem": "¿Cuál de estas frases es la mejor respuesta al inicio de una conversación con un compañero que dice que está mal?", "options": ["'Eso es ansiedad, te conviene ver a un especialista.'", "'No es para tanto, a todos nos pasa, tomá vacaciones.'", "'Parece que está siendo muy duro. ¿Querés contarme más?'", "'A mí me pasó algo igual y lo que tenés que hacer es...'"], "correctAnswer": 2, "correct": 2}, {"type": "multiple", "stem": "¿Cuáles de estos son factores del ambiente laboral que PROTEGEN la salud mental? (Marque todas las correctas.)", "options": ["Tener claridad sobre lo que se espera de uno.", "Cultura donde quejarse del exceso se ve como falta de compromiso.", "Reconocimiento explícito del trabajo bien hecho.", "Tener un compañero de confianza con quien conversar."], "correctAnswer": [0, 2, 3], "correct": [0, 2, 3]}, {"type": "single", "stem": "¿Cuál de estos NO es un mito sobre la salud mental en el trabajo?", "options": ["Las vacaciones resuelven el agotamiento.", "Pedir ayuda es señal de debilidad.", "El agotamiento le pasa solo a gente débil.", "Las personas más comprometidas pueden ser las más expuestas al agotamiento."], "correctAnswer": 3, "correct": 3}, {"type": "single", "stem": "¿Cuál de estas prácticas de autocuidado es ejemplo de 'recuperación cognitiva'?", "options": ["Trabajar más rápido para terminar antes.", "Tomar café cada dos horas.", "Almorzar acompañado, sin pantalla, conversando de algo no laboral.", "Hacer una llamada de trabajo durante la caminata."], "correctAnswer": 2, "correct": 2}, {"type": "matching", "stem": "Empareje cada principio de conversación con su descripción:", "pairs": [{"left": "Escuchar antes de opinar", "right": "Hacer preguntas abiertas y dejar que la persona cuente"}, {"left": "Validar sin diagnosticar", "right": "Reconocer la dificultad sin asignar etiquetas clínicas"}, {"left": "Respetar tiempos y privacidad", "right": "No presionar por más detalles ni contar a terceros"}, {"left": "Saber hasta dónde llega el rol", "right": "Sugerir apoyo profesional cuando excede lo que uno puede acompañar"}]}]}, {"id": "p30", "type": "closing_resources", "moduleTitle": "Cierre y evaluación", "title": "Salud mental como práctica colectiva", "image": "assets/images/img_12.jpg", "audio": "assets/audio/audio_08.mp3", "audio_script": "Ha terminado el curso. Lo importante no es lo que escuchó. Es lo que va a hacer mañana. Tres cosas concretas. Primero. Esta semana, observe sus señales en las cuatro áreas. Cuerpo, ánimo, conducta, pensamiento. Si nota algo sostenido... no espere. Actúe. Segundo. Elija una práctica de autocuidado. Una sola. Empiece esta semana en su versión más pequeña. Tercero. Mire a una persona del equipo que sienta que está pasando algo. No diagnostique. No invada. Abra una puerta. Y déjela abierta. Eso es lo que la salud mental colectiva pide. Cuídese. Y cuide al otro.", "paragraphs": ["Ha terminado el curso. Tiene un marco para entender la salud mental laboral, herramientas concretas para cuidarse, y principios para acompañar a otros sin invadir ni sustituir al profesional. Pero todo eso vale poco si no se traduce en acciones esta semana.", "<strong>El compromiso mínimo es triple:</strong> observar sus propias señales en las cuatro áreas (cuerpo, ánimo, conducta, pensamiento); elegir una práctica de autocuidado y empezarla esta semana en su versión más pequeña; y notar a una persona del equipo que pueda necesitar apoyo, sin diagnosticar, abriendo una puerta."], "items": ["Guía rápida: cuatro áreas para observar señales tempranas (PDF descargable).", "Matriz para clasificar estresores: controlable × impacto (PDF descargable).", "Cómo iniciar una conversación de apoyo: cuatro principios y errores a evitar (PDF descargable)."], "closing": "La salud mental en el trabajo no es responsabilidad de un área o de un profesional. Se construye todos los días, en las pequeñas atenciones, en los límites que se respetan, en las conversaciones que se abren. <strong>Empiece esta semana.</strong> Cuídese. Y cuide al otro."}]}]};
+  </script>
+  <script>
+/**
+ * Aacrom Course Player
+ * Curso: P-A.1 · El arte de la guerra aplicado a los negocios
+ */
+
+(function () {
+  'use strict';
+
+  let course = null;
+  let allScreens = [];
+  let currentIndex = 0;
+  let completedScreens = new Set();
+  let quizFinalized = false;
+  let quizState = {};
+  let scenarioState = { exploredOptions: new Set(), convergentShown: false };
+
+  // ==========================================================
+  // INIT
+  // ==========================================================
+  async function init() {
+    try {
+      course = window.COURSE_DATA;
+      buildScreenList();
+      buildSidebar();
+      loadProgress();
+      renderScreen();
+      bindNav();
+    } catch (e) {
+      document.getElementById('screen-container').innerHTML = '<p style="padding:40px;color:#B02A2A">Error cargando el curso: ' + e.message + '</p>';
+    }
+  }
+
+  function buildScreenList() {
+    allScreens = [];
+    course.modules.forEach((mod, mi) => {
+      mod.screens.forEach((scr, si) => {
+        allScreens.push({ ...scr, moduleIndex: mi, screenIndex: si });
+      });
+    });
+    document.getElementById('course-title').textContent = course.title;
+  }
+
+  function buildSidebar() {
+    const nav = document.getElementById('module-nav');
+    nav.innerHTML = '';
+    course.modules.forEach((mod, idx) => {
+      const item = document.createElement('div');
+      item.className = 'module-item';
+      item.dataset.moduleIndex = idx;
+      item.innerHTML = `
+        <div class="icon">≡</div>
+        <div class="title">${mod.title}</div>
+        <div class="check"></div>
+      `;
+      item.addEventListener('click', () => jumpToModule(idx));
+      nav.appendChild(item);
+    });
+  }
+
+  function jumpToModule(moduleIndex) {
+    const first = allScreens.findIndex(s => s.moduleIndex === moduleIndex);
+    if (first >= 0) { currentIndex = first; renderScreen(); }
+    document.getElementById('sidebar').classList.remove('open');
+  }
+
+  function loadProgress() {
+    var saved = null;
+    try {
+      if (window.AacromSCORM && window.AacromSCORM.isInitialized && window.AacromSCORM.isInitialized()) {
+        saved = window.AacromSCORM.getSuspendData();
+      }
+    } catch (e) {}
+    if (!saved) { try { saved = JSON.parse(sessionStorage.getItem('aacrom_progress_c5') || '{}'); } catch (e) { saved = {}; } }
+    try {
+      if (saved && saved.completed) completedScreens = new Set(saved.completed);
+      if (saved && typeof saved.current === 'number') currentIndex = Math.min(saved.current, allScreens.length - 1);
+    } catch (e) {}
+  }
+
+  function saveProgress() {
+    var data = { completed: Array.from(completedScreens), current: currentIndex };
+    try { sessionStorage.setItem('aacrom_progress_c5', JSON.stringify(data)); } catch (e) {}
+    try {
+      if (window.AacromSCORM && window.AacromSCORM.isInitialized && window.AacromSCORM.isInitialized()) {
+        window.AacromSCORM.setSuspendData(data);
+        window.AacromSCORM.commit();
+      }
+    } catch (e) {}
+  }
+
+  // ==========================================================
+  // SIDEBAR UPDATE
+  // ==========================================================
+  function updateSidebar() {
+    const items = document.querySelectorAll('.module-item');
+    const currentModule = allScreens[currentIndex].moduleIndex;
+
+    items.forEach((item, idx) => {
+      item.classList.remove('active', 'current', 'completed');
+      const modScreens = allScreens.filter(s => s.moduleIndex === idx);
+      const modCompleted = modScreens.every(s => completedScreens.has(s.id));
+
+      if (idx === currentModule) item.classList.add('active', 'current');
+      if (modCompleted) item.classList.add('completed');
+    });
+
+    const totalScreens = allScreens.length;
+    const completed = completedScreens.size;
+    const pct = Math.round((completed / totalScreens) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-text').textContent = pct + '% COMPLETADO';
+  }
+
+  // ==========================================================
+  // RENDER SCREEN
+  // ==========================================================
+  function renderScreen() {
+    const screen = allScreens[currentIndex];
+    document.getElementById('screen-counter').textContent = (currentIndex + 1) + ' de ' + allScreens.length;
+
+    const container = document.getElementById('screen-container');
+    container.scrollTop = 0;
+
+    let html = '';
+    switch (screen.type) {
+      case 'course_cover':       html = renderCourseCover(screen); break;
+      case 'statement_list':     html = renderStatementList(screen); break;
+      case 'module_intro':       html = renderModuleIntro(screen); break;
+      case 'paragraph_audio':    html = renderParagraphAudio(screen); break;
+      case 'hotspots':           html = renderHotspots(screen); break;
+      case 'tabs':               html = renderTabs(screen); break;
+      case 'case_study':         html = renderCaseStudy(screen); break;
+      case 'module_outro':       html = renderModuleOutro(screen); break;
+      case 'knowledge_check':    html = renderKnowledgeCheck(screen); break;
+      case 'accordion':          html = renderAccordion(screen); break;
+      case 'statement_paragraph':html = renderStatementParagraph(screen); break;
+      case 'sorting':            html = renderSorting(screen); break;
+      case 'decision_matrix':    html = renderDecisionMatrix(screen); break;
+      case 'decision_scenario':  html = renderDecisionScenario(screen); break;
+      case 'quiz':               html = renderQuiz(screen); break;
+      case 'module_intro_full':  html = renderModuleIntroFull(screen); break;
+      case 'paragraphs':         html = renderParagraphs(screen); break;
+      case 'statement_paragraphs': html = renderStatementParagraphs(screen); break;
+      case 'closing_resources':  html = renderClosingResources(screen); break;
+      case 'course_cover_objective': html = renderCourseCoverObjective(screen); break;
+      case 'hero_image':         html = renderHeroImage(screen); break;
+      default:                   html = `<div style="padding:40px;">Tipo no implementado: ${screen.type}</div>`;
+    }
+
+    container.innerHTML = html;
+
+    if (screen.type === 'hotspots')          attachHotspotEvents(screen);
+    else if (screen.type === 'tabs')          attachTabEvents(screen);
+    else if (screen.type === 'accordion')     attachAccordionEvents(screen);
+    else if (screen.type === 'knowledge_check')attachKCEvents(screen);
+    else if (screen.type === 'sorting')       attachSortingEvents(screen);
+    else if (screen.type === 'decision_matrix')attachMatrixEvents(screen);
+    else if (screen.type === 'decision_scenario')attachScenarioEvents(screen);
+    else if (screen.type === 'quiz')          attachQuizEvents(screen);
+
+    if (!isInteractiveScreen(screen)) completedScreens.add(screen.id);
+    updateSidebar();
+    updateFooterNav();
+    saveProgress();
+  }
+
+  function isInteractiveScreen(screen) {
+    return ['knowledge_check', 'sorting', 'quiz', 'decision_scenario'].includes(screen.type);
+  }
+
+  // ==========================================================
+  // RENDERERS
+  // ==========================================================
+  function audioHTML(audioFile) {
+    if (!audioFile) return '';
+    return `
+      <div class="instructions-box">
+        <div class="badge-icon"></div>
+        <div class="text"><strong>Instrucciones:</strong> presione el botón "▶" y escuche atentamente el audio.</div>
+      </div>
+      <audio controls preload="metadata"><source src="${audioFile}" type="audio/mpeg">Su navegador no soporta audio.</audio>
+    `;
+  }
+
+  function headerHTML(screen, withImage = false) {
+    const imgStyle = withImage && screen.image
+      ? `style="background-image: url('${screen.image}')"`
+      : '';
+    const moduleLabel = screen.moduleTitle || '';
+    return `
+      <div class="screen-header ${withImage && screen.image ? 'with-image' : ''}" ${imgStyle}>
+        <h1>${screen.title}</h1>
+        <div class="header-line"></div>
+      </div>
+    `;
+  }
+
+  function renderCourseCover(s) {
+    return `
+      ${headerHTML(s, true)}
+      <div class="screen-body">
+        <h2 class="subtitle-blue">${s.title}</h2>
+        ${audioHTML(s.audio)}
+        ${s.body.map(p => `<p>${p}</p>`).join('')}
+      </div>
+    `;
+  }
+
+  function renderStatementList(s) {
+    return `
+      ${headerHTML(s, !!s.image)}
+      <div class="screen-body">
+        ${s.statement ? `<div class="statement">${s.statement}</div>` : ''}
+        ${s.audio ? audioHTML(s.audio) : ''}
+        ${s.intro ? `<p style="font-weight:600;color:var(--aacrom-primary);margin-top:30px">${s.intro}</p>` : ''}
+        <ul class="aacrom-list">${s.items.map(i => `<li><span>${i}</span></li>`).join('')}</ul>
+      </div>
+    `;
+  }
+
+  function renderModuleIntro(s) {
+    return `
+      ${headerHTML(s, true)}
+      <div class="screen-body">
+        ${audioHTML(s.audio)}
+        <div class="statement">${s.statement}<span class="statement-citation">${s.citation}</span></div>
+      </div>
+    `;
+  }
+
+  function renderParagraphAudio(s) {
+    return `
+      ${headerHTML(s, !!s.image)}
+      <div class="screen-body">
+        ${audioHTML(s.audio)}
+        <p class="justify">${s.body}</p>
+      </div>
+    `;
+  }
+
+  function renderStatementParagraph(s) {
+    return `
+      ${headerHTML(s, !!s.image)}
+      <div class="screen-body">
+        <div class="statement">${s.statement}</div>
+        ${audioHTML(s.audio)}
+        ${s.subheading ? `<h3 style="text-align:center;color:var(--aacrom-primary);margin:30px 0 18px;font-size:22px">${s.subheading}</h3>` : ''}
+        <p class="justify">${s.body}</p>
+      </div>
+    `;
+  }
+
+  function renderCaseStudy(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        ${audioHTML(s.audio)}
+        <div class="case-card-wrapper">
+          <div class="bg-image" style="background-image:url('${s.image}')"></div>
+          <div class="card-content">
+            ${s.subtitle ? `<div class="card-subtitle">${s.subtitle}</div>` : ''}
+            <p>${s.body}</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderModuleOutro(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        <ul class="aacrom-list">${s.items.map(i => `<li><span>${i}</span></li>`).join('')}</ul>
+      </div>
+    `;
+  }
+
+  function renderHotspots(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        <p>${s.intro}</p>
+        <div class="hotspots-container">
+          ${s.image ? `<img src="${s.image}" class="hotspots-image" alt="">` : ''}
+          <div class="hotspots-list">
+            ${s.hotspots.map((h, i) => `<button class="hotspot-btn" data-idx="${i}">${h.label}</button>`).join('')}
+          </div>
+          <div class="hotspot-content" id="hotspot-content"></div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderTabs(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        ${s.audio ? audioHTML(s.audio) : ''}
+        <p>${s.intro}</p>
+        <div class="tabs-container">
+          <div class="tabs-nav">
+            ${s.tabs.map((t, i) => `<button class="tab-btn ${i === 0 ? 'active' : ''}" data-idx="${i}">${t.title}</button>`).join('')}
+          </div>
+          ${s.tabs.map((t, i) => `<div class="tab-panel ${i === 0 ? 'active' : ''}" data-idx="${i}">${t.content}</div>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderAccordion(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        ${s.audio ? audioHTML(s.audio) : ''}
+        <p>${s.intro}</p>
+        <div class="accordion">
+          ${s.items.map((it, i) => `
+            <div class="accordion-item" data-idx="${i}">
+              <div class="accordion-header">
+                <span>${it.title}</span>
+                <span class="toggle">+</span>
+              </div>
+              <div class="accordion-content"><div class="accordion-content-inner">${it.content}</div></div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderDecisionMatrix(s) {
+    const ordered = ['tl', 'tr', 'bl', 'br'];
+    const qByPos = {};
+    s.quadrants.forEach(q => qByPos[q.position] = q);
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        <p>${s.intro}</p>
+        <div class="matrix-container">
+          <div class="matrix-grid">
+            ${ordered.map((pos, i) => {
+              const q = qByPos[pos];
+              return `<div class="matrix-quadrant" data-pos="${pos}" style="background:${q.color}">${q.label}</div>`;
+            }).join('')}
+          </div>
+          <div class="matrix-label-x">${s.xAxis}</div>
+          <div class="matrix-label-y">${s.yAxis}</div>
+        </div>
+        <div class="matrix-content" id="matrix-content"></div>
+      </div>
+    `;
+  }
+
+  function renderDecisionScenario(s) {
+    const instructionsCallout = s.instructions ? `
+      <div class="instructions-callout">
+        <div class="callout-icon">!</div>
+        <div class="callout-text">${s.instructions}</div>
+      </div>
+    ` : '';
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        <div class="scenario-container">
+          <div class="scenario-intro-card">
+            <p style="text-align:left;font-size:17px">${s.intro_text || ''}</p>
+          </div>
+
+          ${instructionsCallout}
+
+          <div class="dialogue-container" id="dialogue">
+            ${(s.dialogue || []).map((d, i) => {
+              const isAndres = d.character === 'Andrés';
+              const isNarrator = d.character === 'Narrador';
+              const cls = isAndres ? 'andres' : (isNarrator ? 'narrator' : '');
+              const initial = isNarrator ? '"' : (d.character || '?').charAt(0);
+              const dAudio = d.audio ? `<audio controls preload="metadata"><source src="${d.audio}" type="audio/mpeg"></audio>` : '';
+              return `
+                <div class="dialogue-line" data-idx="${i}">
+                  <div class="dialogue-avatar ${cls}">${initial}</div>
+                  <div class="dialogue-body">
+                    <div class="dialogue-character">${d.character || ''}${d.role ? `<span class="role">${d.role}</span>` : ''}</div>
+                    <div class="dialogue-text">${d.text || ''}</div>
+                    ${dAudio}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <div class="scenario-question">${s.question_text || '¿Qué decisión tomaría?'}</div>
+          <div class="scenario-options" id="scenario-options">
+            ${s.options.map(o => `
+              <button class="scenario-option-btn" data-id="${o.id}">
+                <div><span class="option-id">${o.id}</span><span class="option-label">${o.label}</span></div>
+                <div class="option-sub">${o.subtitle || ''}</div>
+              </button>
+            `).join('')}
+          </div>
+
+          <div class="scenario-result" id="scenario-result" style="display:none"></div>
+
+          <div class="scenario-convergent" id="scenario-convergent">
+            <h4>${s.convergent_title || ''}</h4>
+            <p>${s.convergent_text || ''}</p>
+            ${s.convergent_audio ? `<audio controls preload="metadata" style="margin-top:16px;max-width:100%;filter:invert(0.85) hue-rotate(180deg)"><source src="${s.convergent_audio}" type="audio/mpeg"></audio>` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderKnowledgeCheck(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        ${s.questions.map((q, i) => `
+          <div class="question-card" data-qidx="${i}">
+            <div class="question-counter">PREGUNTA ${i + 1} DE ${s.questions.length}</div>
+            <div class="question-stem">${q.stem}</div>
+            <div class="options-container">
+              ${q.options.map((opt, j) => `
+                <div class="option-row" data-opt="${j}">
+                  <input type="${q.type === 'multiple' ? 'checkbox' : 'radio'}" name="q${i}" id="q${i}o${j}" value="${j}">
+                  <label for="q${i}o${j}">${opt}</label>
+                </div>
+              `).join('')}
+            </div>
+            <button class="quiz-submit" data-qidx="${i}">Verificar respuesta</button>
+            <div class="feedback-box"><div class="feedback-title"></div><p></p></div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function renderSorting(s) {
+    const shuffled = [...s.items].map((it, i) => ({ ...it, originalIdx: i })).sort(() => Math.random() - 0.5);
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        <p style="font-weight:600;color:var(--aacrom-primary)">${s.instruction}</p>
+        <div class="sorting-container">
+          <div class="sorting-items-pool" id="sorting-pool" data-zone="pool">
+            ${shuffled.map((it, i) => `
+              <div class="sortable-item" draggable="true" data-original="${it.originalIdx}" data-category="${it.category}">${it.text}</div>
+            `).join('')}
+          </div>
+          <div class="sorting-categories">
+            ${s.categories.map((cat, i) => `
+              <div class="sorting-category" data-zone="${i}">
+                <div class="sorting-category-title">${cat}</div>
+                <div class="sorting-drop-zone"></div>
+              </div>
+            `).join('')}
+          </div>
+          <button class="quiz-submit" id="sorting-check">Verificar</button>
+          <div class="feedback-box" id="sorting-feedback"><div class="feedback-title"></div><p></p></div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderQuiz(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        <p style="text-align:center;color:var(--aacrom-text-muted);font-size:16px;margin-bottom:30px">${s.intro}</p>
+
+        ${s.questions.map((q, i) => {
+          if (q.type === 'matching') {
+            const rights = [...q.pairs].map(p => p.right).sort(() => Math.random() - 0.5);
+            return `
+              <div class="question-card" data-qidx="${i}" data-qtype="matching">
+                <div class="question-counter">PREGUNTA ${i + 1} DE ${s.questions.length}</div>
+                <div class="question-stem">${q.stem}</div>
+                <div class="matching-grid">
+                  ${q.pairs.map((pair, pi) => `
+                    <div class="matching-row" data-left="${pi}">
+                      <div class="matching-cell left">${pair.left}</div>
+                      <div class="matching-arrow">→</div>
+                      <select class="matching-cell" data-pair="${pi}" style="border:2px solid var(--aacrom-border);background:white;font-family:inherit;font-size:15px;padding:14px 12px;border-radius:10px;cursor:pointer">
+                        <option value="">— Seleccione —</option>
+                        ${rights.map((r, ri) => `<option value="${r}">${r}</option>`).join('')}
+                      </select>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+          }
+          return `
+            <div class="question-card" data-qidx="${i}" data-qtype="${q.type}">
+              <div class="question-counter">PREGUNTA ${i + 1} DE ${s.questions.length}</div>
+              <div class="question-stem">${q.stem}</div>
+              <div class="options-container">
+                ${q.options.map((opt, j) => `
+                  <div class="option-row" data-opt="${j}">
+                    <input type="${q.type === 'multiple' ? 'checkbox' : 'radio'}" name="quiz_q${i}" id="quiz_q${i}o${j}" value="${j}">
+                    <label for="quiz_q${i}o${j}">${opt}</label>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }).join('')}
+
+        <button class="quiz-submit" id="quiz-submit">Enviar evaluación</button>
+        <div id="quiz-result"></div>
+      </div>
+    `;
+  }
+
+
+  function renderCourseCoverObjective(s) {
+    const fichaHTML = (s.ficha || []).map(f =>
+      `<div class="ficha-item"><div class="ficha-label">${f.label}</div><div class="ficha-value">${f.value}</div></div>`
+    ).join('');
+    return `
+      <div class="cover-objective" style="--cover-bg: url('${s.image || ''}')">
+        <div class="cover-objective-content">
+          <div class="course-code">Curso C-C.5 · Aacrom</div>
+          <h1>${s.title}</h1>
+          <div class="subtitle">${s.subtitle || ''}</div>
+          <div class="objective-label">Objetivo de aprendizaje</div>
+          <div class="objective-text">${s.objective || ''}</div>
+          <div class="ficha">${fichaHTML}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderHeroImage(s) {
+    return `
+      <div class="hero-image-screen">
+        <div class="hero-image-bg" style="background-image: url('${s.image || ''}')">
+          <div class="hero-image-title">${s.title || ''}</div>
+        </div>
+        <div class="hero-image-statement">
+          <p>${s.statement || ''}</p>
+        </div>
+        ${s.footer ? `<div class="hero-image-footer">${s.footer}</div>` : ''}
+      </div>
+    `;
+  }
+
+  function renderModuleIntroFull(s) {
+    const heroImg = s.image ? `<div class="module-hero-image" style="background-image:url('${s.image}')"></div>` : '';
+    const paras = (s.paragraphs || []).map(p => `<p>${p}</p>`).join('');
+    const learnItems = (s.learnItems || []).map(i => `<li><span>${i}</span></li>`).join('');
+    const audio = s.audio ? `<audio controls src="${s.audio}" style="display:block;margin:20px auto;max-width:600px;width:100%"></audio>` : '';
+    return `
+      <div class="screen-header">
+        <div class="module-label">${s.moduleLabel || 'MÓDULO'}</div>
+        <h1>${s.title}</h1>
+        <div class="header-line"></div>
+      </div>
+      <div class="screen-body">
+        ${heroImg}
+        <div class="statement">${s.statement}<span class="statement-citation">${s.citation || ''}</span></div>
+        ${audio}
+        <div class="aacrom-paragraphs">${paras}</div>
+        ${s.nextSteps ? `<div class="next-steps-heading">${s.nextSteps}</div>` : ''}
+        ${learnItems ? `<ul class="aacrom-list">${learnItems}</ul>` : ''}
+      </div>
+    `;
+  }
+  function renderParagraphs(s) {
+    const paras = (s.paragraphs || []).map(p => `<p>${p}</p>`).join('');
+    const heroImg = s.image ? `<div class="module-hero-image" style="background-image:url('${s.image}');height:240px"></div>` : '';
+    const audio = s.audio ? `<audio controls src="${s.audio}" style="display:block;margin:20px auto;max-width:600px;width:100%"></audio>` : '';
+    return `${headerHTML(s, false)}<div class="screen-body">${heroImg}${audio}<div class="aacrom-paragraphs">${paras}</div></div>`;
+  }
+  function renderStatementParagraphs(s) {
+    const paras = (s.paragraphs || []).map(p => `<p>${p}</p>`).join('');
+    const items = (s.items || []).map(i => `<li><span>${i}</span></li>`).join('');
+    return `${headerHTML(s, !!s.image)}<div class="screen-body"><div class="statement">${s.statement}</div><div class="aacrom-paragraphs">${paras}</div>${s.intro ? `<p style="font-weight:600;color:var(--aacrom-primary);margin-top:30px">${s.intro}</p>` : ''}${items ? `<ul class="aacrom-list">${items}</ul>` : ''}</div>`;
+  }
+  function renderClosingResources(s) {
+    const heroImg = s.image ? `<div class="module-hero-image" style="background-image:url('${s.image}');height:220px"></div>` : '';
+    const paras = (s.paragraphs || []).map(p => `<p>${p}</p>`).join('');
+    const items = (s.items || []).map(i => `<li><span>${i}</span></li>`).join('');
+    const audio = s.audio ? `<audio controls src="${s.audio}" style="display:block;margin:20px auto;max-width:600px;width:100%"></audio>` : '';
+    return `${headerHTML(s, false)}<div class="screen-body">${heroImg}${audio}<div class="aacrom-paragraphs">${paras}</div>${items ? `<ul class="aacrom-list">${items}</ul>` : ''}${s.closing ? `<div class="closing-message-box">${s.closing}</div>` : ''}</div>`;
+  }
+
+  // ==========================================================
+  // EVENT HANDLERS
+  // ==========================================================
+  function attachHotspotEvents(screen) {
+    const btns = document.querySelectorAll('.hotspot-btn');
+    const content = document.getElementById('hotspot-content');
+    let viewed = new Set();
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx);
+        btns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active', 'viewed');
+        viewed.add(idx);
+        content.innerHTML = `<strong style="color:var(--aacrom-primary);display:block;margin-bottom:8px">${screen.hotspots[idx].label}</strong>${screen.hotspots[idx].content}`;
+        content.classList.add('show');
+        if (viewed.size === screen.hotspots.length) {
+          completedScreens.add(screen.id);
+          updateSidebar(); saveProgress();
+        }
+      });
+    });
+  }
+
+  function attachTabEvents(screen) {
+    const btns = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.tab-panel');
+    let viewed = new Set([0]);
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx);
+        btns.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        panels[idx].classList.add('active');
+        viewed.add(idx);
+        if (viewed.size === btns.length) {
+          completedScreens.add(screen.id);
+          updateSidebar(); saveProgress();
+        }
+      });
+    });
+  }
+
+  function attachAccordionEvents(screen) {
+    const items = document.querySelectorAll('.accordion-item');
+    let opened = new Set();
+    items.forEach(item => {
+      const header = item.querySelector('.accordion-header');
+      header.addEventListener('click', () => {
+        item.classList.toggle('open');
+        opened.add(parseInt(item.dataset.idx));
+        if (opened.size === items.length) {
+          completedScreens.add(screen.id);
+          updateSidebar(); saveProgress();
+        }
+      });
+    });
+  }
+
+  function attachMatrixEvents(screen) {
+    const quads = document.querySelectorAll('.matrix-quadrant');
+    const content = document.getElementById('matrix-content');
+    let viewed = new Set();
+    quads.forEach(q => {
+      q.addEventListener('click', () => {
+        const pos = q.dataset.pos;
+        const data = screen.quadrants.find(x => x.position === pos);
+        quads.forEach(x => x.classList.remove('active'));
+        q.classList.add('active');
+        viewed.add(pos);
+        content.innerHTML = `<strong style="color:#1F3864;display:block;margin-bottom:8px;font-size:18px">${data.label}</strong>${data.content}`;
+        content.classList.add('show');
+        if (viewed.size === 4) {
+          completedScreens.add(screen.id);
+          updateSidebar(); saveProgress();
+        }
+      });
+    });
+  }
+
+  function attachKCEvents(screen) {
+    document.querySelectorAll('.question-card').forEach(card => {
+      const qidx = parseInt(card.dataset.qidx);
+      const q = screen.questions[qidx];
+      const submitBtn = card.querySelector('.quiz-submit');
+      const feedback = card.querySelector('.feedback-box');
+
+      // Toggle selected style
+      card.querySelectorAll('.option-row').forEach(row => {
+        row.addEventListener('click', () => {
+          if (q.type === 'single') {
+            card.querySelectorAll('.option-row').forEach(r => r.classList.remove('selected'));
+            row.classList.add('selected');
+            row.querySelector('input').checked = true;
+          } else {
+            const input = row.querySelector('input');
+            input.checked = !input.checked;
+            row.classList.toggle('selected', input.checked);
+          }
+        });
+      });
+
+      submitBtn.addEventListener('click', () => {
+        const inputs = card.querySelectorAll('input');
+        const selected = Array.from(inputs).map((inp, i) => inp.checked ? i : null).filter(x => x !== null);
+        if (selected.length === 0) {
+          feedback.classList.remove('correct', 'incorrect');
+          feedback.classList.add('show');
+          feedback.querySelector('.feedback-title').textContent = 'Seleccione una respuesta';
+          feedback.querySelector('p').textContent = '';
+          return;
+        }
+        let correct = false;
+        if (q.type === 'multiple') {
+          const correctSet = new Set(q.correct);
+          const selSet = new Set(selected);
+          correct = correctSet.size === selSet.size && Array.from(correctSet).every(x => selSet.has(x));
+        } else {
+          correct = selected[0] === q.correct;
+        }
+        // marca visual
+        card.querySelectorAll('.option-row').forEach((row, i) => {
+          row.classList.remove('correct', 'incorrect');
+          const correctIdx = q.type === 'multiple' ? q.correct : [q.correct];
+          if (correctIdx.includes(i)) row.classList.add('correct');
+          else if (selected.includes(i)) row.classList.add('incorrect');
+        });
+        feedback.classList.add('show');
+        feedback.classList.toggle('correct', correct);
+        feedback.classList.toggle('incorrect', !correct);
+        feedback.querySelector('.feedback-title').textContent = correct ? '¡Correcto!' : 'Revisemos esto:';
+        // q.feedback es un objeto {correct, incorrect}, no un string
+        var fbObj = q.feedback || {};
+        var fbText = correct ? (fbObj.correct || '¡Bien hecho!') : (fbObj.incorrect || 'Revisemos la respuesta.');
+        feedback.querySelector('p').textContent = fbText;
+        submitBtn.disabled = true;
+        inputs.forEach(i => i.disabled = true);
+
+        // marca completado si todas las preguntas respondidas
+        const allAnswered = Array.from(document.querySelectorAll('.question-card .quiz-submit')).every(b => b.disabled);
+        if (allAnswered) {
+          completedScreens.add(screen.id);
+          updateSidebar(); saveProgress();
+        }
+      });
+    });
+  }
+
+  function attachSortingEvents(screen) {
+    let dragged = null;
+    document.querySelectorAll('.sortable-item').forEach(item => {
+      item.addEventListener('dragstart', (e) => {
+        dragged = item;
+        item.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+      });
+      item.addEventListener('dragend', () => {
+        item.classList.remove('dragging');
+        dragged = null;
+      });
+    });
+
+    document.querySelectorAll('.sorting-category, #sorting-pool').forEach(zone => {
+      const dropZone = zone.querySelector('.sorting-drop-zone') || zone;
+      zone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        zone.classList.add('drag-over');
+      });
+      zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+      zone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        zone.classList.remove('drag-over');
+        if (dragged) {
+          (zone.querySelector('.sorting-drop-zone') || zone).appendChild(dragged);
+        }
+      });
+    });
+
+    document.getElementById('sorting-check').addEventListener('click', () => {
+      const items = document.querySelectorAll('.sortable-item');
+      let allCorrect = true;
+      items.forEach(item => {
+        const parent = item.closest('.sorting-category');
+        if (!parent) { allCorrect = false; return; }
+        const zone = parseInt(parent.dataset.zone);
+        const cat = parseInt(item.dataset.category);
+        item.classList.remove('correct-placed', 'wrong-placed');
+        if (zone === cat) item.classList.add('correct-placed');
+        else { item.classList.add('wrong-placed'); allCorrect = false; }
+      });
+      const fb = document.getElementById('sorting-feedback');
+      fb.classList.add('show');
+      fb.classList.toggle('correct', allCorrect);
+      fb.classList.toggle('incorrect', !allCorrect);
+      fb.querySelector('.feedback-title').textContent = allCorrect ? '¡Excelente! Todas correctas.' : 'Algunas no están bien ubicadas.';
+      fb.querySelector('p').textContent = screen.feedback;
+      if (allCorrect) {
+        completedScreens.add(screen.id);
+        updateSidebar(); saveProgress();
+      }
+    });
+  }
+
+  function attachScenarioEvents(screen) {
+    document.querySelectorAll('#scenario-options .scenario-option-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const option = screen.options.find(o => o.id === id);
+        scenarioState.exploredOptions.add(id);
+
+        const result = document.getElementById('scenario-result');
+        result.style.display = 'block';
+        result.classList.remove('correct', 'incorrect');
+        result.classList.add(option.correct ? 'correct' : 'incorrect');
+        result.innerHTML = `
+          <div class="scenario-result-badge">${option.correct ? 'DECISIÓN ACERTADA' : 'REVISEMOS'}</div>
+          <h4>${option.result || ''}</h4>
+          <p>${option.outcome || option.feedback || ''}</p>
+          ${option.audio ? `<audio controls preload="metadata" style="margin-top:16px;max-width:100%"><source src="${option.audio}" type="audio/mpeg"></audio>` : ''}
+          <div class="scenario-actions">
+            <button class="nav-btn" id="scenario-retry">Volver a decidir</button>
+            ${option.correct || scenarioState.exploredOptions.size >= 2 ? '<button class="nav-btn primary" id="scenario-continue">Ver lo que pasó en la realidad</button>' : ''}
+          </div>
+        `;
+
+        document.getElementById('scenario-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        const retry = document.getElementById('scenario-retry');
+        if (retry) retry.addEventListener('click', () => {
+          result.style.display = 'none';
+          document.getElementById('scenario-options').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        const cont = document.getElementById('scenario-continue');
+        if (cont) cont.addEventListener('click', () => {
+          document.getElementById('scenario-convergent').classList.add('show');
+          scenarioState.convergentShown = true;
+          completedScreens.add(screen.id);
+          updateSidebar(); saveProgress();
+          document.getElementById('scenario-convergent').scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+    });
+  }
+
+  function attachQuizEvents(screen) {
+    document.querySelectorAll('.question-card').forEach(card => {
+      const qidx = parseInt(card.dataset.qidx);
+      const q = screen.questions[qidx];
+      if (q.type !== 'matching') {
+        card.querySelectorAll('.option-row').forEach(row => {
+          row.addEventListener('click', () => {
+            if (q.type === 'single') {
+              card.querySelectorAll('.option-row').forEach(r => r.classList.remove('selected'));
+              row.classList.add('selected');
+              row.querySelector('input').checked = true;
+            } else {
+              const input = row.querySelector('input');
+              input.checked = !input.checked;
+              row.classList.toggle('selected', input.checked);
+            }
+          });
+        });
+      }
+    });
+
+    document.getElementById('quiz-submit').addEventListener('click', () => {
+      let correctCount = 0;
+      const total = screen.questions.length;
+      const results = [];
+
+      screen.questions.forEach((q, qi) => {
+        const card = document.querySelector(`.question-card[data-qidx="${qi}"]`);
+        let isCorrect = false;
+        if (q.type === 'matching') {
+          const selects = card.querySelectorAll('select');
+          let allRight = true;
+          selects.forEach((sel, pi) => {
+            const expected = q.pairs[pi].right;
+            if (sel.value === expected) {
+              sel.style.borderColor = 'var(--aacrom-success)';
+              sel.style.background = '#E8F5EC';
+            } else {
+              sel.style.borderColor = 'var(--aacrom-danger)';
+              sel.style.background = '#FBEAEA';
+              allRight = false;
+            }
+            sel.disabled = true;
+          });
+          isCorrect = allRight;
+        } else {
+          const inputs = card.querySelectorAll('input');
+          const selected = Array.from(inputs).map((inp, i) => inp.checked ? i : null).filter(x => x !== null);
+          if (q.type === 'multiple') {
+            const correctSet = new Set(q.correct);
+            const selSet = new Set(selected);
+            isCorrect = correctSet.size === selSet.size && Array.from(correctSet).every(x => selSet.has(x));
+            inputs.forEach((inp, i) => inp.disabled = true);
+            card.querySelectorAll('.option-row').forEach((row, i) => {
+              if (q.correct.includes(i)) row.classList.add('correct');
+              else if (selected.includes(i)) row.classList.add('incorrect');
+            });
+          } else {
+            isCorrect = selected[0] === q.correct;
+            inputs.forEach(inp => inp.disabled = true);
+            card.querySelectorAll('.option-row').forEach((row, i) => {
+              if (i === q.correct) row.classList.add('correct');
+              else if (selected.includes(i)) row.classList.add('incorrect');
+            });
+          }
+        }
+        if (isCorrect) correctCount++;
+        results.push(isCorrect);
+      });
+
+      const pct = Math.round((correctCount / total) * 100);
+      const passed = pct >= screen.passingScore;
+
+      const resultDiv = document.getElementById('quiz-result');
+      resultDiv.innerHTML = `
+        <div class="quiz-result-summary">
+          <div class="score">${correctCount}<span class="total">/${total}</span></div>
+          <div class="label">RESPUESTAS CORRECTAS · ${pct}%</div>
+          <div class="badge ${passed ? 'passed' : 'failed'}">${passed ? 'APROBADO' : 'NO APROBADO'}</div>
+          <p>${passed
+            ? 'Ha completado el curso. La salud mental en el trabajo no se mejora por escuchar: se construye en gestos pequeños y consistentes. La próxima vez que algo se sienta pesado en uno mismo o en un compañero, recuerde las preguntas clave: ¿qué señal estoy notando y desde cuándo? ¿qué área pide atención: cuerpo, ánimo, conducta o pensamiento? ¿qué práctica de autocuidado puedo empezar esta semana? Y para los demás: ¿hay alguien del equipo a quien convenga abrirle una puerta sin presionar? Cuídese. Y cuide al otro.'
+            : 'Le sugerimos repasar los módulos del curso y volver a intentar la evaluación. Cada módulo tiene las claves que necesita: entender el espectro de la salud mental laboral, observar las señales tempranas en cuatro áreas (cuerpo, ánimo, conducta, pensamiento), aplicar prácticas de autocuidado, y acompañar a otros con respeto sin diagnosticar ni invadir. Recuerde que la aprobación se obtiene con ' + screen.passingScore + '% o más.'}</p>
+        </div>
+      `;
+
+      document.getElementById('quiz-submit').disabled = true;
+      completedScreens.add(screen.id);
+      updateSidebar(); saveProgress();
+      reportToSCORM(correctCount, total, passed);
+      resultDiv.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
+  // ==========================================================
+  // SCORM REPORTING
+  // ==========================================================
+  function reportToSCORM(score, total, passed) {
+    quizFinalized = true;
+    try {
+      const api = window.AacromSCORM;
+      if (api && api.isInitialized && api.isInitialized()) {
+        api.setScore(Math.round((score / total) * 100), 100, 0);
+        api.setStatus(passed ? 'passed' : 'failed');
+        api.commit();
+      }
+    } catch (e) { console.warn('SCORM report failed:', e); }
+  }
+
+  // ==========================================================
+  // NAV
+  // ==========================================================
+  function bindNav() {
+    document.getElementById('btn-prev').addEventListener('click', () => {
+      if (currentIndex > 0) { currentIndex--; renderScreen(); }
+    });
+    document.getElementById('btn-next').addEventListener('click', () => {
+      if (currentIndex < allScreens.length - 1) { currentIndex++; renderScreen(); }
+      else markCourseComplete();
+    });
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+  }
+
+  function updateFooterNav() {
+    document.getElementById('btn-prev').disabled = (currentIndex === 0);
+    const isLast = currentIndex === allScreens.length - 1;
+    const btnNext = document.getElementById('btn-next');
+    btnNext.textContent = isLast ? 'Finalizar curso ✓' : 'Continuar →';
+  }
+
+  function markCourseComplete() {
+    try {
+      const api = window.AacromSCORM;
+      if (api && api.isInitialized && api.isInitialized()) {
+        const allDone = completedScreens.size === allScreens.length;
+        if (allDone && !quizFinalized) api.setStatus('completed');
+        api.commit();
+      }
+    } catch (e) {}
+  }
+
+  // ==========================================================
+  // START
+  // ==========================================================
+  document.addEventListener('DOMContentLoaded', init);
+})();
+
+  
+  </script>
+</body>
+</html>
