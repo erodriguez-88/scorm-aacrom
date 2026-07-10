@@ -1,0 +1,2964 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Equilibrio vida-trabajo sin culpa · Aacrom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================
+   THEME — Aacrom Rise
+   ============================================ */
+:root {
+  --aacrom-primary: #1F3864;
+  --aacrom-primary-light: #2E5497;
+  --aacrom-accent: #C9A227;
+  --aacrom-accent-light: #E8C667;
+  --aacrom-text: #2C2C2C;
+  --aacrom-text-muted: #6B6B6B;
+  --aacrom-bg: #FFFFFF;
+  --aacrom-bg-soft: #F7F8FA;
+  --aacrom-border: #E5E7EB;
+  --aacrom-success: #1F7A42;
+  --aacrom-danger: #B02A2A;
+  --sidebar-width: 320px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--aacrom-text);
+  background: var(--aacrom-bg);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+#sidebar {
+  width: var(--sidebar-width);
+  background: var(--aacrom-primary);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+  padding: 32px 28px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+#course-title {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 28px;
+}
+
+.progress-wrapper { margin-top: 8px; }
+
+.progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.18);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+#progress-fill {
+  height: 100%;
+  width: 0%;
+  background: white;
+  transition: width 0.4s ease;
+}
+
+#progress-text {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+#module-nav {
+  padding: 20px 0;
+  flex: 1;
+}
+
+.module-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 28px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.4;
+  color: rgba(255,255,255,0.9);
+  border-left: 3px solid transparent;
+  transition: background 0.15s, border-left-color 0.15s;
+}
+
+.module-item:hover { background: rgba(255,255,255,0.06); }
+
+.module-item.active {
+  background: rgba(255,255,255,0.12);
+  border-left-color: var(--aacrom-accent);
+  font-weight: 600;
+}
+
+.module-item .icon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.module-item .check {
+  margin-left: auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.45);
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.module-item.current .check {
+  border-color: var(--aacrom-accent);
+  border-style: dashed;
+  animation: spin 4s linear infinite;
+}
+
+.module-item.completed .check {
+  background: var(--aacrom-accent);
+  border-color: var(--aacrom-accent);
+  position: relative;
+}
+
+.module-item.completed .check::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--aacrom-primary);
+  font-weight: 900;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ============================================
+   MAIN
+   ============================================ */
+#main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--aacrom-bg);
+}
+
+#topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 48px;
+  background: var(--aacrom-bg);
+  border-bottom: 1px solid var(--aacrom-border);
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+#menu-toggle {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--aacrom-text);
+  padding: 4px 8px;
+  display: none;
+}
+
+#screen-counter {
+  font-size: 13px;
+  color: var(--aacrom-text-muted);
+  font-weight: 600;
+}
+
+#screen-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+  position: relative;
+}
+
+/* ============================================
+   SCREEN — Header con onda decorativa
+   ============================================ */
+.screen-header {
+  position: relative;
+  padding: 60px 64px 50px;
+  background: var(--aacrom-bg-soft);
+  overflow: hidden;
+}
+
+.screen-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: var(--aacrom-bg);
+  clip-path: polygon(0 100%, 0 40%, 50% 70%, 100% 30%, 100% 100%);
+}
+
+.screen-header h1 {
+  font-size: 44px;
+  font-weight: 700;
+  color: var(--aacrom-text);
+  line-height: 1.15;
+  position: relative;
+  z-index: 1;
+  max-width: 80%;
+}
+
+.screen-header .header-line {
+  width: 80px;
+  height: 4px;
+  background: var(--aacrom-text);
+  margin-top: 18px;
+  position: relative;
+  z-index: 1;
+}
+
+.screen-header.with-image {
+  background-size: cover;
+  background-position: right center;
+  background-blend-mode: lighten;
+}
+
+.screen-header.with-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(247,248,250,0.97) 0%, rgba(247,248,250,0.85) 50%, rgba(247,248,250,0.4) 100%);
+}
+
+.screen-header > * { position: relative; z-index: 1; }
+
+/* ============================================
+   SCREEN BODY
+   ============================================ */
+.screen-body {
+  padding: 50px 64px 80px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.subtitle-blue {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--aacrom-primary);
+  text-align: center;
+  margin: 30px 0 24px;
+}
+
+/* Bloque de instrucciones dorado */
+.instructions-box {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 30px auto;
+  padding: 0;
+  font-size: 22px;
+  max-width: 900px;
+}
+
+.instructions-box .badge-icon {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  background: var(--aacrom-accent);
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.instructions-box .badge-icon::before {
+  content: '!';
+  font-size: 32px;
+  font-weight: 900;
+  color: white;
+}
+
+.instructions-box .badge-icon::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 2.5px dashed var(--aacrom-accent);
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+.instructions-box .text {
+  font-size: 22px;
+  line-height: 1.4;
+  color: var(--aacrom-text);
+}
+
+.instructions-box .text strong {
+  color: var(--aacrom-primary);
+  font-weight: 700;
+}
+
+/* Reproductor de audio */
+audio {
+  display: block;
+  width: 100%;
+  max-width: 700px;
+  margin: 30px auto;
+  height: 44px;
+}
+
+audio::-webkit-media-controls-panel {
+  background-color: #F0F2F5;
+}
+
+/* Texto cuerpo de la pantalla */
+.screen-body p {
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  text-align: center;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.screen-body p.left { text-align: left; }
+.screen-body p.justify { text-align: justify; }
+
+.screen-body p strong { color: var(--aacrom-primary); font-weight: 700; }
+
+/* ============================================
+   STATEMENT (cita destacada)
+   ============================================ */
+.statement {
+  background: var(--aacrom-bg-soft);
+  border-left: 5px solid var(--aacrom-accent);
+  padding: 32px 40px;
+  margin: 30px auto;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--aacrom-primary);
+  max-width: 900px;
+  font-style: italic;
+}
+
+.statement::before {
+  content: '"';
+  font-size: 60px;
+  line-height: 0;
+  color: var(--aacrom-accent);
+  vertical-align: -20px;
+  margin-right: 8px;
+  font-family: Georgia, serif;
+}
+
+.statement-citation {
+  display: block;
+  margin-top: 14px;
+  font-size: 14px;
+  font-style: normal;
+  color: var(--aacrom-text-muted);
+  font-weight: 500;
+}
+
+/* ============================================
+   LIST
+   ============================================ */
+.aacrom-list {
+  list-style: none;
+  margin: 30px auto;
+  max-width: 900px;
+  padding: 0;
+}
+
+.aacrom-list li {
+  display: flex;
+  gap: 18px;
+  padding: 18px 24px;
+  background: var(--aacrom-bg-soft);
+  margin-bottom: 12px;
+  border-radius: 8px;
+  font-size: 17px;
+  line-height: 1.5;
+  border-left: 4px solid var(--aacrom-accent);
+}
+
+.aacrom-list li::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--aacrom-accent);
+  flex-shrink: 0;
+  margin-top: 9px;
+}
+
+/* ============================================
+   CASE CARD (cards con texto sobre imagen)
+   ============================================ */
+.case-card-wrapper {
+  position: relative;
+  margin: 30px auto;
+  max-width: 1000px;
+  min-height: 480px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+}
+
+.case-card-wrapper .bg-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.case-card-wrapper .bg-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.5) 100%);
+}
+
+.case-card-wrapper .card-content {
+  position: relative;
+  z-index: 1;
+  background: white;
+  border-radius: 20px;
+  padding: 36px 44px;
+  margin: 130px auto 40px;
+  max-width: 720px;
+  font-size: 18px;
+  line-height: 1.6;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  text-align: justify;
+}
+
+.case-card-wrapper .card-content strong {
+  color: var(--aacrom-primary);
+  font-weight: 700;
+}
+
+.case-card-wrapper .card-subtitle {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--aacrom-accent);
+  margin-bottom: 20px;
+}
+
+/* ============================================
+   TABS
+   ============================================ */
+.tabs-container {
+  margin: 30px auto;
+  max-width: 900px;
+}
+
+.tabs-nav {
+  display: flex;
+  gap: 4px;
+  border-bottom: 2px solid var(--aacrom-border);
+  margin-bottom: 0;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 16px 20px;
+  border: none;
+  background: var(--aacrom-bg-soft);
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--aacrom-text-muted);
+  border-radius: 8px 8px 0 0;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.tab-btn:hover { background: #EEF1F5; color: var(--aacrom-text); }
+
+.tab-btn.active {
+  background: var(--aacrom-primary);
+  color: white;
+}
+
+.tab-panel {
+  display: none;
+  background: var(--aacrom-bg-soft);
+  padding: 30px 36px;
+  border-radius: 0 0 12px 12px;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.tab-panel.active { display: block; animation: fadeIn 0.3s; }
+.tab-panel ul { padding-left: 20px; }
+.tab-panel li { margin-bottom: 10px; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ============================================
+   ACCORDION
+   ============================================ */
+.accordion {
+  margin: 30px auto;
+  max-width: 900px;
+}
+
+.accordion-item {
+  margin-bottom: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--aacrom-border);
+}
+
+.accordion-header {
+  padding: 18px 24px;
+  background: var(--aacrom-bg-soft);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--aacrom-primary);
+  transition: background 0.2s;
+}
+
+.accordion-header:hover { background: #EEF1F5; }
+
+.accordion-header .toggle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--aacrom-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 300;
+  transition: transform 0.3s;
+}
+
+.accordion-item.open .toggle { transform: rotate(45deg); }
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  background: white;
+}
+
+.accordion-item.open .accordion-content {
+  max-height: 500px;
+}
+
+.accordion-content-inner {
+  padding: 20px 24px;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+/* ============================================
+   HOTSPOTS
+   ============================================ */
+.hotspots-container {
+  position: relative;
+  margin: 30px auto;
+  max-width: 900px;
+}
+
+.hotspots-image {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+}
+
+.hotspots-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.hotspot-btn {
+  padding: 16px 20px;
+  background: var(--aacrom-bg-soft);
+  border: 2px solid var(--aacrom-border);
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--aacrom-primary);
+  transition: all 0.2s;
+  font-family: inherit;
+  position: relative;
+}
+
+.hotspot-btn::before {
+  content: '+';
+  display: block;
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--aacrom-accent);
+  margin-bottom: 4px;
+}
+
+.hotspot-btn:hover {
+  background: white;
+  border-color: var(--aacrom-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(31,56,100,0.12);
+}
+
+.hotspot-btn.viewed {
+  background: var(--aacrom-primary);
+  color: white;
+  border-color: var(--aacrom-primary);
+}
+
+.hotspot-btn.viewed::before { color: var(--aacrom-accent-light); }
+
+.hotspot-content {
+  margin-top: 24px;
+  padding: 24px 30px;
+  background: var(--aacrom-bg-soft);
+  border-left: 4px solid var(--aacrom-accent);
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.65;
+  display: none;
+}
+
+.hotspot-content.show { display: block; animation: fadeIn 0.3s; }
+
+/* ============================================
+   DECISION MATRIX (4 cuadrantes)
+   ============================================ */
+.matrix-container {
+  position: relative;
+  margin: 30px auto;
+  max-width: 800px;
+  padding: 40px 60px 30px;
+}
+
+.matrix-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 8px;
+  aspect-ratio: 1.2;
+  position: relative;
+}
+
+.matrix-quadrant {
+  border-radius: 10px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: white;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  position: relative;
+  min-height: 180px;
+}
+
+.matrix-quadrant:hover { transform: scale(1.03); box-shadow: 0 8px 24px rgba(0,0,0,0.18); }
+
+.matrix-quadrant.active { box-shadow: 0 0 0 3px var(--aacrom-accent); }
+
+.matrix-label-x, .matrix-label-y {
+  position: absolute;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--aacrom-text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.matrix-label-x {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.matrix-label-y {
+  left: -20px;
+  top: 50%;
+  transform: rotate(-90deg) translateX(50%);
+  transform-origin: center;
+}
+
+.matrix-content {
+  margin-top: 30px;
+  padding: 24px 30px;
+  background: var(--aacrom-bg-soft);
+  border-left: 4px solid var(--aacrom-accent);
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.65;
+  display: none;
+}
+
+.matrix-content.show { display: block; animation: fadeIn 0.3s; }
+
+/* ============================================
+   DECISION SCENARIO
+   ============================================ */
+.scenario-container { margin: 20px auto; max-width: 1000px; }
+
+.scenario-intro-card {
+  background: var(--aacrom-bg-soft);
+  padding: 30px 36px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  font-size: 17px;
+  line-height: 1.65;
+  border-left: 4px solid var(--aacrom-primary);
+}
+
+.dialogue-container { margin: 30px 0; }
+
+.dialogue-line {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 18px;
+  align-items: flex-start;
+  opacity: 0.4;
+  transition: opacity 0.3s;
+}
+
+.dialogue-line.played, .dialogue-line.active { opacity: 1; }
+.dialogue-line.active { background: rgba(201, 162, 39, 0.07); border-radius: 10px; padding: 10px 14px; margin: 8px -14px 8px -14px; }
+
+.dialogue-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: white;
+  font-size: 14px;
+  flex-shrink: 0;
+  background: var(--aacrom-primary);
+}
+
+.dialogue-avatar.andres { background: #4A5C77; }
+.dialogue-avatar.narrator { background: var(--aacrom-text-muted); font-size: 18px; }
+
+.dialogue-body { flex: 1; }
+
+.dialogue-character {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--aacrom-primary);
+  margin-bottom: 4px;
+  letter-spacing: 0.3px;
+}
+
+.dialogue-character .role {
+  font-weight: 400;
+  color: var(--aacrom-text-muted);
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.dialogue-text {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--aacrom-text);
+}
+
+.dialogue-line audio { margin: 8px 0 0; max-width: 100%; height: 36px; }
+
+.scenario-question {
+  margin-top: 30px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--aacrom-primary);
+  text-align: center;
+}
+
+.scenario-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.scenario-option-btn {
+  padding: 22px 24px;
+  background: white;
+  border: 2px solid var(--aacrom-border);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.scenario-option-btn:hover {
+  border-color: var(--aacrom-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(31,56,100,0.1);
+}
+
+.scenario-option-btn .option-id {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--aacrom-primary);
+  color: white;
+  text-align: center;
+  line-height: 28px;
+  font-weight: 700;
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.scenario-option-btn .option-label {
+  font-weight: 700;
+  color: var(--aacrom-primary);
+  font-size: 16px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.scenario-option-btn .option-sub {
+  font-size: 14px;
+  color: var(--aacrom-text-muted);
+  line-height: 1.5;
+}
+
+.scenario-result {
+  margin-top: 24px;
+  padding: 30px 36px;
+  border-radius: 12px;
+  background: var(--aacrom-bg-soft);
+  border-left: 5px solid var(--aacrom-accent);
+}
+
+.scenario-result.correct { border-left-color: var(--aacrom-success); }
+.scenario-result.incorrect { border-left-color: var(--aacrom-danger); }
+
+.scenario-result-badge {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 20px;
+  background: var(--aacrom-accent);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+}
+
+.scenario-result.correct .scenario-result-badge { background: var(--aacrom-success); }
+.scenario-result.incorrect .scenario-result-badge { background: var(--aacrom-danger); }
+
+.scenario-result h4 {
+  font-size: 22px;
+  color: var(--aacrom-primary);
+  margin-bottom: 12px;
+}
+
+.scenario-result p { font-size: 16px; line-height: 1.65; text-align: left; }
+
+.scenario-actions { margin-top: 24px; display: flex; gap: 12px; justify-content: center; }
+
+.scenario-convergent {
+  margin-top: 30px;
+  padding: 30px 36px;
+  background: linear-gradient(135deg, var(--aacrom-primary) 0%, var(--aacrom-primary-light) 100%);
+  color: white;
+  border-radius: 16px;
+  display: none;
+}
+
+.scenario-convergent.show { display: block; animation: fadeIn 0.4s; }
+.scenario-convergent h4 {
+  font-size: 24px;
+  color: var(--aacrom-accent);
+  margin-bottom: 16px;
+}
+.scenario-convergent p { color: white; font-size: 16px; line-height: 1.7; text-align: left; }
+
+/* ============================================
+   KNOWLEDGE CHECK / QUIZ
+   ============================================ */
+.question-card {
+  background: var(--aacrom-bg-soft);
+  padding: 32px 40px;
+  border-radius: 14px;
+  margin: 24px auto;
+  max-width: 900px;
+}
+
+.question-counter {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--aacrom-accent);
+  margin-bottom: 10px;
+}
+
+.question-stem {
+  font-size: 18px;
+  line-height: 1.55;
+  margin-bottom: 24px;
+  font-weight: 600;
+  color: var(--aacrom-primary);
+}
+
+.option-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 20px;
+  background: white;
+  border: 2px solid var(--aacrom-border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.option-row:hover { border-color: var(--aacrom-accent); }
+
+.option-row.selected { border-color: var(--aacrom-primary); background: #EEF2F8; }
+
+.option-row.correct { border-color: var(--aacrom-success); background: #E8F5EC; }
+.option-row.incorrect { border-color: var(--aacrom-danger); background: #FBEAEA; }
+
+.option-row input { width: 18px; height: 18px; margin-top: 2px; cursor: pointer; flex-shrink: 0; accent-color: var(--aacrom-primary); }
+.option-row label { flex: 1; cursor: pointer; font-size: 16px; line-height: 1.5; }
+
+.matching-grid {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.matching-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 14px;
+}
+
+.matching-cell {
+  padding: 16px 20px;
+  background: white;
+  border: 2px solid var(--aacrom-border);
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.matching-cell.left { background: var(--aacrom-primary); color: white; border-color: var(--aacrom-primary); font-weight: 600; }
+
+.matching-arrow { font-size: 24px; color: var(--aacrom-accent); }
+
+.feedback-box {
+  margin-top: 20px;
+  padding: 20px 26px;
+  border-radius: 10px;
+  background: white;
+  border-left: 4px solid var(--aacrom-accent);
+  display: none;
+}
+
+.feedback-box.show { display: block; animation: fadeIn 0.3s; }
+.feedback-box.correct { border-left-color: var(--aacrom-success); }
+.feedback-box.incorrect { border-left-color: var(--aacrom-danger); }
+.feedback-box .feedback-title {
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--aacrom-primary);
+  font-size: 16px;
+}
+.feedback-box.correct .feedback-title { color: var(--aacrom-success); }
+.feedback-box.incorrect .feedback-title { color: var(--aacrom-danger); }
+.feedback-box p { font-size: 15px; line-height: 1.6; text-align: left; }
+
+.quiz-submit {
+  margin: 30px auto 0;
+  display: block;
+  padding: 14px 38px;
+  font-size: 16px;
+  font-weight: 700;
+  background: var(--aacrom-primary);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.3px;
+  transition: background 0.2s;
+}
+
+.quiz-submit:hover:not(:disabled) { background: var(--aacrom-primary-light); }
+.quiz-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.quiz-result-summary {
+  text-align: center;
+  padding: 40px 30px;
+  background: var(--aacrom-bg-soft);
+  border-radius: 14px;
+  margin: 24px auto;
+  max-width: 700px;
+}
+
+.quiz-result-summary .score {
+  font-size: 64px;
+  font-weight: 700;
+  color: var(--aacrom-primary);
+  line-height: 1;
+}
+
+.quiz-result-summary .score .total { color: var(--aacrom-text-muted); font-size: 32px; }
+
+.quiz-result-summary .label {
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  color: var(--aacrom-text-muted);
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.quiz-result-summary .badge {
+  display: inline-block;
+  padding: 8px 24px;
+  margin-top: 18px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+.quiz-result-summary .badge.passed { background: var(--aacrom-success); color: white; }
+.quiz-result-summary .badge.failed { background: var(--aacrom-danger); color: white; }
+
+.quiz-result-summary p { margin-top: 20px; font-size: 16px; line-height: 1.6; }
+
+/* ============================================
+   SORTING (drag & drop)
+   ============================================ */
+.sorting-container { margin: 30px auto; max-width: 1100px; }
+
+.sorting-items-pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 20px;
+  background: var(--aacrom-bg-soft);
+  border-radius: 12px;
+  min-height: 80px;
+  margin-bottom: 20px;
+}
+
+.sortable-item {
+  padding: 12px 18px;
+  background: white;
+  border: 2px solid var(--aacrom-border);
+  border-radius: 8px;
+  cursor: grab;
+  font-size: 14px;
+  line-height: 1.4;
+  max-width: 320px;
+  transition: all 0.2s;
+}
+
+.sortable-item:hover { border-color: var(--aacrom-accent); }
+.sortable-item.dragging { opacity: 0.4; }
+.sortable-item.correct-placed { border-color: var(--aacrom-success); background: #E8F5EC; }
+.sortable-item.wrong-placed { border-color: var(--aacrom-danger); background: #FBEAEA; }
+
+.sorting-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.sorting-category {
+  background: white;
+  border: 2px dashed var(--aacrom-border);
+  border-radius: 12px;
+  padding: 18px;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sorting-category.drag-over { border-color: var(--aacrom-accent); background: #FFF9E8; }
+
+.sorting-category-title {
+  font-weight: 700;
+  color: var(--aacrom-primary);
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--aacrom-border);
+}
+
+.sorting-drop-zone { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+
+/* ============================================
+   FOOTER NAV
+   ============================================ */
+#footer-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 48px;
+  border-top: 1px solid var(--aacrom-border);
+  background: var(--aacrom-bg);
+  flex-shrink: 0;
+}
+
+.nav-btn {
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  background: transparent;
+  color: var(--aacrom-primary);
+  border: 2px solid var(--aacrom-primary);
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: var(--aacrom-primary);
+  color: white;
+}
+
+.nav-btn.primary {
+  background: var(--aacrom-primary);
+  color: white;
+}
+
+.nav-btn.primary:hover:not(:disabled) {
+  background: var(--aacrom-primary-light);
+  border-color: var(--aacrom-primary-light);
+}
+
+.nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 900px) {
+  :root { --sidebar-width: 280px; }
+  #sidebar {
+    position: fixed;
+    top: 0; bottom: 0; left: 0;
+    z-index: 10;
+    transform: translateX(-100%);
+  }
+  #sidebar.open { transform: translateX(0); }
+  #menu-toggle { display: block; }
+  .screen-header { padding: 40px 24px 30px; }
+  .screen-header h1 { font-size: 32px; max-width: 100%; }
+  .screen-body { padding: 30px 20px 60px; }
+  .screen-body p, .statement { font-size: 16px; }
+  .subtitle-blue { font-size: 26px; }
+  .instructions-box .text { font-size: 16px; }
+  .matrix-grid { grid-template-columns: 1fr; grid-template-rows: repeat(4, auto); aspect-ratio: auto; }
+  .scenario-options { grid-template-columns: 1fr; }
+  .case-card-wrapper .card-content { margin: 60px 16px 30px; padding: 24px 20px; }
+  .matching-row { grid-template-columns: 1fr; }
+  .matching-arrow { display: none; }
+  #footer-nav { padding: 12px 20px; }
+  #topbar { padding: 14px 20px; }
+}
+
+/* Modo oscuro (preview) */
+body.dark-mode {
+  --aacrom-text: #E8E9EB;
+  --aacrom-text-muted: #A0A4AC;
+  --aacrom-bg: #1A1D24;
+  --aacrom-bg-soft: #252934;
+  --aacrom-border: #3A3F4A;
+}
+body.dark-mode #sidebar { background: #0D1A33; }
+body.dark-mode .screen-header { background: #252934; }
+body.dark-mode .screen-header::after { background: var(--aacrom-bg); }
+body.dark-mode .screen-header h1 { color: #E8E9EB; }
+body.dark-mode .screen-header .header-line { background: #C9A227; }
+body.dark-mode .statement { background: #252934; color: #E8C667; }
+body.dark-mode .aacrom-list li { background: #252934; color: #E8E9EB; }
+body.dark-mode .tab-panel, body.dark-mode .accordion-header, body.dark-mode .hotspot-btn, body.dark-mode .scenario-intro-card, body.dark-mode .option-row { background: #252934; color: #E8E9EB; }
+body.dark-mode .accordion-content, body.dark-mode .scenario-option-btn, body.dark-mode .matching-cell:not(.left) { background: #1A1D24; color: #E8E9EB; }
+body.dark-mode .case-card-wrapper .card-content { background: #2D323D; color: #E8E9EB; }
+body.dark-mode .scenario-result, body.dark-mode .question-card, body.dark-mode .quiz-result-summary, body.dark-mode .matrix-content, body.dark-mode .hotspot-content { background: #252934; color: #E8E9EB; }
+body.dark-mode .feedback-box { background: #1A1D24; }
+body.dark-mode #topbar, body.dark-mode #footer-nav { background: var(--aacrom-bg); border-color: var(--aacrom-border); }
+body.dark-mode select { color: #E8E9EB; }
+
+/* Botón modo oscuro */
+#dark-toggle {
+  background: transparent;
+  border: 1px solid var(--aacrom-border);
+  color: var(--aacrom-text);
+  cursor: pointer;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+#dark-toggle:hover { background: var(--aacrom-bg-soft); }
+
+/* Badge de preview */
+#preview-badge {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #C9A227;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  z-index: 100;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+}
+
+
+/* Tipos custom v1 (heredados del C-S.1) */
+.module-label { display: inline-block; font-size: 13px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--aacrom-accent); background: rgba(201, 162, 39, 0.08); padding: 6px 16px; border-radius: 4px; margin-bottom: 18px; position: relative; z-index: 1; }
+.screen-header .module-label { margin-bottom: 14px; }
+.next-steps-heading { font-size: 16px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--aacrom-primary); text-align: center; margin: 40px auto 16px; padding-bottom: 12px; border-bottom: 2px solid var(--aacrom-accent); max-width: 400px; }
+.module-hero-image { width: 100%; max-width: 1000px; margin: 20px auto 30px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 28px rgba(0,0,0,0.12); height: 280px; background-size: cover; background-position: center; }
+.aacrom-paragraphs { max-width: 900px; margin: 30px auto; }
+.aacrom-paragraphs p { font-size: 17px; line-height: 1.75; margin-bottom: 18px; text-align: justify; color: var(--aacrom-text); }
+.aacrom-paragraphs p strong { color: var(--aacrom-primary); font-weight: 700; }
+.closing-message-box { margin: 36px auto 0; max-width: 800px; padding: 32px 40px; background: linear-gradient(135deg, var(--aacrom-primary) 0%, var(--aacrom-primary-light) 100%); color: white; border-radius: 14px; font-size: 17px; line-height: 1.7; text-align: left; box-shadow: 0 12px 32px rgba(31, 56, 100, 0.25); }
+.closing-message-box strong { color: var(--aacrom-accent-light); }
+.instructions-callout { display: flex; align-items: center; gap: 24px; background: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 32px; border-left: 6px solid #C9A227; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06); position: relative; z-index: 1; }
+.callout-icon { flex-shrink: 0; width: 56px; height: 56px; border-radius: 50%; background: #C9A227; color: white; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 800; font-family: Georgia, serif; }
+.callout-text { flex: 1; color: #2C2C2C; font-size: 17px; line-height: 1.55; font-weight: 500; }
+.callout-text strong { color: #1F3864; font-weight: 800; font-size: 18px; display: inline-block; margin-right: 4px; }
+.dialogue-line { opacity: 1 !important; }
+
+/* FIX 1: callout convergente — strong en color claro sobre fondo azul */
+.scenario-convergent p strong { color: #E8C667 !important; font-weight: 700; }
+.scenario-convergent p em { color: rgba(255,255,255,0.95) !important; }
+
+/* FIX 2: matrix-quadrant texto navy legible */
+.matrix-quadrant { color: #1F3864 !important; text-shadow: none !important; font-size: 20px; font-weight: 800; line-height: 1.3; }
+.matrix-quadrant.active { box-shadow: 0 0 0 3px #C9A227, 0 8px 24px rgba(0,0,0,0.15) !important; }
+.matrix-label-x, .matrix-label-y { color: #1F3864 !important; font-weight: 800 !important; text-transform: uppercase; letter-spacing: 1.5px; }
+
+/* NUEVO: course_cover_objective (portada nueva) */
+.cover-objective { min-height: 700px; display: flex; flex-direction: column; background: linear-gradient(135deg, #1F3864 0%, #2A4A82 100%); color: white; position: relative; overflow: hidden; }
+.cover-objective::before { content: ''; position: absolute; inset: 0; background-image: var(--cover-bg); background-size: cover; background-position: center; opacity: 0.18; z-index: 0; }
+.cover-objective-content { position: relative; z-index: 1; padding: 60px 70px; display: flex; flex-direction: column; height: 100%; flex: 1; }
+.cover-objective .course-code { font-size: 13px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: #E8C667; margin-bottom: 24px; }
+.cover-objective h1 { font-size: 52px; font-weight: 800; line-height: 1.1; margin: 0 0 16px 0; color: white; }
+.cover-objective .subtitle { font-size: 22px; font-weight: 400; color: rgba(255,255,255,0.85); margin-bottom: 50px; line-height: 1.4; font-style: italic; }
+.cover-objective .objective-label { font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #E8C667; margin-bottom: 14px; }
+.cover-objective .objective-text { font-size: 18px; line-height: 1.7; color: rgba(255,255,255,0.95); border-left: 4px solid #C9A227; padding-left: 24px; margin-bottom: 50px; max-width: 900px; }
+.cover-objective .ficha { display: flex; gap: 0; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 28px; }
+.cover-objective .ficha-item { flex: 1; border-right: 1px solid rgba(255,255,255,0.15); padding: 0 20px; }
+.cover-objective .ficha-item:first-child { padding-left: 0; }
+.cover-objective .ficha-item:last-child { border-right: none; padding-right: 0; }
+.cover-objective .ficha-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(232, 198, 103, 0.85); margin-bottom: 6px; }
+.cover-objective .ficha-value { font-size: 18px; font-weight: 700; color: white; }
+
+/* NUEVO: hero_image (slider/banner) */
+.hero-image-screen { min-height: 700px; position: relative; display: flex; flex-direction: column; overflow: hidden; }
+.hero-image-bg { position: relative; height: 460px; background-size: cover; background-position: center; display: flex; align-items: flex-end; justify-content: center; }
+.hero-image-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(31,56,100,0.15) 0%, rgba(31,56,100,0.85) 100%); }
+.hero-image-title { position: relative; z-index: 1; color: white; font-size: 38px; font-weight: 800; text-align: center; padding: 0 40px 60px; text-shadow: 0 2px 12px rgba(0,0,0,0.4); }
+.hero-image-statement { background: white; padding: 60px 70px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.hero-image-statement p { font-size: 26px; font-weight: 600; color: #1F3864; line-height: 1.5; max-width: 800px; margin: 0 auto; position: relative; }
+.hero-image-statement p::before { content: '"'; font-family: Georgia, serif; font-size: 90px; color: #C9A227; position: absolute; top: -40px; left: -20px; opacity: 0.4; line-height: 1; }
+.hero-image-footer { background: #1F3864; color: #E8C667; padding: 22px 40px; text-align: center; font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+
+body.dark-mode .module-label { background: rgba(232, 198, 103, 0.12); color: var(--aacrom-accent-light); }
+body.dark-mode .aacrom-paragraphs p { color: #E8E9EB; }
+body.dark-mode .next-steps-heading { color: var(--aacrom-accent-light); }
+body.dark-mode .instructions-callout { background: #2A3447; border-left-color: #E8C667; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+body.dark-mode .callout-text { color: #E8E9EB; }
+body.dark-mode .callout-text strong { color: #E8C667; }
+body.dark-mode .hero-image-statement { background: #1A1F2C; }
+body.dark-mode .hero-image-statement p { color: #E8E9EB; }
+
+/* ============================================
+   C-C.6 · TIPOS NUEVOS
+   ============================================ */
+
+/* ============================================
+   1. STAT_CALLOUT (Dato clave)
+   ============================================ */
+.stat-screen {
+  padding: 50px 60px;
+  min-height: 100%;
+}
+.stat-intro {
+  font-size: 17px;
+  color: #4A5568;
+  margin-bottom: 36px;
+  max-width: 820px;
+  line-height: 1.6;
+}
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 36px;
+}
+.stat-card {
+  background: linear-gradient(135deg, #1F3864 0%, #2A4A82 100%);
+  color: white;
+  padding: 36px 32px;
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0 6px 20px rgba(31,56,100,0.15);
+  border-left: 4px solid #C9A227;
+}
+.stat-number {
+  font-size: 56px;
+  font-weight: 800;
+  color: #E8C667;
+  line-height: 1;
+  margin-bottom: 4px;
+  letter-spacing: -2px;
+}
+.stat-unit {
+  font-size: 14px;
+  color: rgba(232,198,103,0.85);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.stat-label {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 10px;
+}
+.stat-context {
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.88);
+}
+.stat-closing {
+  background: #FAF6E8;
+  border-left: 4px solid #C9A227;
+  padding: 22px 26px;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #1F3864;
+}
+body.dark-mode .stat-closing { background: #2A2F3C; color: #E8E9EB; }
+@media (max-width: 720px) {
+  .stat-screen { padding: 30px 24px; }
+  .stat-number { font-size: 44px; }
+  .stat-card { padding: 28px 24px; }
+}
+
+/* ============================================
+   2. COMPARISON_CARDS (Tarjetas comparativas)
+   ============================================ */
+.comparison-screen {
+  padding: 50px 60px;
+  min-height: 100%;
+}
+.comparison-intro {
+  font-size: 17px;
+  color: #4A5568;
+  margin-bottom: 32px;
+  max-width: 820px;
+  line-height: 1.6;
+}
+.comparison-headers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+.comparison-header {
+  padding: 18px 24px;
+  border-radius: 10px;
+  text-align: center;
+}
+.comparison-header.left {
+  background: #FEF3E2;
+  border: 2px solid #F4A261;
+}
+.comparison-header.right {
+  background: #E8F5E9;
+  border: 2px solid #4CAF7F;
+}
+.comparison-header h3 {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0 0 4px 0;
+}
+.comparison-header.left h3 { color: #C4661F; }
+.comparison-header.right h3 { color: #1D6F4C; }
+.comparison-header .sub {
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 500;
+}
+.comparison-header.left .sub { color: #8B4513; }
+.comparison-header.right .sub { color: #2E5B40; }
+.comparison-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.comparison-row {
+  display: grid;
+  grid-template-columns: 1fr 60px 1fr;
+  gap: 0;
+  align-items: stretch;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.comparison-cell {
+  padding: 22px 24px;
+  font-size: 15px;
+  line-height: 1.55;
+  display: flex;
+  align-items: center;
+}
+.comparison-cell.left {
+  background: #FFF8F0;
+  color: #6B4423;
+  border-left: 4px solid #F4A261;
+}
+.comparison-cell.right {
+  background: #F0F8F2;
+  color: #1D4D33;
+  border-right: 4px solid #4CAF7F;
+}
+.comparison-vs {
+  background: #1F3864;
+  color: #E8C667;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+}
+body.dark-mode .comparison-row { background: transparent; }
+body.dark-mode .comparison-cell.left { background: #3D2F1F; color: #F4D4A8; }
+body.dark-mode .comparison-cell.right { background: #1D3528; color: #B5D9C2; }
+@media (max-width: 720px) {
+  .comparison-screen { padding: 30px 20px; }
+  .comparison-headers { grid-template-columns: 1fr; gap: 12px; }
+  .comparison-row { grid-template-columns: 1fr; }
+  .comparison-vs { padding: 10px; }
+  .comparison-cell { padding: 18px 20px; font-size: 14px; }
+}
+
+/* ============================================
+   3. FLIP_CARDS (Mitos/realidades)
+   ============================================ */
+.flip-screen {
+  padding: 50px 60px;
+  min-height: 100%;
+}
+.flip-intro {
+  font-size: 17px;
+  color: #4A5568;
+  margin-bottom: 36px;
+  max-width: 820px;
+  line-height: 1.6;
+}
+.flip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+}
+.flip-card {
+  perspective: 1200px;
+  height: 280px;
+  cursor: pointer;
+}
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s;
+  transform-style: preserve-3d;
+}
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+.flip-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 26px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+.flip-face.front {
+  background: linear-gradient(135deg, #1F3864 0%, #2A4A82 100%);
+  color: white;
+  text-align: center;
+  align-items: center;
+}
+.flip-face.front .flip-label {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #E8C667;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+.flip-face.front .flip-text {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.flip-face.front::after {
+  content: '↻ Haga clic para ver la realidad';
+  position: absolute;
+  bottom: 14px;
+  left: 0;
+  right: 0;
+  font-size: 11px;
+  color: rgba(232,198,103,0.85);
+  letter-spacing: 1px;
+}
+.flip-face.back {
+  background: white;
+  color: #1F3864;
+  transform: rotateY(180deg);
+  border: 2px solid #C9A227;
+}
+.flip-face.back .flip-label {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #C9A227;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+.flip-face.back .flip-text {
+  font-size: 14px;
+  line-height: 1.55;
+  color: #2C2C2C;
+}
+body.dark-mode .flip-face.back { background: #1A1F2C; color: #E8E9EB; }
+body.dark-mode .flip-face.back .flip-text { color: #C8CAD0; }
+@media (max-width: 720px) {
+  .flip-screen { padding: 30px 20px; }
+  .flip-card { height: 240px; }
+  .flip-face { padding: 20px; }
+  .flip-face.front .flip-text { font-size: 16px; }
+}
+
+/* ============================================
+   4. TIMELINE (Línea de tiempo)
+   ============================================ */
+.timeline-screen {
+  padding: 50px 60px;
+  min-height: 100%;
+}
+.timeline-intro {
+  font-size: 17px;
+  color: #4A5568;
+  margin-bottom: 36px;
+  max-width: 820px;
+  line-height: 1.6;
+}
+.timeline-container {
+  position: relative;
+  padding-left: 40px;
+}
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  bottom: 14px;
+  width: 3px;
+  background: linear-gradient(to bottom, #C9A227 0%, #1F3864 100%);
+  border-radius: 3px;
+}
+.timeline-event {
+  position: relative;
+  padding-bottom: 32px;
+}
+.timeline-event:last-child { padding-bottom: 0; }
+.timeline-event::before {
+  content: '';
+  position: absolute;
+  left: -34px;
+  top: 8px;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border: 4px solid #C9A227;
+  border-radius: 50%;
+  z-index: 2;
+}
+.timeline-time {
+  font-size: 14px;
+  font-weight: 800;
+  color: #C9A227;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.timeline-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #1F3864;
+  margin-bottom: 10px;
+}
+.timeline-description {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #2C2C2C;
+  background: #F8F9FA;
+  border-left: 3px solid #E0E4EA;
+  padding: 16px 20px;
+  border-radius: 0 8px 8px 0;
+}
+body.dark-mode .timeline-event::before { background: #1A1F2C; }
+body.dark-mode .timeline-title { color: #E8C667; }
+body.dark-mode .timeline-description { background: #2A2F3C; color: #C8CAD0; border-left-color: #3A3F4C; }
+@media (max-width: 720px) {
+  .timeline-screen { padding: 30px 20px; }
+  .timeline-container { padding-left: 30px; }
+  .timeline-container::before { left: 8px; }
+  .timeline-event::before { left: -28px; width: 14px; height: 14px; border-width: 3px; }
+  .timeline-title { font-size: 17px; }
+}
+
+/* ============================================
+   5. INTERACTIVE_CHECKLIST (Checklist interactivo)
+   ============================================ */
+.checklist-screen {
+  padding: 50px 60px;
+  min-height: 100%;
+}
+.checklist-intro {
+  background: #FAF6E8;
+  border-left: 4px solid #C9A227;
+  padding: 20px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #1F3864;
+  margin-bottom: 32px;
+}
+.checklist-items {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+.checklist-item {
+  background: white;
+  border: 2px solid #E0E4EA;
+  border-radius: 10px;
+  padding: 18px 22px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.checklist-item:hover {
+  border-color: #C9A227;
+  background: #FFFCF5;
+}
+.checklist-item.checked {
+  background: #F0F8F2;
+  border-color: #4CAF7F;
+}
+.checklist-checkbox {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border: 2.5px solid #C9A227;
+  border-radius: 6px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  margin-top: 1px;
+  transition: all 0.3s;
+}
+.checklist-item.checked .checklist-checkbox {
+  background: #4CAF7F;
+  border-color: #4CAF7F;
+}
+.checklist-content {
+  flex: 1;
+}
+.checklist-label {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1F3864;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+.checklist-detail {
+  font-size: 14px;
+  color: #4A5568;
+  line-height: 1.55;
+}
+.checklist-progress {
+  background: #1F3864;
+  color: white;
+  padding: 14px 20px;
+  border-radius: 8px;
+  margin-bottom: 22px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+.checklist-progress strong {
+  color: #E8C667;
+  font-size: 18px;
+}
+.checklist-closing {
+  background: #F8F9FA;
+  border-left: 4px solid #1F3864;
+  padding: 22px 26px;
+  border-radius: 8px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #2C2C2C;
+}
+body.dark-mode .checklist-item { background: #2A2F3C; border-color: #3A3F4C; }
+body.dark-mode .checklist-item:hover { background: #353A47; }
+body.dark-mode .checklist-item.checked { background: #1D3528; border-color: #4CAF7F; }
+body.dark-mode .checklist-label { color: #E8E9EB; }
+body.dark-mode .checklist-detail { color: #A0A5B0; }
+body.dark-mode .checklist-closing { background: #2A2F3C; color: #C8CAD0; }
+body.dark-mode .checklist-intro { background: #2A2F3C; color: #E8C667; }
+@media (max-width: 720px) {
+  .checklist-screen { padding: 30px 20px; }
+  .checklist-item { padding: 16px 18px; }
+  .checklist-label { font-size: 15px; }
+}
+</style>
+<style>#preview-badge{display:none !important;}</style>
+  
+<style>#preview-badge{display:none !important;}</style>
+  <script src="scorm_api.js"></script>
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <h1 id="course-title">Equilibrio vida-trabajo sin culpa</h1>
+        <div class="progress-wrapper">
+          <div class="progress-bar"><div id="progress-fill"></div></div>
+          <div id="progress-text">0% COMPLETADO</div>
+        </div>
+      </div>
+      <nav id="module-nav"></nav>
+    </aside>
+    <main id="main">
+      <header id="topbar">
+        <button id="menu-toggle" aria-label="Menú">☰</button>
+        <div style="display:flex;align-items:center;gap:16px">
+          <div id="screen-counter">1 de 30</div>
+          <button id="dark-toggle" title="Cambiar modo">☾ Oscuro</button>
+        </div>
+      </header>
+      <section id="screen-container"></section>
+      <footer id="footer-nav">
+        <button id="btn-prev" class="nav-btn">← Anterior</button>
+        <button id="btn-next" class="nav-btn primary">Continuar →</button>
+      </footer>
+    </main>
+  </div>
+  
+  <script>
+    /* AacromSCORM se implementa en scorm_api.js */
+    window.COURSE_DATA = {"code": "C-C.6", "title": "Equilibrio vida-trabajo sin culpa", "subtitle": "Trabajar bien sin que el trabajo consuma la vida", "duration": "30 minutos", "author": "Aacrom", "passingScore": 80, "theme": {"primary": "#1F3864", "accent": "#C9A227", "title": "#1F3864", "text": "#2C2C2C", "background": "#FFFFFF", "fontFamily": "Open Sans"}, "modules": [{"id": "m0", "title": "Apertura", "screens": [{"id": "p_cover", "type": "course_cover_objective", "moduleTitle": "Apertura", "title": "Equilibrio vida-trabajo sin culpa", "subtitle": "Trabajar bien sin que el trabajo consuma la vida", "image": "assets/images/img_01.jpg", "objective": "Aplicar criterios prácticos para definir y sostener límites laborales sanos, distinguir entre estar ocupado y trabajar bien, gestionar conversaciones difíciles con jefes y clientes, y proteger tiempo personal sin sentir culpa, tanto desde el rol de contribuidor individual como desde el de líder.", "ficha": [{"label": "Duración", "value": "30 min"}, {"label": "Línea", "value": "C — Corporativa"}, {"label": "Aprobación", "value": "80%"}]}, {"id": "p_slider", "type": "hero_image", "moduleTitle": "Apertura", "title": "El equilibrio no es un balance perfecto", "image": "assets/images/img_02.jpg", "statement": "Es una negociación constante. Lo que se decide hoy con criterio se sostiene mañana sin culpa.", "footer": "DECIDIR · LIMITAR · SOSTENER"}, {"id": "p3", "type": "course_cover", "moduleTitle": "Apertura", "title": "Bienvenida", "subtitle": "El trabajo es importante. No es lo único.", "image": "assets/images/img_03.jpg", "audio": "assets/audio/audio_01.mp3", "audio_script": "Le damos la bienvenida a este curso. El equilibrio vida-trabajo es uno de esos temas... donde sobran las frases bonitas. Y faltan las herramientas concretas. Este curso no le va a decir que descanse más. Eso ya lo sabe. Le va a dar criterios para decidir... qué entra a su jornada y qué no. Cómo conversar con jefes y clientes sin sentirse poco profesional. Y cómo sostener todo esto en el tiempo... incluso cuando lidera personas y siente que su ejemplo cuenta el doble. Treinta minutos. Tres módulos. Y al final... una semana para probar.", "body": ["Si está en este curso es probable que conozca el problema. La sensación de que el trabajo ocupa más espacio del que debería. Los correos del fin de semana. La culpa cuando descansa. La pregunta incómoda de '¿estoy trabajando demasiado o me estoy quejando sin razón?'", "Este curso no le promete tranquilidad permanente. Le promete claridad: criterios para decidir qué aceptar y qué no, sin sentir que es poco profesional. Si tiene gente a cargo, también trabaja lo específico de su rol como líder: cómo evitar que su ritmo se transmita al equipo.", "Lo que viene es práctico y aplicable esta semana. La idea es que al cerrar el curso tenga una revisión semanal sostenible que pueda implementar el próximo lunes."]}]}, {"id": "m1", "title": "Módulo 1: Por qué cuesta tanto", "screens": [{"id": "p4", "type": "module_intro_full", "moduleTitle": "Módulo 1: Por qué cuesta tanto", "moduleLabel": "MÓDULO 1", "title": "El problema no es la voluntad", "image": "assets/images/img_04.jpg", "audio": "assets/audio/audio_02.mp3", "audio_script": "Bienvenido al primer módulo. Hay una idea común que conviene desactivar de entrada. Que el equilibrio vida-trabajo es un tema de fuerza de voluntad. Que si uno quisiera realmente... lo lograría. No es así. Hay sistemas, expectativas, y hábitos colectivos que empujan en una dirección. Entender estos mecanismos no es excusa. Es el primer paso para actuar con criterio. Veamos qué pasa realmente y por qué cuesta tanto.", "statement": "El exceso de trabajo no es señal de compromiso. Es señal de un sistema que no distingue entre estar ocupado y trabajar bien.", "citation": "Principio operativo del módulo", "paragraphs": ["La trampa más común del trabajo profesional moderno es confundir dos cosas distintas: estar ocupado (responder rápido, estar siempre disponible, mostrar movimiento constante) y estar trabajando bien (producir resultados, hacer las cosas con calidad, tomar decisiones lúcidas).", "Cuando estas dos cosas se confunden, todo el mundo trabaja más horas pero los resultados no mejoran proporcionalmente. La gente se cansa, la calidad cae, y nadie se atreve a parar porque parar parece poco profesional."], "nextSteps": "Lo que va a encontrar en este módulo", "learnItems": ["El dato que cambia la conversación: jornadas extendidas y productividad real.", "Estar ocupado vs estar trabajando bien: cinco contrastes.", "Cinco mitos del equilibrio que conviene desactivar.", "Los costos invisibles del exceso (lo que no se ve, pero se paga)."]}, {"id": "p5", "type": "stat_callout", "moduleTitle": "Módulo 1: Por qué cuesta tanto", "title": "El dato que importa", "image": null, "intro": "Antes de hablar de qué hacer, conviene mirar qué dicen los datos sobre exceso de trabajo y productividad. Los resultados sorprenden a casi todos.", "stats": [{"number": "55", "unit": "horas/semana", "label": "Punto de inflexión", "context": "A partir de las 55 horas semanales, las horas adicionales no producen más output. Lo que se gana en tiempo se pierde en errores y fatiga acumulada."}, {"number": "23", "unit": "minutos", "label": "Costo de cada interrupción", "context": "Tiempo promedio que tarda el cerebro en recuperar concentración profunda después de una interrupción. En una jornada con 8 interrupciones, son más de 3 horas perdidas."}, {"number": "40%", "unit": "menos calidad", "label": "Multitarea sostenida", "context": "La multitarea constante (responder mensajes mientras se hace otra cosa) reduce la calidad de ambas tareas, comparado con hacer una sola con atención plena."}], "closing": "<strong>La conclusión es clara:</strong> trabajar más horas y estar más disponible no producen mejores resultados. Producen lo contrario. La sensación de estar haciendo mucho se paga con calidad real."}, {"id": "p6", "type": "comparison_cards", "moduleTitle": "Módulo 1: Por qué cuesta tanto", "title": "Estar ocupado ≠ estar trabajando bien", "image": null, "intro": "Las dos cosas se sienten parecido por dentro, pero producen resultados muy distintos. Estos cinco contrastes ayudan a notar dónde estamos.", "leftTitle": "Estar OCUPADO", "leftSubtitle": "Activo pero disperso", "rightTitle": "Estar TRABAJANDO BIEN", "rightSubtitle": "Enfocado y productivo", "comparisons": [{"left": "Responder mensajes apenas llegan, sin diferenciar urgencia.", "right": "Decidir cuándo revisar mensajes según prioridades reales."}, {"left": "Decir 'sí' a casi todo lo que pide el equipo o el cliente.", "right": "Decir 'sí' a lo que realmente puede comprometer con calidad."}, {"left": "Trabajar hasta tarde para sentir que se hizo el esfuerzo.", "right": "Cerrar el día cuando se logró lo prioritario, no por la hora."}, {"left": "Estar siempre disponible para 'cualquier cosa que surja'.", "right": "Definir franjas de disponibilidad y respetar bloques de concentración."}, {"left": "Hacer muchas cosas a la vez para 'avanzar más rápido'.", "right": "Hacer una cosa a la vez con atención plena."}]}, {"id": "p7", "type": "flip_cards", "moduleTitle": "Módulo 1: Por qué cuesta tanto", "title": "Cinco mitos del equilibrio que conviene desactivar", "image": null, "intro": "Haga clic en cada tarjeta para ver el mito y la realidad. Estos mitos circulan en muchos ambientes corporativos y mantienen a las personas atrapadas en la trampa del exceso.", "cards": [{"front": "Mito 1", "frontText": "Si me dedico más horas, voy a producir más.", "back": "Realidad", "backText": "Después de 55 horas semanales, las horas adicionales no producen más. Producen más errores y fatiga acumulada que cuesta días corregir."}, {"front": "Mito 2", "frontText": "Si pongo límites, voy a verme poco comprometido.", "back": "Realidad", "backText": "Los profesionales que sostienen límites claros suelen ser percibidos como más confiables. Lo que se promete, se cumple. Lo que no se puede, no se acepta."}, {"front": "Mito 3", "frontText": "Si no respondo enseguida, voy a perder oportunidades.", "back": "Realidad", "backText": "Pocas cosas son tan urgentes como parecen en el momento. Una respuesta en 4 horas suele ser suficiente para casi todo, y mucho mejor que una respuesta apurada y de mala calidad."}, {"front": "Mito 4", "frontText": "Si descanso, voy a desconectarme de lo que pasa.", "base": "false", "back": "Realidad", "backText": "Volver descansado mejora el juicio sobre lo que importa y lo que no. Quien no descansa pierde la perspectiva que permite priorizar bien."}, {"front": "Mito 5", "frontText": "El equilibrio es para gente sin ambición.", "back": "Realidad", "backText": "Las carreras largas y exitosas son las de personas que aprendieron a sostener un ritmo. Las que se queman temprano rara vez llegan al lugar al que querían llegar."}]}, {"id": "p8", "type": "statement_paragraphs", "moduleTitle": "Módulo 1: Por qué cuesta tanto", "title": "Los costos invisibles del exceso", "image": null, "statement": "Lo más caro del exceso de trabajo no es lo que se ve. Es lo que se pierde sin notarlo: claridad, relaciones, salud, criterio.", "paragraphs": ["Cuando alguien trabaja más horas de las que su sistema puede sostener, los costos no aparecen el primer mes. Aparecen lentamente, distribuidos en pequeñas pérdidas que cuesta atribuir a la causa. Por eso es tan difícil parar a tiempo: el dolor llega con retraso."], "intro": "Cuatro costos invisibles del exceso laboral", "items": ["<strong>Pérdida de criterio.</strong> Trabajar exhausto reduce la capacidad de distinguir lo importante de lo urgente. Se confunde movimiento con avance, y se gasta energía en lo menos relevante.", "<strong>Erosión de relaciones.</strong> Las personas cercanas notan el cambio antes que uno mismo. Conversaciones más cortas, menos paciencia, presencia física sin presencia mental. Esto se recupera, pero no automáticamente.", "<strong>Desgaste de la salud.</strong> Sueño que no repara, tensión muscular sostenida, irritabilidad, alteraciones digestivas. El cuerpo manda señales antes que la mente, pero se aprenden a ignorar.", "<strong>Pérdida del sentido del trabajo.</strong> Cuando todo se vuelve emergencia, deja de importar qué se está haciendo. La persona trabaja pero ya no sabe para qué. Es uno de los primeros signos del agotamiento profesional."]}, {"id": "p9", "type": "knowledge_check", "moduleTitle": "Módulo 1: Por qué cuesta tanto", "title": "Verifique lo aprendido", "image": null, "questions": [{"type": "single", "stem": "Carolina dice 'sí' a todo lo que le piden, responde mensajes en menos de 10 minutos en cualquier horario, y trabaja hasta tarde casi todas las noches. ¿Qué describe mejor su situación?", "options": ["Carolina está trabajando bien: alta disponibilidad y compromiso.", "Carolina está ocupada, no necesariamente trabajando bien. Lo que parece compromiso puede estar erosionando criterio, calidad y sostenibilidad.", "Carolina debería trabajar todavía más horas para asegurar resultados.", "Carolina no tiene problema mientras le alcance la energía."], "correctAnswer": 1, "correct": 1, "feedback": {"correct": "Correcto. Estar siempre ocupado, decir sí a todo, y responder en minutos son señales de estar muy ocupada, no de trabajar bien. La calidad del juicio se erosiona y los costos invisibles se acumulan sin que se note.", "incorrect": "Revise el contraste central del módulo: estar ocupado y trabajar bien se sienten parecido pero producen resultados distintos. Lo de Carolina es el patrón clásico de ocupación que disfraza problemas de fondo."}}, {"type": "single", "stem": "¿Cuál de estas afirmaciones sobre las jornadas extendidas es FALSA?", "options": ["Después de aproximadamente 55 horas semanales, las horas adicionales no producen más output proporcional.", "Trabajar más horas siempre produce más resultados, sin importar cuántas sean.", "El multitasking sostenido reduce la calidad de ambas tareas comparado con hacer una a la vez.", "Una interrupción frecuente puede costar 23 minutos en recuperar concentración profunda."], "correctAnswer": 1, "correct": 1, "feedback": {"correct": "Correcto. La idea de que 'más horas = más output' es justamente el mito que el dato desmiente. Las otras tres afirmaciones son verdaderas.", "incorrect": "Revise: la opción FALSA es la que dice que más horas siempre producen más, sin importar cuántas. Los datos del módulo muestran lo contrario."}}]}, {"id": "p10", "type": "module_outro", "moduleTitle": "Módulo 1: Por qué cuesta tanto", "title": "Lo que cierra este módulo", "image": null, "items": ["<strong>El exceso no es voluntad: es sistema.</strong> Hay expectativas, hábitos colectivos y dinámicas que empujan a trabajar más de lo razonable. Entender esto no es excusa, es el primer paso para actuar con criterio.", "<strong>Estar ocupado y trabajar bien son cosas distintas.</strong> La trampa más común es confundirlas. Más horas, más respuestas rápidas y más disponibilidad no son señales automáticas de mejor trabajo.", "<strong>Los costos del exceso son invisibles al principio.</strong> Erosionan criterio, relaciones, salud y sentido. Llegan con retraso, por eso cuesta parar a tiempo."]}]}, {"id": "m2", "title": "Módulo 2: Límites en la práctica", "screens": [{"id": "p11", "type": "module_intro_full", "moduleTitle": "Módulo 2: Límites en la práctica", "moduleLabel": "MÓDULO 2", "title": "Decir no sin sentirse poco profesional", "image": "assets/images/img_05.jpg", "audio": "assets/audio/audio_03.mp3", "audio_script": "Bienvenida al segundo módulo. Entender el problema es necesario. Pero no es suficiente. Lo que sigue es la parte difícil. Cómo se ponen los límites... en concreto. Sin sentirse poco profesional. Sin romper relaciones de confianza. Y sin sentir culpa los domingos a la noche. Vamos a ver tres cosas. Decir sí con criterio. Conversaciones difíciles con jefes y clientes. Y desconexión real... que no es solo apagar la pantalla.", "statement": "Los límites no se ponen una vez. Se sostienen muchas veces, en pequeños momentos del día, hasta que se vuelven costumbre.", "citation": "Principio operativo del módulo", "paragraphs": ["Poner límites en el trabajo no es una conversación grande con el jefe. Es una serie de pequeñas decisiones que se repiten todos los días: si responder ahora o más tarde, si aceptar este pedido o renegociar el plazo, si trabajar el sábado o no, si tomar el almuerzo en el escritorio o lejos de la pantalla.", "Cada una de estas decisiones parece menor. Pero sumadas durante semanas, definen si el trabajo ocupa el espacio que debería o el que se le permite ocupar."], "nextSteps": "Lo que va a encontrar en este módulo", "learnItems": ["La diferencia entre decir sí siempre y decir sí con criterio.", "Una jornada con límites: seis momentos críticos de decisión.", "Caso real: Sofía y la solicitud del viernes a las 7 de la noche.", "Cómo conducir una conversación de límites con un jefe.", "Desconexión real: por qué apagar la pantalla no es suficiente."]}, {"id": "p12", "type": "comparison_cards", "moduleTitle": "Módulo 2: Límites en la práctica", "title": "Decir 'sí' siempre vs decir 'sí' con criterio", "image": null, "intro": "Decir 'no' no es lo opuesto al compromiso. Es parte del compromiso bien entendido. Estos cuatro contrastes muestran la diferencia.", "leftTitle": "Decir 'sí' SIEMPRE", "leftSubtitle": "Compromiso sin filtros", "rightTitle": "Decir 'sí' CON CRITERIO", "rightSubtitle": "Compromiso sostenible", "comparisons": [{"left": "'Sí, lo hago.' (sin pensar qué desplaza)", "right": "'Lo puedo hacer esta semana, pero significa mover X. ¿Cómo lo priorizamos?'"}, {"left": "'Lo tengo el lunes.' (sin verificar si es realista)", "right": "'Para tener calidad necesito hasta el miércoles. ¿Funciona?'"}, {"left": "'No hay problema.' (sin medir el costo personal)", "right": "'Si lo hago este fin de semana, voy a tener menos energía la semana que viene. Veamos opciones.'"}, {"left": "'Yo me ocupo de todo.' (asumir más de lo que corresponde)", "right": "'Esto puede manejarlo el equipo. Yo entro si hay algo crítico.'"}]}, {"id": "p13", "type": "timeline", "moduleTitle": "Módulo 2: Límites en la práctica", "title": "Una jornada con límites: seis momentos críticos", "image": null, "intro": "El equilibrio se decide en momentos puntuales del día, no en grandes declaraciones. Este recorrido muestra seis decisiones cotidianas donde el criterio importa.", "events": [{"time": "8:00 AM", "title": "Inicio de jornada: la primera hora protegida", "description": "<strong>Decisión:</strong> ¿abrir el correo apenas llegar, o dedicar la primera hora a la tarea más importante? Quien empieza por el correo entra en modo reactivo y suele quedar ahí todo el día.<br><br><strong>Práctica:</strong> reservar de 8:00 a 9:00 (o la primera hora real) para trabajo profundo, sin chat ni correo."}, {"time": "10:30 AM", "title": "Reunión que se sale del tiempo", "description": "<strong>Decisión:</strong> la reunión iba a durar 30 minutos y ya pasaron 45. ¿Quedarse hasta cualquier hora o cerrar el bloque?<br><br><strong>Práctica:</strong> a los 5 minutos del cierre previsto, decir respetuosamente 'tengo que cerrar en 5 minutos, ¿cómo seguimos?'"}, {"time": "12:30 PM", "title": "Almuerzo: en el escritorio o lejos de la pantalla", "description": "<strong>Decisión:</strong> almorzar mientras se responde correos o tomar 30 minutos lejos del escritorio.<br><br><strong>Práctica:</strong> al menos tres veces por semana, almuerzo lejos de la pantalla. No es lujo: es recuperación cognitiva."}, {"time": "3:00 PM", "title": "Solicitud nueva que cambia el plan del día", "description": "<strong>Decisión:</strong> aparece una solicitud no prevista. ¿Aceptarla automáticamente o evaluar primero?<br><br><strong>Práctica:</strong> antes de decir 'sí', preguntar '¿esto desplaza algo prioritario? ¿qué plazo realista?' Decir sí con criterio, no por reflejo."}, {"time": "6:00 PM", "title": "Cierre de jornada: qué entra y qué no para mañana", "description": "<strong>Decisión:</strong> cerrar a una hora razonable o 'solo media hora más'.<br><br><strong>Práctica:</strong> 5 minutos antes de cerrar, hacer una lista de las 3 prioridades del día siguiente. Eso permite cerrar la mente, no solo la computadora."}, {"time": "9:00 PM", "title": "Mensaje del jefe o cliente fuera de hora", "description": "<strong>Decisión:</strong> llega un mensaje a las 9 de la noche. ¿Responder ahora o mañana?<br><br><strong>Práctica:</strong> si no es una emergencia real (las hay, pocas), responder al día siguiente. Una vez que se responde a las 9pm, se establece la expectativa de que eso pasará siempre."}]}, {"id": "p14", "type": "case_study", "moduleTitle": "Módulo 2: Límites en la práctica", "title": "Caso: Sofía y la solicitud del viernes a las 7 de la noche", "image": "assets/images/img_06.jpg", "audio": "assets/audio/audio_04.mp3", "audio_script": "Sofía es analista de proyectos. Treinta y cuatro años. Lleva dos años en su empresa. Un viernes a las siete de la noche... después de una semana intensa... acaba de cerrar la computadora. Su jefe le manda un mensaje. Necesito una revisión rápida del informe. No es urgente urgente... pero me ayudaría tenerlo el lunes a las nueve. Sofía se quedó pensando dos cosas. Una... no quería verse como poco comprometida. Dos... no quería trabajar el fin de semana otra vez. Lo que hizo fue distinto a lo que solía hacer. Respondió enseguida. Pero no diciendo sí. Y tampoco diciendo no. Lo voy a ver el lunes a primera hora... y te confirmo si puedo tenerlo para las once. Punto.", "subtitle": "Decir no sin decir no: ofrecer una alternativa concreta", "body": "Lo que hizo Sofía aplicó tres principios al mismo tiempo:<br><br><strong>Primero, respondió rápido.</strong> No para hacer el trabajo, sino para no dejar al jefe esperando. La respuesta rápida transmite profesionalismo aunque la decisión sea no avanzar el fin de semana.<br><br><strong>Segundo, no dijo 'no' directamente.</strong> Ofreció una alternativa concreta y comprometida. 'Lo veo el lunes a primera hora.' Esto deja claro qué va a pasar, sin abrir negociación innecesaria.<br><br><strong>Tercero, agregó una condición realista.</strong> 'Te confirmo si puedo tenerlo para las once.' No prometió un horario sin haber visto el trabajo. Eso es honestidad técnica, no falta de compromiso.<br><br><strong>El resultado:</strong> el jefe respondió 'perfecto, gracias'. La conversación duró 90 segundos. Sofía pasó el fin de semana sin trabajar y entregó el informe el lunes a las 11:30. Nadie notó nada, porque no había nada que notar: lo prometido se cumplió.<br><br><strong>En síntesis:</strong> el secreto no estaba en decir 'no'. Estaba en ofrecer una alternativa concreta y comprometida en lugar de aceptar automáticamente. Decir sí con criterio es decir cuándo y bajo qué condiciones."}, {"id": "p15", "type": "accordion", "moduleTitle": "Módulo 2: Límites en la práctica", "title": "Conversación de límites con el jefe: cuatro principios", "image": null, "intro": "Conversar con un jefe sobre carga, plazos o disponibilidad genera incomodidad. Estos cuatro principios ayudan a tener esa conversación de forma profesional, sin pedir disculpas innecesarias.", "items": [{"title": "1. Llevar datos, no quejas", "content": "<strong>Qué hacer:</strong> entrar a la conversación con información concreta. 'Esta semana tuve X reuniones y Y entregables. La carga ha estado por encima de lo que puedo sostener con calidad.'<br><br><strong>Qué evitar:</strong> generalidades emocionales. 'Estoy agotado, ya no doy más.' Aunque sea verdadero, no da al jefe información para actuar y se interpreta como un problema personal, no como un problema operativo."}, {"title": "2. Proponer alternativas, no solo quejas", "content": "<strong>Qué hacer:</strong> llegar con dos o tres opciones concretas. 'Veo tres caminos: priorizamos A y postergamos B, redistribuimos B al equipo, o reducimos el alcance de A.' El jefe toma una decisión, no un problema.<br><br><strong>Qué evitar:</strong> dejar la pelota del lado del jefe. 'Estoy sobrecargada, no sé qué hacer.' Aunque sea cierto, lo posiciona como su problema, no como una conversación profesional sobre prioridades."}, {"title": "3. Hablar del impacto, no del esfuerzo", "content": "<strong>Qué hacer:</strong> centrar la conversación en lo que se va a producir mejor o peor, no en cuánto se está esforzando. 'Si sostengo este ritmo, la calidad de X va a caer en las próximas dos semanas.'<br><br><strong>Qué evitar:</strong> contar las horas que se trabajan. 'Estuve hasta las 11 de la noche cada día.' Aunque sea verdad, comunica que se trabaja mucho, no que se trabaja bien. Y muchos jefes lo interpretan como compromiso, no como problema."}, {"title": "4. Cerrar con un acuerdo concreto", "content": "<strong>Qué hacer:</strong> no salir de la conversación sin un acuerdo explícito. 'Entonces, hasta el viernes priorizo A y B queda para la semana próxima. ¿Confirmado?' Cerrar con confirmación verbal evita malentendidos.<br><br><strong>Qué evitar:</strong> conversaciones que terminan en 'sí, hablamos esto pronto'. Eso es no haber hablado nada. La conversación sin acuerdo concreto es solo desahogo."}]}, {"id": "p16", "type": "decision_scenario", "moduleTitle": "Módulo 2: Límites en la práctica", "title": "¿Cómo responde usted al mensaje del jefe?", "image": "assets/images/img_07.jpg", "instructions": "<strong>Instrucciones:</strong> lea el caso, evalúe las cuatro opciones, y elija la más adecuada. No hay opciones obvias: cada una tiene consecuencias.", "intro_text": "<strong>El caso.</strong> Es viernes 7:00 PM. Acaba de cerrar la computadora después de una semana intensa. Su teléfono vibra. Es un mensaje de su jefe.", "question_text": "¿Cómo responde usted?", "dialogue": [{"character": "Su jefe", "role": "vía mensaje", "text": "Hola, perdón por la hora. ¿Podrías revisar el documento del cliente antes del lunes 9am? No es urgente urgente, pero me ayuda llegar con eso ya visto a la reunión del lunes. Gracias.", "audio": null, "audio_script": null}], "options": [{"id": "A", "label": "Responder enseguida 'sí, lo hago' y abrir la computadora", "subtitle": "Aceptar de inmediato y empezar a trabajar el sábado o domingo.", "correct": false, "result": "Establece la expectativa equivocada", "outcome": "Esta respuesta resuelve el problema del jefe, pero crea uno mayor a mediano plazo. Cada vez que se responde a un mensaje fuera de hora aceptando inmediatamente, se refuerza la idea de que está siempre disponible. El próximo viernes a las 7 va a llegar otro mensaje, y el siguiente también. Los límites no se construyen con una sola decisión: se erosionan o se sostienen en cada interacción."}, {"id": "B", "label": "Ignorar el mensaje hasta el lunes 9am", "subtitle": "No responder y ver el documento ese lunes a primera hora.", "correct": false, "result": "Resuelve, pero abre una grieta de confianza", "outcome": "Ignorar un mensaje sin responder genera incertidumbre del otro lado. El jefe puede preguntarse si lo vio, si lo va a hacer, si está enojado. Esa incertidumbre rara vez juega a favor. Sostener límites no es desaparecer: es comunicar con claridad qué va a pasar y cuándo."}, {"id": "C", "label": "Responder ahora: 'Lo veo el lunes a primera hora y te confirmo si lo tengo para las 11am'", "subtitle": "Respuesta rápida con compromiso concreto pero sostenible.", "correct": true, "result": "La forma profesional de sostener un límite", "outcome": "Esta opción aplica tres principios al mismo tiempo: <strong>respuesta rápida</strong> (no deja al jefe en duda), <strong>alternativa concreta</strong> (lunes a primera hora) y <strong>compromiso honesto</strong> (las 11am, no antes). Pasan dos cosas valiosas: el jefe tiene certidumbre y usted tiene fin de semana. La conversación dura 90 segundos. Nadie se siente ofendido porque no hay nada ofensivo: se está comportando como profesional, que es lo que el jefe espera."}, {"id": "D", "label": "Hacer el trabajo el domingo a la noche para que esté listo", "subtitle": "Aceptar implícitamente y ocupar el domingo en la noche.", "correct": false, "result": "Soluciona corto plazo, alimenta el patrón", "outcome": "Trabajar el domingo a la noche para que esté listo el lunes parece eficiente, pero refuerza la trampa más cara. Establece que su tiempo personal está siempre disponible si hace falta. Y los domingos a la noche se acumulan: tres meses así, y el agotamiento ya está instalado sin que se sepa cuándo empezó. El precio se paga con retraso."}], "convergent_title": "Los límites se construyen con respuestas, no con silencios", "convergent_text": "Hay una intuición común que sabotea la opción correcta: pensar que poner límites es <strong>no responder</strong>, o <strong>decir no de forma cortante</strong>. No es así. La forma más profesional de sostener un límite es responder rápido, con una alternativa concreta y un compromiso honesto. Es lo opuesto al silencio y lo opuesto a la negación. Es decir <em>cuándo</em> y <em>bajo qué condiciones</em>. Esa es la conversación que el jefe espera tener, aunque a veces le cueste pedirla. Y es la que deja al profesional sosteniendo su tiempo sin pagar el costo emocional de la culpa o de la confrontación.", "convergent_audio": "assets/audio/audio_05.mp3", "convergent_audio_script": "Hay una intuición común que sabotea la opción correcta. Pensar que poner límites... es no responder. O decir no de forma cortante. No es así. La forma más profesional de sostener un límite es responder rápido. Con una alternativa concreta. Y un compromiso honesto. Es lo opuesto al silencio. Y lo opuesto a la negación. Es decir cuándo. Y bajo qué condiciones. Esa es la conversación que el jefe espera tener... aunque a veces le cueste pedirla."}, {"id": "p17", "type": "statement_paragraphs", "moduleTitle": "Módulo 2: Límites en la práctica", "title": "Desconexión real: por qué apagar la pantalla no es suficiente", "image": null, "statement": "Desconectarse del trabajo no es solo dejar de mirar la computadora. Es dejar de estar mentalmente disponible. Y eso requiere prácticas concretas.", "paragraphs": ["La trampa moderna es que se puede 'estar de descanso' físicamente pero mentalmente seguir trabajando. Pensar en pendientes mientras se almuerza con la familia, revisar mensajes 'solo un momento' los sábados, anticipar la semana entrante el domingo a la noche. Eso no es descanso: es trabajo invisible que no se cuenta como horas, pero sí desgasta."], "intro": "Cuatro prácticas para desconectarse de verdad", "items": ["<strong>Ritual de cierre del día.</strong> Antes de salir del trabajo (o cerrar la computadora si es remoto), tomar 5 minutos para escribir las 3 prioridades del día siguiente. Esto libera la mente: ya está guardado, no hay que cargarlo.", "<strong>Notificaciones del celular fuera de hora.</strong> Apagar notificaciones de correo y chat del trabajo desde la hora de cierre. No es radical: es lo razonable. Si hay una emergencia real, la gente sabe llamar.", "<strong>Espacio físico separado.</strong> Si es presencial: no llevar laptop a casa salvo necesidad real. Si es remoto: usar un espacio definido para trabajar y otro para descansar. La mente asocia espacios con modos.", "<strong>Conversaciones no laborales.</strong> Asegurar al menos una conversación no laboral por día. Con familia, amigos, vecinos. La identidad profesional necesita compañía de otras identidades para no devorarlo todo."]}, {"id": "p18", "type": "stat_callout", "moduleTitle": "Módulo 2: Límites en la práctica", "title": "El costo cognitivo de la conexión permanente", "image": null, "intro": "Estar conectado 'por si acaso' tiene un precio que pocas veces se calcula. Estos datos lo muestran.", "stats": [{"number": "4×", "unit": "más errores", "label": "Atención dividida", "context": "Las personas que revisan correo o chat constantemente cometen hasta cuatro veces más errores en tareas que requieren concentración profunda, comparado con personas que separan bloques."}, {"number": "31%", "unit": "del día", "label": "Tiempo perdido por interrupciones", "context": "Estudios de empresas de tecnología muestran que entre interrupciones y recuperación de concentración, casi un tercio de la jornada se pierde sin producir nada de valor."}, {"number": "8", "unit": "horas reales", "label": "Lo que rinde una jornada bien enfocada", "context": "Una jornada de 8 horas con bloques protegidos suele producir más que una jornada de 11 horas dispersa. La diferencia no está en el tiempo: está en la calidad de la atención."}], "closing": "<strong>La conclusión es práctica:</strong> proteger bloques de atención no es un capricho. Es la única forma de que las horas que se trabajan produzcan lo que se espera."}, {"id": "p19", "type": "knowledge_check", "moduleTitle": "Módulo 2: Límites en la práctica", "title": "Verifique lo aprendido", "image": null, "questions": [{"type": "single", "stem": "Pedro recibe un mensaje del jefe el sábado a la mañana pidiendo una revisión rápida para el lunes. ¿Cuál es la respuesta que mejor combina profesionalismo Y sostenimiento del límite?", "options": ["Ignorar el mensaje hasta el lunes a las 9.", "Responder 'sí, lo hago' y trabajar el sábado para tenerlo listo.", "Responder 'lo veo el lunes a primera hora y te confirmo el horario'.", "Hacer el trabajo el domingo a la noche."], "correctAnswer": 2, "correct": 2, "feedback": {"correct": "Correcto. Respuesta rápida + alternativa concreta + compromiso honesto. Eso combina mantener la confianza profesional con sostener el tiempo personal.", "incorrect": "Recuerde el principio: poner límites no es no responder ni aceptar todo. Es responder rápido con una alternativa concreta y comprometida."}}, {"type": "multiple", "stem": "¿Cuáles de estos son principios para tener una conversación de límites con el jefe? (Marque todas las correctas.)", "options": ["Llevar datos concretos, no quejas emocionales generales.", "Proponer alternativas en lugar de solo plantear el problema.", "Centrar la conversación en el impacto, no en cuántas horas se trabajan.", "Cerrar la conversación sin un acuerdo concreto para no presionar al jefe."], "correctAnswer": [0, 1, 2], "correct": [0, 1, 2], "feedback": {"correct": "Correcto. La opción 4 es la trampa: una conversación sin acuerdo concreto es solo desahogo. Hay que cerrar con un compromiso explícito.", "incorrect": "Revise: cerrar sin acuerdo concreto no es respetuoso, es ineficaz. La conversación profesional requiere salir con un compromiso explícito de ambas partes."}}, {"type": "single", "stem": "¿Qué describe mejor la 'desconexión real' que vimos en el módulo?", "options": ["Apagar la computadora a la hora de cierre.", "Dejar de estar mentalmente disponible (no solo físicamente), con prácticas concretas: ritual de cierre, notificaciones apagadas, espacio físico separado, conversaciones no laborales.", "Apagar el teléfono los fines de semana sin avisar a nadie.", "Tomar vacaciones largas una vez al año."], "correctAnswer": 1, "correct": 1, "feedback": {"correct": "Correcto. Desconexión real es lograr que la mente deje de estar en modo trabajo, no solo que el cuerpo deje de estar frente a la pantalla. Requiere prácticas concretas, no solo intenciones.", "incorrect": "Revise: apagar la computadora no es suficiente si la mente sigue pensando en pendientes. La desconexión real es mental, y requiere prácticas específicas, no solo intenciones."}}]}, {"id": "p20", "type": "module_outro", "moduleTitle": "Módulo 2: Límites en la práctica", "title": "Lo que cierra este módulo", "image": null, "items": ["<strong>Decir sí con criterio no es lo opuesto al compromiso.</strong> Es la forma profesional del compromiso. Ofrecer una alternativa concreta es mejor que aceptar automáticamente o decir 'no' cortante.", "<strong>Las conversaciones difíciles funcionan mejor con cuatro principios:</strong> datos en lugar de quejas, alternativas en lugar de problemas, impacto en lugar de horas, y acuerdo concreto al cerrar.", "<strong>Desconexión real es mental, no solo física.</strong> Cuatro prácticas: ritual de cierre, notificaciones apagadas, espacio físico separado, conversaciones no laborales."]}]}, {"id": "m3", "title": "Módulo 3: Sostenerlo en el tiempo", "screens": [{"id": "p21", "type": "module_intro_full", "moduleTitle": "Módulo 3: Sostenerlo en el tiempo", "moduleLabel": "MÓDULO 3", "title": "Sostener el equilibrio (especialmente si lidera personas)", "image": "assets/images/img_08.jpg", "audio": "assets/audio/audio_06.mp3", "audio_script": "Bienvenido al tercer módulo. Los límites no son una decisión... son un hábito. Y los hábitos se erosionan. Este módulo trabaja dos cosas. Cómo notar cuando el equilibrio empieza a desgastarse. Y cómo recuperarlo... antes de tocar fondo. Si lidera personas... hay una capa adicional. Su ejemplo cuenta el doble. Lo que el equipo le ve hacer... es más fuerte que lo que les dice. Vamos a ver eso también. Y al final del módulo... tendrá una revisión semanal para empezar este lunes.", "statement": "El equilibrio no se logra una vez. Se sostiene en cada semana. Y si lidera personas, su ritmo se vuelve el ritmo del equipo, lo quiera o no.", "citation": "Principio operativo del módulo", "paragraphs": ["El error más común al hablar de equilibrio es pensar que es un objetivo a alcanzar. No lo es. Es una práctica a sostener, semana tras semana, contra fuerzas que empujan en dirección contraria. La gente que parece tenerlo no es la que tomó una buena decisión hace tres años. Es la que hace pequeños ajustes cada semana.", "Si lidera personas, agregue una capa más: lo que usted hace se convierte en la norma del equipo. Mandar mensajes a las 11 de la noche les enseña que también se espera de ellos. Trabajar los sábados les comunica que es lo esperable. Su ejemplo está hablando todo el tiempo, lo planee o no."], "nextSteps": "Lo que va a encontrar en este módulo", "learnItems": ["Si lidera, su ejemplo cuenta el doble: efectos concretos en el equipo.", "Caso real: Marcos, líder que aprendió a no enviar mensajes a las 11pm.", "Señales de erosión: seis momentos de la semana donde notar el desgaste.", "Una revisión semanal sostenible: siete chequeos del lunes.", "Cómo recuperar el equilibrio cuando se ha erosionado."]}, {"id": "p22", "type": "statement_paragraphs", "moduleTitle": "Módulo 3: Sostenerlo en el tiempo", "title": "Si lidera personas, su ejemplo cuenta el doble", "image": null, "statement": "Lo que un líder hace, no lo que dice, es lo que se vuelve la norma del equipo. Mandar mensajes a las 11pm enseña al equipo que también se espera eso de ellos.", "paragraphs": ["Hay una asimetría que muchos líderes no calculan. Lo que para usted es 'algo que hago porque me salgo de los horarios' para el equipo es 'la expectativa de cómo hay que trabajar'. Las personas que dependen jerárquicamente de alguien leen sus acciones como indicadores de lo que se espera. Y rara vez se atreven a hacer distinto.", "Esto no significa que un líder no pueda trabajar fuera de hora cuando lo necesita. Significa que las acciones tienen consecuencias en el equipo, y conviene gestionarlas."], "intro": "Cuatro prácticas concretas si lidera personas", "items": ["<strong>Programar el envío.</strong> Si necesita trabajar el sábado o redactar un correo a las 11pm, no lo envíe en ese momento. Programe el envío para el lunes a las 9am. Su trabajo se hace cuando puede; el equipo recibe en horario.", "<strong>Decir explícitamente 'no espero respuesta ahora'.</strong> Si por alguna razón manda algo fuera de hora, escriba al inicio: 'No requiere respuesta hasta el lunes.' Esa frase reduce la presión real.", "<strong>Respetar el descanso del equipo en voz alta.</strong> En reuniones, decir abiertamente: 'No quiero que esto se trabaje el fin de semana.' Lo explícito tiene peso. Lo implícito se ignora.", "<strong>Modelar el cierre.</strong> Salir a una hora razonable, tomar almuerzo lejos del escritorio, irse de vacaciones sin estar conectado. Eso le da al equipo permiso real, no solo permiso teórico."]}, {"id": "p23", "type": "case_study", "moduleTitle": "Módulo 3: Sostenerlo en el tiempo", "title": "Caso: Marcos, líder que aprendió a no enviar mensajes a las 11pm", "image": "assets/images/img_09.jpg", "audio": "assets/audio/audio_07.mp3", "audio_script": "Marcos es gerente de producto. Cuarenta y dos años. Doce personas a cargo. Trabajaba mucho. Le gustaba su trabajo. Y solía mandar mensajes a su equipo... a las once de la noche. A veces los sábados también. Para él... era cuando podía pensar en calma. Para el equipo... era una señal. Si el jefe trabaja a esas horas... uno también debería. Una de sus colaboradoras le dijo algo... en una conversación uno a uno. Marcos... cuando me mandás mensajes a las once... yo siento que tengo que estar disponible también. Aunque me digas que no es urgente. Marcos no se ofendió. Hizo dos cambios concretos al día siguiente. Programó todos los envíos de la mañana siguiente. Y empezó las reuniones diciendo... no quiero que esto se trabaje el fin de semana. Tres meses después... el equipo le dijo... se siente distinto trabajar acá.", "subtitle": "El ejemplo del líder es lo que más enseña sobre cultura de trabajo", "body": "Lo que Marcos descubrió es lo que casi todos los líderes no notan: <strong>el equipo lee las acciones, no las palabras.</strong> Que Marcos dijera 'no se preocupen, contesten cuando puedan' no cambiaba la dinámica. Lo que la cambió fueron sus acciones.<br><br><strong>Cambio 1: programar el envío.</strong> Marcos siguió trabajando algunas noches cuando lo necesitaba. Pero los correos salían programados para las 9am del siguiente día hábil. Su trabajo se hacía cuando podía; el equipo recibía en horario.<br><br><strong>Cambio 2: pedirlo explícitamente.</strong> Al abrir las reuniones de planificación, Marcos decía con claridad: 'No quiero que este proyecto se trabaje los fines de semana.' Cuando es explícito, las personas lo creen. Cuando es implícito, asumen lo contrario.<br><br><strong>Lo que aprendió Marcos:</strong> sostener el equilibrio para sí mismo es importante. Pero como líder, hay una responsabilidad adicional: gestionar las señales que se envían al equipo. Esas señales viajan más rápido y se interpretan con más peso de lo que se cree.<br><br><strong>En síntesis:</strong> el equilibrio del líder no es solo personal. Es político: define el ritmo de un equipo entero. Y cuando se descuida ese ritmo, el costo lo pagan las personas que dependen de él."}, {"id": "p24", "type": "timeline", "moduleTitle": "Módulo 3: Sostenerlo en el tiempo", "title": "Señales de erosión: seis momentos de la semana donde notarlo", "image": null, "intro": "El equilibrio rara vez se rompe de un día para otro. Se erosiona gradualmente. Estos seis momentos de la semana son cuando las señales aparecen más claramente.", "events": [{"time": "Lunes 8 AM", "title": "Cómo empieza la semana", "description": "<strong>Señal de erosión:</strong> entrar al lunes ya cansado. Sentir que el fin de semana no descansó nada.<br><br><strong>Lo que indica:</strong> probablemente trabajó el fin de semana (aunque sea revisando mensajes). La señal no es el cansancio puntual, sino que se repita varios lunes seguidos."}, {"time": "Martes 4 PM", "title": "La sensación a media semana", "description": "<strong>Señal de erosión:</strong> sensación de que ya está esperando el fin de semana, con la semana recién empezada.<br><br><strong>Lo que indica:</strong> el trabajo dejó de aportar interés y se volvió solo tarea a atravesar. Esto pasa cuando llevamos demasiado tiempo en modo supervivencia."}, {"time": "Miércoles 9 PM", "title": "La hora de cierre real", "description": "<strong>Señal de erosión:</strong> seguir trabajando o pensando en trabajo a las 9pm sin necesidad real.<br><br><strong>Lo que indica:</strong> el horario laboral perdió límite. Cuando 'una hora más' se vuelve costumbre tres o cuatro veces por semana, ya no es excepción: es el nuevo ritmo."}, {"time": "Jueves 11 AM", "title": "La calidad del trabajo en tareas profundas", "description": "<strong>Señal de erosión:</strong> cuesta concentrarse en tareas que antes hacía sin problema. Necesita más café, más pausas no planificadas, releer lo mismo varias veces.<br><br><strong>Lo que indica:</strong> la fatiga cognitiva se acumuló. El cerebro ya no rinde al nivel habitual, aunque las horas trabajadas sean similares."}, {"time": "Viernes 6 PM", "title": "Cómo se cierra la semana", "description": "<strong>Señal de erosión:</strong> sentir alivio extremo al terminar la semana, no satisfacción. Más ganas de desconectar de todo que de hacer algo con el tiempo libre.<br><br><strong>Lo que indica:</strong> la semana fue de aguante, no de trabajo sostenible. Tres semanas seguidas así son señal clara de que algo cambió y no para mejor."}, {"time": "Domingo 8 PM", "title": "La ansiedad anticipatoria", "description": "<strong>Señal de erosión:</strong> ansiedad creciente el domingo a la noche pensando en la semana que viene. Dificultad para dormir el domingo.<br><br><strong>Lo que indica:</strong> el trabajo se metió en su tiempo personal. Si el domingo a la noche genera angustia, no es porque sea domingo: es porque algo del trabajo está pendiente, sin resolver, o cargado emocionalmente."}]}, {"id": "p25", "type": "interactive_checklist", "moduleTitle": "Módulo 3: Sostenerlo en el tiempo", "title": "Mi revisión semanal sostenible: siete chequeos del lunes", "image": null, "intro": "Esta es la herramienta práctica del curso. Cada lunes (idealmente al inicio del día, antes de abrir el correo), marque cuáles cumple esta semana. Si más de tres están sin marcar varias semanas seguidas, es señal de actuar.", "items": [{"label": "Tengo identificadas las 3 prioridades de la semana", "detail": "No 10. Tres. Lo demás es contexto o se subordina a estas tres. Sin esto, todo parece urgente."}, {"label": "Tengo al menos una hora bloqueada por día para trabajo profundo", "detail": "Sin reuniones, sin chat, sin correo. Una hora real protegida. Si no la tiene, la primera tarea de la semana es reservarla en su calendario."}, {"label": "Tengo definida una hora de cierre realista para esta semana", "detail": "Una hora concreta, no 'cuando termine'. Si la jornada es 8-6, entonces 6 es 6. Si hay excepciones, son excepciones, no costumbre."}, {"label": "Tengo planificada al menos una desconexión real esta semana", "detail": "Almuerzo lejos de la pantalla, caminata sin celular, conversación no laboral. Algo concreto, no 'voy a tratar de descansar'."}, {"label": "No me comprometí a más de lo que puedo hacer con calidad", "detail": "Si miro mi semana y ya sé que voy a tener que trabajar el fin de semana, es señal de que asumí demasiado. Renegociar ahora cuesta menos que entregar mal después."}, {"label": "Si lidero personas, mis acciones esta semana respetan el descanso del equipo", "detail": "Mensajes programados, expectativas explícitas, no enviar fuera de hora salvo emergencia real. Solo si tiene personas a cargo."}, {"label": "Sé qué voy a hacer este fin de semana que NO sea trabajo", "detail": "Al menos una cosa concreta planificada que no sea trabajo. No tiene que ser grande. Tiene que ser explícita."}], "closing": "<strong>Si marca 5-7:</strong> está sosteniendo el equilibrio. Mantenga la práctica.<br><strong>Si marca 3-4:</strong> hay erosión que vale la pena revisar antes de que crezca.<br><strong>Si marca menos de 3:</strong> ya hay problema instalado. Conviene actuar esta misma semana, no la próxima."}, {"id": "p26", "type": "statement_paragraphs", "moduleTitle": "Módulo 3: Sostenerlo en el tiempo", "title": "Cómo recuperar el equilibrio cuando se ha erosionado", "image": null, "statement": "Recuperar el equilibrio no es tomar vacaciones largas. Es hacer cambios concretos en cómo se trabaja la próxima semana.", "paragraphs": ["Cuando alguien se da cuenta de que su equilibrio se erosionó, suele pensar en soluciones grandes: cambiar de trabajo, irse dos semanas de vacaciones, hablar con un coach. Esas soluciones pueden ayudar, pero rara vez son lo primero. Lo primero es práctico y modesto: ajustar la semana que sigue."], "intro": "Cuatro pasos para recuperar el equilibrio sin grandes gestos", "items": ["<strong>Hacer un diagnóstico honesto.</strong> ¿Qué de la semana pasada hubiera sido evitable con mejor planificación o conversaciones distintas? Sin culpa, solo con curiosidad práctica.", "<strong>Elegir UN cambio para implementar esta semana.</strong> No tres. Uno. Por ejemplo: la primera hora del día protegida sin correo. Si no se sostiene un cambio chico, no se va a sostener uno grande.", "<strong>Tener una conversación pendiente.</strong> Casi siempre hay una conversación que se viene postergando (con jefe, cliente, equipo) que está alimentando el desequilibrio. Tenerla esta semana, no la que viene.", "<strong>Volver a medir en 14 días.</strong> Después de dos semanas con el cambio aplicado, revisar la revisión semanal del lunes. Si mejoró, sostener. Si no, probar otro cambio."]}, {"id": "p27", "type": "knowledge_check", "moduleTitle": "Módulo 3: Sostenerlo en el tiempo", "title": "Verifique lo aprendido", "image": null, "questions": [{"type": "single", "stem": "Carolina lidera un equipo de 8 personas. A veces trabaja los domingos a la noche para 'adelantar la semana' y manda correos en ese horario. Le dice al equipo 'no se preocupen, contesten cuando puedan'. ¿Cuál es el problema principal?", "options": ["No hay problema, porque les dijo que no contestaran enseguida.", "El equipo lee sus acciones, no sus palabras. Mandar correos los domingos comunica que el ritmo esperado incluye el domingo, aunque verbalmente diga otra cosa.", "Trabajar los domingos es siempre incorrecto.", "Debería despedir a quienes le respondan los domingos."], "correctAnswer": 1, "correct": 1, "feedback": {"correct": "Correcto. Las palabras del líder pesan poco frente a sus acciones. Si necesita trabajar el domingo, puede programar el envío para el lunes. Esa es la solución concreta.", "incorrect": "Recuerde el principio del módulo: el equipo lee acciones, no palabras. Trabajar uno mismo no es el problema; emitir señales que se interpreten como expectativas del equipo, sí lo es."}}, {"type": "single", "stem": "Según el módulo, cuando alguien nota que su equilibrio se ha erosionado, ¿cuál es la primera acción más útil?", "options": ["Tomar dos semanas de vacaciones inmediatamente.", "Cambiar de trabajo si es posible.", "Hacer un diagnóstico honesto de la semana pasada y elegir UN cambio concreto para implementar la semana siguiente.", "Hablar con un coach o psicólogo de inmediato."], "correctAnswer": 2, "correct": 2, "feedback": {"correct": "Correcto. La recuperación empieza con cambios concretos y modestos en la semana siguiente, no con soluciones grandes. Si no se sostiene un cambio chico, no se sostiene uno grande.", "incorrect": "Revise: las soluciones grandes (vacaciones largas, cambio de trabajo, coaching) pueden ayudar después. Pero lo primero, y lo más útil, es un diagnóstico honesto y UN cambio concreto en la semana que sigue."}}]}, {"id": "p28", "type": "module_outro", "moduleTitle": "Módulo 3: Sostenerlo en el tiempo", "title": "Lo que cierra este módulo", "image": null, "items": ["<strong>Si lidera personas, su ejemplo cuenta el doble.</strong> Lo que el equipo le ve hacer es más fuerte que lo que les dice. Programar envíos, ser explícito sobre expectativas, y modelar el cierre son prácticas concretas que cambian la cultura del equipo.", "<strong>El equilibrio se erosiona gradualmente.</strong> Hay seis momentos de la semana donde notarlo: lunes 8am, martes 4pm, miércoles 9pm, jueves 11am, viernes 6pm, domingo 8pm. Una mala señal puntual no es problema; varias semanas seguidas sí.", "<strong>La recuperación empieza con cambios concretos y modestos.</strong> Diagnóstico honesto, UN cambio para la semana siguiente, una conversación pendiente, y volver a medir en 14 días. Si no se sostiene un cambio chico, no se va a sostener uno grande."]}]}, {"id": "m4", "title": "Cierre y evaluación", "screens": [{"id": "p29", "type": "quiz", "moduleTitle": "Cierre y evaluación", "title": "Evaluación final del curso", "image": null, "intro": "Diez preguntas sobre lo trabajado en los tres módulos. Para aprobar necesita 80% o más (8 de 10).", "passingScore": 80, "questions": [{"type": "single", "stem": "Marcos lleva tres meses respondiendo cada mensaje del jefe en menos de 5 minutos, incluso fuera de hora, y trabajando hasta las 11pm casi todas las noches. ¿Cómo describiría su situación?", "options": ["Está trabajando bien: alta disponibilidad y compromiso visible.", "Está ocupado, no necesariamente trabajando bien. El patrón sugiere costos invisibles acumulándose.", "Debería trabajar todavía más horas para asegurar resultados.", "Es la única manera de ser un buen profesional hoy."], "correctAnswer": 1, "correct": 1}, {"type": "single", "stem": "Su cliente le pide algo el viernes a las 7pm con plazo el lunes 9am. ¿Cuál es la respuesta más profesional Y sostenible?", "options": ["Ignorar hasta el lunes 9am.", "Responder 'sí, lo hago' y trabajar el fin de semana.", "Responder rápido con una alternativa concreta: 'Lo veo el lunes a primera hora y te confirmo el horario.'", "Apagar el celular hasta el lunes sin avisar."], "correctAnswer": 2, "correct": 2}, {"type": "single", "stem": "Según los datos del módulo 1, ¿qué pasa con la productividad después de aproximadamente 55 horas semanales?", "options": ["Sigue aumentando proporcionalmente con cada hora adicional.", "Las horas adicionales no producen más output; se pierde en errores y fatiga lo que se gana en tiempo.", "Aumenta drásticamente si la persona está motivada.", "Depende solo del tipo de trabajo."], "correctAnswer": 1, "correct": 1}, {"type": "single", "stem": "En una conversación de límites con el jefe, ¿cuál es la mejor forma de plantear el tema?", "options": ["'Estoy agotada, ya no puedo más, necesito que algo cambie.'", "'Llevo tres semanas sin descansar bien, esto es injusto.'", "'Esta semana tuve X reuniones y Y entregables. Si sostengo este ritmo, la calidad de A va a caer. Veo tres opciones para reorganizar: priorizar B, postergar C, o reducir el alcance de A.'", "Esperar a que el jefe se dé cuenta solo."], "correctAnswer": 2, "correct": 2}, {"type": "single", "stem": "¿Qué define mejor la 'desconexión real' fuera del horario laboral?", "options": ["Apagar la computadora a las 6pm.", "Lograr que la mente deje de estar en modo trabajo, con prácticas concretas: ritual de cierre, notificaciones apagadas, espacio físico separado, conversaciones no laborales.", "Tomar dos semanas de vacaciones una vez al año.", "Trabajar más rápido para terminar antes."], "correctAnswer": 1, "correct": 1}, {"type": "single", "stem": "Si lidera personas y necesita redactar un correo el domingo a las 11pm, ¿qué conviene hacer?", "options": ["Enviarlo inmediatamente para que esté listo.", "Programar el envío para el lunes a las 9am, así su trabajo se hace cuando puede pero el equipo recibe en horario.", "Esperar hasta el lunes y reescribirlo desde cero.", "Pedirle a otro miembro del equipo que lo envíe."], "correctAnswer": 1, "correct": 1}, {"type": "multiple", "stem": "¿Cuáles de estos son mitos sobre el equilibrio vida-trabajo? (Marque todas las correctas.)", "options": ["Si me dedico más horas, voy a producir más, sin importar cuántas sean.", "Si pongo límites, voy a verme poco comprometido.", "El equilibrio es para gente sin ambición.", "Sostener límites claros suele aumentar la percepción de confiabilidad profesional."], "correctAnswer": [0, 1, 2], "correct": [0, 1, 2]}, {"type": "single", "stem": "¿Cuál NO es uno de los seis momentos de la semana donde notar erosión del equilibrio?", "options": ["Lunes a las 8am: cómo empieza la semana.", "Miércoles 9pm: seguir trabajando sin necesidad real.", "Domingo 8pm: ansiedad anticipatoria por la semana que viene.", "Cuántos kilómetros corre por semana."], "correctAnswer": 3, "correct": 3}, {"type": "single", "stem": "Cuando alguien nota que su equilibrio se ha erosionado, ¿cuál es el primer paso más útil?", "options": ["Renunciar al trabajo.", "Hacer un diagnóstico honesto de la semana pasada y elegir UN cambio concreto para la semana siguiente.", "Tomar tres meses sabáticos de inmediato.", "Cambiar todos sus hábitos al mismo tiempo."], "correctAnswer": 1, "correct": 1}, {"type": "matching", "stem": "Empareje cada práctica de líder con su efecto en el equipo:", "pairs": [{"left": "Programar envíos para horario laboral", "right": "El equipo recibe en horario aunque el líder trabaje fuera"}, {"left": "Decir explícitamente 'no espero respuesta ahora'", "right": "Reduce la presión real cuando algo se manda fuera de hora"}, {"left": "Modelar el cierre (salir a horario, tomar almuerzo)", "right": "Da al equipo permiso real, no solo teórico"}, {"left": "Respetar el descanso en voz alta en reuniones", "right": "Lo explícito tiene peso; lo implícito se ignora"}]}]}, {"id": "p30", "type": "closing_resources", "moduleTitle": "Cierre y evaluación", "title": "Su compromiso para esta semana", "image": "assets/images/img_10.jpg", "audio": "assets/audio/audio_08.mp3", "audio_script": "Ha terminado el curso. Lo importante no es lo que escuchó. Es lo que va a hacer el próximo lunes. Una sola cosa. Empezando por la más pequeña. Tres opciones para elegir. Una. Bloquear una hora al día sin correo ni chat. Para trabajo profundo. Dos. Definir su hora de cierre real y respetarla cuatro días esta semana. Tres. Si lidera personas... programar todos los envíos de fuera de hora para horario laboral. Solo una. Esta semana. Y en dos semanas... vuelva a su revisión del lunes y vea si cambió algo. El equilibrio no se gana de una vez. Se sostiene cada semana.", "paragraphs": ["Ha terminado el curso. Tiene un marco para entender por qué cuesta tanto, herramientas concretas para poner límites en la práctica, y una revisión semanal para sostenerlo en el tiempo. Pero todo eso vale poco si no se traduce en acción esta semana.", "<strong>El compromiso mínimo es uno:</strong> elegir UN cambio concreto para implementar el lunes que viene. No tres. No siete. Uno. Si no se sostiene un cambio chico, no se va a sostener uno grande."], "items": ["Guía rápida: Estar ocupado vs trabajando bien (PDF descargable con los 5 contrastes).", "Plantilla: Mi revisión semanal sostenible (PDF imprimible con los 7 chequeos del lunes).", "Guía: 4 principios para conversaciones de límites con el jefe (PDF descargable)."], "closing": "El equilibrio vida-trabajo no se gana de una vez y para siempre. Se sostiene cada semana, en pequeñas decisiones. El lunes que viene es una buena fecha para empezar. <strong>Trabaje bien. No solo mucho.</strong>"}]}]};
+  </script>
+  <script>
+/**
+ * Aacrom Course Player
+ * Curso: P-A.1 · El arte de la guerra aplicado a los negocios
+ */
+
+(function () {
+  'use strict';
+
+  let course = null;
+  let allScreens = [];
+  let currentIndex = 0;
+  let completedScreens = new Set();
+  let quizFinalized = false;
+  let quizState = {};
+  let scenarioState = { exploredOptions: new Set(), convergentShown: false };
+
+  // ==========================================================
+  // INIT
+  // ==========================================================
+  async function init() {
+    try {
+      course = window.COURSE_DATA;
+      buildScreenList();
+      buildSidebar();
+      loadProgress();
+      renderScreen();
+      bindNav();
+    } catch (e) {
+      document.getElementById('screen-container').innerHTML = '<p style="padding:40px;color:#B02A2A">Error cargando el curso: ' + e.message + '</p>';
+    }
+  }
+
+  function buildScreenList() {
+    allScreens = [];
+    course.modules.forEach((mod, mi) => {
+      mod.screens.forEach((scr, si) => {
+        allScreens.push({ ...scr, moduleIndex: mi, screenIndex: si });
+      });
+    });
+    document.getElementById('course-title').textContent = course.title;
+  }
+
+  function buildSidebar() {
+    const nav = document.getElementById('module-nav');
+    nav.innerHTML = '';
+    course.modules.forEach((mod, idx) => {
+      const item = document.createElement('div');
+      item.className = 'module-item';
+      item.dataset.moduleIndex = idx;
+      item.innerHTML = `
+        <div class="icon">≡</div>
+        <div class="title">${mod.title}</div>
+        <div class="check"></div>
+      `;
+      item.addEventListener('click', () => jumpToModule(idx));
+      nav.appendChild(item);
+    });
+  }
+
+  function jumpToModule(moduleIndex) {
+    const first = allScreens.findIndex(s => s.moduleIndex === moduleIndex);
+    if (first >= 0) { currentIndex = first; renderScreen(); }
+    document.getElementById('sidebar').classList.remove('open');
+  }
+
+  function loadProgress() {
+    var saved = null;
+    try {
+      if (window.AacromSCORM && window.AacromSCORM.isInitialized && window.AacromSCORM.isInitialized()) {
+        saved = window.AacromSCORM.getSuspendData();
+      }
+    } catch (e) {}
+    if (!saved) { try { saved = JSON.parse(sessionStorage.getItem('aacrom_progress_c6') || '{}'); } catch (e) { saved = {}; } }
+    try {
+      if (saved && saved.completed) completedScreens = new Set(saved.completed);
+      if (saved && typeof saved.current === 'number') currentIndex = Math.min(saved.current, allScreens.length - 1);
+    } catch (e) {}
+  }
+
+  function saveProgress() {
+    var data = { completed: Array.from(completedScreens), current: currentIndex };
+    try { sessionStorage.setItem('aacrom_progress_c6', JSON.stringify(data)); } catch (e) {}
+    try {
+      if (window.AacromSCORM && window.AacromSCORM.isInitialized && window.AacromSCORM.isInitialized()) {
+        window.AacromSCORM.setSuspendData(data);
+        window.AacromSCORM.commit();
+      }
+    } catch (e) {}
+  }
+
+  // ==========================================================
+  // SIDEBAR UPDATE
+  // ==========================================================
+  function updateSidebar() {
+    const items = document.querySelectorAll('.module-item');
+    const currentModule = allScreens[currentIndex].moduleIndex;
+
+    items.forEach((item, idx) => {
+      item.classList.remove('active', 'current', 'completed');
+      const modScreens = allScreens.filter(s => s.moduleIndex === idx);
+      const modCompleted = modScreens.every(s => completedScreens.has(s.id));
+
+      if (idx === currentModule) item.classList.add('active', 'current');
+      if (modCompleted) item.classList.add('completed');
+    });
+
+    const totalScreens = allScreens.length;
+    const completed = completedScreens.size;
+    const pct = Math.round((completed / totalScreens) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-text').textContent = pct + '% COMPLETADO';
+  }
+
+  // ==========================================================
+  // RENDER SCREEN
+  // ==========================================================
+  function renderScreen() {
+    const screen = allScreens[currentIndex];
+    document.getElementById('screen-counter').textContent = (currentIndex + 1) + ' de ' + allScreens.length;
+
+    const container = document.getElementById('screen-container');
+    container.scrollTop = 0;
+
+    let html = '';
+    switch (screen.type) {
+      case 'course_cover':       html = renderCourseCover(screen); break;
+      case 'statement_list':     html = renderStatementList(screen); break;
+      case 'module_intro':       html = renderModuleIntro(screen); break;
+      case 'paragraph_audio':    html = renderParagraphAudio(screen); break;
+      case 'hotspots':           html = renderHotspots(screen); break;
+      case 'tabs':               html = renderTabs(screen); break;
+      case 'case_study':         html = renderCaseStudy(screen); break;
+      case 'module_outro':       html = renderModuleOutro(screen); break;
+      case 'knowledge_check':    html = renderKnowledgeCheck(screen); break;
+      case 'accordion':          html = renderAccordion(screen); break;
+      case 'statement_paragraph':html = renderStatementParagraph(screen); break;
+      case 'sorting':            html = renderSorting(screen); break;
+      case 'decision_matrix':    html = renderDecisionMatrix(screen); break;
+      case 'decision_scenario':  html = renderDecisionScenario(screen); break;
+      case 'quiz':               html = renderQuiz(screen); break;
+      case 'module_intro_full':  html = renderModuleIntroFull(screen); break;
+      case 'paragraphs':         html = renderParagraphs(screen); break;
+      case 'statement_paragraphs': html = renderStatementParagraphs(screen); break;
+      case 'closing_resources':  html = renderClosingResources(screen); break;
+      case 'course_cover_objective': html = renderCourseCoverObjective(screen); break;
+      case 'hero_image':         html = renderHeroImage(screen); break;
+      case 'stat_callout':       html = renderStatCallout(screen); break;
+      case 'comparison_cards':   html = renderComparisonCards(screen); break;
+      case 'flip_cards':         html = renderFlipCards(screen); break;
+      case 'timeline':           html = renderTimeline(screen); break;
+      case 'interactive_checklist': html = renderInteractiveChecklist(screen); break;
+      default:                   html = `<div style="padding:40px;">Tipo no implementado: ${screen.type}</div>`;
+    }
+
+    container.innerHTML = html;
+
+    if (screen.type === 'hotspots')          attachHotspotEvents(screen);
+    else if (screen.type === 'tabs')          attachTabEvents(screen);
+    else if (screen.type === 'accordion')     attachAccordionEvents(screen);
+    else if (screen.type === 'knowledge_check')attachKCEvents(screen);
+    else if (screen.type === 'sorting')       attachSortingEvents(screen);
+    else if (screen.type === 'decision_matrix')attachMatrixEvents(screen);
+    else if (screen.type === 'decision_scenario')attachScenarioEvents(screen);
+    else if (screen.type === 'quiz')          attachQuizEvents(screen);
+
+    if (!isInteractiveScreen(screen)) completedScreens.add(screen.id);
+    updateSidebar();
+    updateFooterNav();
+    saveProgress();
+  }
+
+  function isInteractiveScreen(screen) {
+    return ['knowledge_check', 'sorting', 'quiz', 'decision_scenario'].includes(screen.type);
+  }
+
+  // ==========================================================
+  // RENDERERS
+  // ==========================================================
+  function audioHTML(audioFile) {
+    if (!audioFile) return '';
+    return `
+      <div class="instructions-box">
+        <div class="badge-icon"></div>
+        <div class="text"><strong>Instrucciones:</strong> presione el botón "▶" y escuche atentamente el audio.</div>
+      </div>
+      <audio controls preload="metadata"><source src="${audioFile}" type="audio/mpeg">Su navegador no soporta audio.</audio>
+    `;
+  }
+
+  function headerHTML(screen, withImage = false) {
+    const imgStyle = withImage && screen.image
+      ? `style="background-image: url('${screen.image}')"`
+      : '';
+    const moduleLabel = screen.moduleTitle || '';
+    return `
+      <div class="screen-header ${withImage && screen.image ? 'with-image' : ''}" ${imgStyle}>
+        <h1>${screen.title}</h1>
+        <div class="header-line"></div>
+      </div>
+    `;
+  }
+
+  function renderCourseCover(s) {
+    return `
+      ${headerHTML(s, true)}
+      <div class="screen-body">
+        <h2 class="subtitle-blue">${s.title}</h2>
+        ${audioHTML(s.audio)}
+        ${s.body.map(p => `<p>${p}</p>`).join('')}
+      </div>
+    `;
+  }
+
+  function renderStatementList(s) {
+    return `
+      ${headerHTML(s, !!s.image)}
+      <div class="screen-body">
+        ${s.statement ? `<div class="statement">${s.statement}</div>` : ''}
+        ${s.audio ? audioHTML(s.audio) : ''}
+        ${s.intro ? `<p style="font-weight:600;color:var(--aacrom-primary);margin-top:30px">${s.intro}</p>` : ''}
+        <ul class="aacrom-list">${s.items.map(i => `<li><span>${i}</span></li>`).join('')}</ul>
+      </div>
+    `;
+  }
+
+  function renderModuleIntro(s) {
+    return `
+      ${headerHTML(s, true)}
+      <div class="screen-body">
+        ${audioHTML(s.audio)}
+        <div class="statement">${s.statement}<span class="statement-citation">${s.citation}</span></div>
+      </div>
+    `;
+  }
+
+  function renderParagraphAudio(s) {
+    return `
+      ${headerHTML(s, !!s.image)}
+      <div class="screen-body">
+        ${audioHTML(s.audio)}
+        <p class="justify">${s.body}</p>
+      </div>
+    `;
+  }
+
+  function renderStatementParagraph(s) {
+    return `
+      ${headerHTML(s, !!s.image)}
+      <div class="screen-body">
+        <div class="statement">${s.statement}</div>
+        ${audioHTML(s.audio)}
+        ${s.subheading ? `<h3 style="text-align:center;color:var(--aacrom-primary);margin:30px 0 18px;font-size:22px">${s.subheading}</h3>` : ''}
+        <p class="justify">${s.body}</p>
+      </div>
+    `;
+  }
+
+  function renderCaseStudy(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        ${audioHTML(s.audio)}
+        <div class="case-card-wrapper">
+          <div class="bg-image" style="background-image:url('${s.image}')"></div>
+          <div class="card-content">
+            ${s.subtitle ? `<div class="card-subtitle">${s.subtitle}</div>` : ''}
+            <p>${s.body}</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderModuleOutro(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        <ul class="aacrom-list">${s.items.map(i => `<li><span>${i}</span></li>`).join('')}</ul>
+      </div>
+    `;
+  }
+
+  function renderHotspots(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        <p>${s.intro}</p>
+        <div class="hotspots-container">
+          ${s.image ? `<img src="${s.image}" class="hotspots-image" alt="">` : ''}
+          <div class="hotspots-list">
+            ${s.hotspots.map((h, i) => `<button class="hotspot-btn" data-idx="${i}">${h.label}</button>`).join('')}
+          </div>
+          <div class="hotspot-content" id="hotspot-content"></div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderTabs(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        ${s.audio ? audioHTML(s.audio) : ''}
+        <p>${s.intro}</p>
+        <div class="tabs-container">
+          <div class="tabs-nav">
+            ${s.tabs.map((t, i) => `<button class="tab-btn ${i === 0 ? 'active' : ''}" data-idx="${i}">${t.title}</button>`).join('')}
+          </div>
+          ${s.tabs.map((t, i) => `<div class="tab-panel ${i === 0 ? 'active' : ''}" data-idx="${i}">${t.content}</div>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderAccordion(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        ${s.audio ? audioHTML(s.audio) : ''}
+        <p>${s.intro}</p>
+        <div class="accordion">
+          ${s.items.map((it, i) => `
+            <div class="accordion-item" data-idx="${i}">
+              <div class="accordion-header">
+                <span>${it.title}</span>
+                <span class="toggle">+</span>
+              </div>
+              <div class="accordion-content"><div class="accordion-content-inner">${it.content}</div></div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderDecisionMatrix(s) {
+    const ordered = ['tl', 'tr', 'bl', 'br'];
+    const qByPos = {};
+    s.quadrants.forEach(q => qByPos[q.position] = q);
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        <p>${s.intro}</p>
+        <div class="matrix-container">
+          <div class="matrix-grid">
+            ${ordered.map((pos, i) => {
+              const q = qByPos[pos];
+              return `<div class="matrix-quadrant" data-pos="${pos}" style="background:${q.color}">${q.label}</div>`;
+            }).join('')}
+          </div>
+          <div class="matrix-label-x">${s.xAxis}</div>
+          <div class="matrix-label-y">${s.yAxis}</div>
+        </div>
+        <div class="matrix-content" id="matrix-content"></div>
+      </div>
+    `;
+  }
+
+  function renderDecisionScenario(s) {
+    const instructionsCallout = s.instructions ? `
+      <div class="instructions-callout">
+        <div class="callout-icon">!</div>
+        <div class="callout-text">${s.instructions}</div>
+      </div>
+    ` : '';
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        <div class="scenario-container">
+          <div class="scenario-intro-card">
+            <p style="text-align:left;font-size:17px">${s.intro_text || ''}</p>
+          </div>
+
+          ${instructionsCallout}
+
+          <div class="dialogue-container" id="dialogue">
+            ${(s.dialogue || []).map((d, i) => {
+              const isAndres = d.character === 'Andrés';
+              const isNarrator = d.character === 'Narrador';
+              const cls = isAndres ? 'andres' : (isNarrator ? 'narrator' : '');
+              const initial = isNarrator ? '"' : (d.character || '?').charAt(0);
+              const dAudio = d.audio ? `<audio controls preload="metadata"><source src="${d.audio}" type="audio/mpeg"></audio>` : '';
+              return `
+                <div class="dialogue-line" data-idx="${i}">
+                  <div class="dialogue-avatar ${cls}">${initial}</div>
+                  <div class="dialogue-body">
+                    <div class="dialogue-character">${d.character || ''}${d.role ? `<span class="role">${d.role}</span>` : ''}</div>
+                    <div class="dialogue-text">${d.text || ''}</div>
+                    ${dAudio}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <div class="scenario-question">${s.question_text || '¿Qué decisión tomaría?'}</div>
+          <div class="scenario-options" id="scenario-options">
+            ${s.options.map(o => `
+              <button class="scenario-option-btn" data-id="${o.id}">
+                <div><span class="option-id">${o.id}</span><span class="option-label">${o.label}</span></div>
+                <div class="option-sub">${o.subtitle || ''}</div>
+              </button>
+            `).join('')}
+          </div>
+
+          <div class="scenario-result" id="scenario-result" style="display:none"></div>
+
+          <div class="scenario-convergent" id="scenario-convergent">
+            <h4>${s.convergent_title || ''}</h4>
+            <p>${s.convergent_text || ''}</p>
+            ${s.convergent_audio ? `<audio controls preload="metadata" style="margin-top:16px;max-width:100%;filter:invert(0.85) hue-rotate(180deg)"><source src="${s.convergent_audio}" type="audio/mpeg"></audio>` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderKnowledgeCheck(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        ${s.questions.map((q, i) => `
+          <div class="question-card" data-qidx="${i}">
+            <div class="question-counter">PREGUNTA ${i + 1} DE ${s.questions.length}</div>
+            <div class="question-stem">${q.stem}</div>
+            <div class="options-container">
+              ${q.options.map((opt, j) => `
+                <div class="option-row" data-opt="${j}">
+                  <input type="${q.type === 'multiple' ? 'checkbox' : 'radio'}" name="q${i}" id="q${i}o${j}" value="${j}">
+                  <label for="q${i}o${j}">${opt}</label>
+                </div>
+              `).join('')}
+            </div>
+            <button class="quiz-submit" data-qidx="${i}">Verificar respuesta</button>
+            <div class="feedback-box"><div class="feedback-title"></div><p></p></div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function renderSorting(s) {
+    const shuffled = [...s.items].map((it, i) => ({ ...it, originalIdx: i })).sort(() => Math.random() - 0.5);
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        <p style="font-weight:600;color:var(--aacrom-primary)">${s.instruction}</p>
+        <div class="sorting-container">
+          <div class="sorting-items-pool" id="sorting-pool" data-zone="pool">
+            ${shuffled.map((it, i) => `
+              <div class="sortable-item" draggable="true" data-original="${it.originalIdx}" data-category="${it.category}">${it.text}</div>
+            `).join('')}
+          </div>
+          <div class="sorting-categories">
+            ${s.categories.map((cat, i) => `
+              <div class="sorting-category" data-zone="${i}">
+                <div class="sorting-category-title">${cat}</div>
+                <div class="sorting-drop-zone"></div>
+              </div>
+            `).join('')}
+          </div>
+          <button class="quiz-submit" id="sorting-check">Verificar</button>
+          <div class="feedback-box" id="sorting-feedback"><div class="feedback-title"></div><p></p></div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderQuiz(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        <p style="text-align:center;color:var(--aacrom-text-muted);font-size:16px;margin-bottom:30px">${s.intro}</p>
+
+        ${s.questions.map((q, i) => {
+          if (q.type === 'matching') {
+            const rights = [...q.pairs].map(p => p.right).sort(() => Math.random() - 0.5);
+            return `
+              <div class="question-card" data-qidx="${i}" data-qtype="matching">
+                <div class="question-counter">PREGUNTA ${i + 1} DE ${s.questions.length}</div>
+                <div class="question-stem">${q.stem}</div>
+                <div class="matching-grid">
+                  ${q.pairs.map((pair, pi) => `
+                    <div class="matching-row" data-left="${pi}">
+                      <div class="matching-cell left">${pair.left}</div>
+                      <div class="matching-arrow">→</div>
+                      <select class="matching-cell" data-pair="${pi}" style="border:2px solid var(--aacrom-border);background:white;font-family:inherit;font-size:15px;padding:14px 12px;border-radius:10px;cursor:pointer">
+                        <option value="">— Seleccione —</option>
+                        ${rights.map((r, ri) => `<option value="${r}">${r}</option>`).join('')}
+                      </select>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+          }
+          return `
+            <div class="question-card" data-qidx="${i}" data-qtype="${q.type}">
+              <div class="question-counter">PREGUNTA ${i + 1} DE ${s.questions.length}</div>
+              <div class="question-stem">${q.stem}</div>
+              <div class="options-container">
+                ${q.options.map((opt, j) => `
+                  <div class="option-row" data-opt="${j}">
+                    <input type="${q.type === 'multiple' ? 'checkbox' : 'radio'}" name="quiz_q${i}" id="quiz_q${i}o${j}" value="${j}">
+                    <label for="quiz_q${i}o${j}">${opt}</label>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }).join('')}
+
+        <button class="quiz-submit" id="quiz-submit">Enviar evaluación</button>
+        <div id="quiz-result"></div>
+      </div>
+    `;
+  }
+
+
+  function renderCourseCoverObjective(s) {
+    const fichaHTML = (s.ficha || []).map(f =>
+      `<div class="ficha-item"><div class="ficha-label">${f.label}</div><div class="ficha-value">${f.value}</div></div>`
+    ).join('');
+    return `
+      <div class="cover-objective" style="--cover-bg: url('${s.image || ''}')">
+        <div class="cover-objective-content">
+          <div class="course-code">Curso C-C.6 · Aacrom</div>
+          <h1>${s.title}</h1>
+          <div class="subtitle">${s.subtitle || ''}</div>
+          <div class="objective-label">Objetivo de aprendizaje</div>
+          <div class="objective-text">${s.objective || ''}</div>
+          <div class="ficha">${fichaHTML}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderHeroImage(s) {
+    return `
+      <div class="hero-image-screen">
+        <div class="hero-image-bg" style="background-image: url('${s.image || ''}')">
+          <div class="hero-image-title">${s.title || ''}</div>
+        </div>
+        <div class="hero-image-statement">
+          <p>${s.statement || ''}</p>
+        </div>
+        ${s.footer ? `<div class="hero-image-footer">${s.footer}</div>` : ''}
+      </div>
+    `;
+  }
+
+  function renderModuleIntroFull(s) {
+    const heroImg = s.image ? `<div class="module-hero-image" style="background-image:url('${s.image}')"></div>` : '';
+    const paras = (s.paragraphs || []).map(p => `<p>${p}</p>`).join('');
+    const learnItems = (s.learnItems || []).map(i => `<li><span>${i}</span></li>`).join('');
+    const audio = s.audio ? `<audio controls src="${s.audio}" style="display:block;margin:20px auto;max-width:600px;width:100%"></audio>` : '';
+    return `
+      <div class="screen-header">
+        <div class="module-label">${s.moduleLabel || 'MÓDULO'}</div>
+        <h1>${s.title}</h1>
+        <div class="header-line"></div>
+      </div>
+      <div class="screen-body">
+        ${heroImg}
+        <div class="statement">${s.statement}<span class="statement-citation">${s.citation || ''}</span></div>
+        ${audio}
+        <div class="aacrom-paragraphs">${paras}</div>
+        ${s.nextSteps ? `<div class="next-steps-heading">${s.nextSteps}</div>` : ''}
+        ${learnItems ? `<ul class="aacrom-list">${learnItems}</ul>` : ''}
+      </div>
+    `;
+  }
+  function renderParagraphs(s) {
+    const paras = (s.paragraphs || []).map(p => `<p>${p}</p>`).join('');
+    const heroImg = s.image ? `<div class="module-hero-image" style="background-image:url('${s.image}');height:240px"></div>` : '';
+    const audio = s.audio ? `<audio controls src="${s.audio}" style="display:block;margin:20px auto;max-width:600px;width:100%"></audio>` : '';
+    return `${headerHTML(s, false)}<div class="screen-body">${heroImg}${audio}<div class="aacrom-paragraphs">${paras}</div></div>`;
+  }
+  function renderStatementParagraphs(s) {
+    const paras = (s.paragraphs || []).map(p => `<p>${p}</p>`).join('');
+    const items = (s.items || []).map(i => `<li><span>${i}</span></li>`).join('');
+    return `${headerHTML(s, !!s.image)}<div class="screen-body"><div class="statement">${s.statement}</div><div class="aacrom-paragraphs">${paras}</div>${s.intro ? `<p style="font-weight:600;color:var(--aacrom-primary);margin-top:30px">${s.intro}</p>` : ''}${items ? `<ul class="aacrom-list">${items}</ul>` : ''}</div>`;
+  }
+  function renderClosingResources(s) {
+    const heroImg = s.image ? `<div class="module-hero-image" style="background-image:url('${s.image}');height:220px"></div>` : '';
+    const paras = (s.paragraphs || []).map(p => `<p>${p}</p>`).join('');
+    const items = (s.items || []).map(i => `<li><span>${i}</span></li>`).join('');
+    const audio = s.audio ? `<audio controls src="${s.audio}" style="display:block;margin:20px auto;max-width:600px;width:100%"></audio>` : '';
+    return `${headerHTML(s, false)}<div class="screen-body">${heroImg}${audio}<div class="aacrom-paragraphs">${paras}</div>${items ? `<ul class="aacrom-list">${items}</ul>` : ''}${s.closing ? `<div class="closing-message-box">${s.closing}</div>` : ''}</div>`;
+  }
+
+  // ==========================================================
+    // ============================================
+  // C-C.6 · RENDERERS DE TIPOS NUEVOS
+  // ============================================
+
+  function renderStatCallout(s) {
+    const stats = (s.stats || []).map(stat => `
+      <div class="stat-card">
+        <div class="stat-number">${stat.number || ''}</div>
+        <div class="stat-unit">${stat.unit || ''}</div>
+        <div class="stat-label">${stat.label || ''}</div>
+        <div class="stat-context">${stat.context || ''}</div>
+      </div>
+    `).join('');
+
+    return `
+      <div class="stat-screen">
+        <h2 class="screen-title">${s.title || ''}</h2>
+        ${s.intro ? `<div class="stat-intro">${s.intro}</div>` : ''}
+        <div class="stat-grid">${stats}</div>
+        ${s.closing ? `<div class="stat-closing">${s.closing}</div>` : ''}
+      </div>
+    `;
+  }
+
+  function renderComparisonCards(s) {
+    const rows = (s.comparisons || []).map(c => `
+      <div class="comparison-row">
+        <div class="comparison-cell left">${c.left || ''}</div>
+        <div class="comparison-vs">VS</div>
+        <div class="comparison-cell right">${c.right || ''}</div>
+      </div>
+    `).join('');
+
+    return `
+      <div class="comparison-screen">
+        <h2 class="screen-title">${s.title || ''}</h2>
+        ${s.intro ? `<div class="comparison-intro">${s.intro}</div>` : ''}
+        <div class="comparison-headers">
+          <div class="comparison-header left">
+            <h3>${s.leftTitle || ''}</h3>
+            ${s.leftSubtitle ? `<div class="sub">${s.leftSubtitle}</div>` : ''}
+          </div>
+          <div class="comparison-header right">
+            <h3>${s.rightTitle || ''}</h3>
+            ${s.rightSubtitle ? `<div class="sub">${s.rightSubtitle}</div>` : ''}
+          </div>
+        </div>
+        <div class="comparison-rows">${rows}</div>
+      </div>
+    `;
+  }
+
+  function renderFlipCards(s) {
+    const cards = (s.cards || []).map((c, i) => `
+      <div class="flip-card" data-flip="${i}" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-face front">
+            <div class="flip-label">${c.front || 'Mito'}</div>
+            <div class="flip-text">${c.frontText || ''}</div>
+          </div>
+          <div class="flip-face back">
+            <div class="flip-label">${c.back || 'Realidad'}</div>
+            <div class="flip-text">${c.backText || ''}</div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    return `
+      <div class="flip-screen">
+        <h2 class="screen-title">${s.title || ''}</h2>
+        ${s.intro ? `<div class="flip-intro">${s.intro}</div>` : ''}
+        <div class="flip-grid">${cards}</div>
+      </div>
+    `;
+  }
+
+  function renderTimeline(s) {
+    const events = (s.events || []).map(ev => `
+      <div class="timeline-event">
+        <div class="timeline-time">${ev.time || ''}</div>
+        <div class="timeline-title">${ev.title || ''}</div>
+        <div class="timeline-description">${ev.description || ''}</div>
+      </div>
+    `).join('');
+
+    return `
+      <div class="timeline-screen">
+        <h2 class="screen-title">${s.title || ''}</h2>
+        ${s.intro ? `<div class="timeline-intro">${s.intro}</div>` : ''}
+        <div class="timeline-container">${events}</div>
+      </div>
+    `;
+  }
+
+  function renderInteractiveChecklist(s) {
+    const items = (s.items || []).map((it, i) => `
+      <div class="checklist-item" data-check="${i}" onclick="
+        this.classList.toggle('checked');
+        var screen = this.closest('.checklist-screen');
+        var total = screen.querySelectorAll('.checklist-item').length;
+        var done = screen.querySelectorAll('.checklist-item.checked').length;
+        var prog = screen.querySelector('.checklist-progress');
+        if (prog) prog.innerHTML = 'Marcados <strong>' + done + ' de ' + total + '</strong>';
+      ">
+        <div class="checklist-checkbox">${'\u2713'}</div>
+        <div class="checklist-content">
+          <div class="checklist-label">${it.label || ''}</div>
+          ${it.detail ? `<div class="checklist-detail">${it.detail}</div>` : ''}
+        </div>
+      </div>
+    `).join('');
+    const total = (s.items || []).length;
+
+    return `
+      <div class="checklist-screen">
+        <h2 class="screen-title">${s.title || ''}</h2>
+        ${s.intro ? `<div class="checklist-intro">${s.intro}</div>` : ''}
+        <div class="checklist-progress">Marcados <strong>0 de ${total}</strong></div>
+        <div class="checklist-items">${items}</div>
+        ${s.closing ? `<div class="checklist-closing">${s.closing}</div>` : ''}
+      </div>
+    `;
+  }
+
+  // EVENT HANDLERS
+  // ==========================================================
+  function attachHotspotEvents(screen) {
+    const btns = document.querySelectorAll('.hotspot-btn');
+    const content = document.getElementById('hotspot-content');
+    let viewed = new Set();
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx);
+        btns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active', 'viewed');
+        viewed.add(idx);
+        content.innerHTML = `<strong style="color:var(--aacrom-primary);display:block;margin-bottom:8px">${screen.hotspots[idx].label}</strong>${screen.hotspots[idx].content}`;
+        content.classList.add('show');
+        if (viewed.size === screen.hotspots.length) {
+          completedScreens.add(screen.id);
+          updateSidebar(); saveProgress();
+        }
+      });
+    });
+  }
+
+  function attachTabEvents(screen) {
+    const btns = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.tab-panel');
+    let viewed = new Set([0]);
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx);
+        btns.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        panels[idx].classList.add('active');
+        viewed.add(idx);
+        if (viewed.size === btns.length) {
+          completedScreens.add(screen.id);
+          updateSidebar(); saveProgress();
+        }
+      });
+    });
+  }
+
+  function attachAccordionEvents(screen) {
+    const items = document.querySelectorAll('.accordion-item');
+    let opened = new Set();
+    items.forEach(item => {
+      const header = item.querySelector('.accordion-header');
+      header.addEventListener('click', () => {
+        item.classList.toggle('open');
+        opened.add(parseInt(item.dataset.idx));
+        if (opened.size === items.length) {
+          completedScreens.add(screen.id);
+          updateSidebar(); saveProgress();
+        }
+      });
+    });
+  }
+
+  function attachMatrixEvents(screen) {
+    const quads = document.querySelectorAll('.matrix-quadrant');
+    const content = document.getElementById('matrix-content');
+    let viewed = new Set();
+    quads.forEach(q => {
+      q.addEventListener('click', () => {
+        const pos = q.dataset.pos;
+        const data = screen.quadrants.find(x => x.position === pos);
+        quads.forEach(x => x.classList.remove('active'));
+        q.classList.add('active');
+        viewed.add(pos);
+        content.innerHTML = `<strong style="color:#1F3864;display:block;margin-bottom:8px;font-size:18px">${data.label}</strong>${data.content}`;
+        content.classList.add('show');
+        if (viewed.size === 4) {
+          completedScreens.add(screen.id);
+          updateSidebar(); saveProgress();
+        }
+      });
+    });
+  }
+
+  function attachKCEvents(screen) {
+    document.querySelectorAll('.question-card').forEach(card => {
+      const qidx = parseInt(card.dataset.qidx);
+      const q = screen.questions[qidx];
+      const submitBtn = card.querySelector('.quiz-submit');
+      const feedback = card.querySelector('.feedback-box');
+
+      // Toggle selected style
+      card.querySelectorAll('.option-row').forEach(row => {
+        row.addEventListener('click', () => {
+          if (q.type === 'single') {
+            card.querySelectorAll('.option-row').forEach(r => r.classList.remove('selected'));
+            row.classList.add('selected');
+            row.querySelector('input').checked = true;
+          } else {
+            const input = row.querySelector('input');
+            input.checked = !input.checked;
+            row.classList.toggle('selected', input.checked);
+          }
+        });
+      });
+
+      submitBtn.addEventListener('click', () => {
+        const inputs = card.querySelectorAll('input');
+        const selected = Array.from(inputs).map((inp, i) => inp.checked ? i : null).filter(x => x !== null);
+        if (selected.length === 0) {
+          feedback.classList.remove('correct', 'incorrect');
+          feedback.classList.add('show');
+          feedback.querySelector('.feedback-title').textContent = 'Seleccione una respuesta';
+          feedback.querySelector('p').textContent = '';
+          return;
+        }
+        let correct = false;
+        if (q.type === 'multiple') {
+          const correctSet = new Set(q.correct);
+          const selSet = new Set(selected);
+          correct = correctSet.size === selSet.size && Array.from(correctSet).every(x => selSet.has(x));
+        } else {
+          correct = selected[0] === q.correct;
+        }
+        // marca visual
+        card.querySelectorAll('.option-row').forEach((row, i) => {
+          row.classList.remove('correct', 'incorrect');
+          const correctIdx = q.type === 'multiple' ? q.correct : [q.correct];
+          if (correctIdx.includes(i)) row.classList.add('correct');
+          else if (selected.includes(i)) row.classList.add('incorrect');
+        });
+        feedback.classList.add('show');
+        feedback.classList.toggle('correct', correct);
+        feedback.classList.toggle('incorrect', !correct);
+        feedback.querySelector('.feedback-title').textContent = correct ? '¡Correcto!' : 'Revisemos esto:';
+        // q.feedback es un objeto {correct, incorrect}, no un string
+        var fbObj = q.feedback || {};
+        var fbText = correct ? (fbObj.correct || '¡Bien hecho!') : (fbObj.incorrect || 'Revisemos la respuesta.');
+        feedback.querySelector('p').textContent = fbText;
+        submitBtn.disabled = true;
+        inputs.forEach(i => i.disabled = true);
+
+        // marca completado si todas las preguntas respondidas
+        const allAnswered = Array.from(document.querySelectorAll('.question-card .quiz-submit')).every(b => b.disabled);
+        if (allAnswered) {
+          completedScreens.add(screen.id);
+          updateSidebar(); saveProgress();
+        }
+      });
+    });
+  }
+
+  function attachSortingEvents(screen) {
+    let dragged = null;
+    document.querySelectorAll('.sortable-item').forEach(item => {
+      item.addEventListener('dragstart', (e) => {
+        dragged = item;
+        item.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+      });
+      item.addEventListener('dragend', () => {
+        item.classList.remove('dragging');
+        dragged = null;
+      });
+    });
+
+    document.querySelectorAll('.sorting-category, #sorting-pool').forEach(zone => {
+      const dropZone = zone.querySelector('.sorting-drop-zone') || zone;
+      zone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        zone.classList.add('drag-over');
+      });
+      zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+      zone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        zone.classList.remove('drag-over');
+        if (dragged) {
+          (zone.querySelector('.sorting-drop-zone') || zone).appendChild(dragged);
+        }
+      });
+    });
+
+    document.getElementById('sorting-check').addEventListener('click', () => {
+      const items = document.querySelectorAll('.sortable-item');
+      let allCorrect = true;
+      items.forEach(item => {
+        const parent = item.closest('.sorting-category');
+        if (!parent) { allCorrect = false; return; }
+        const zone = parseInt(parent.dataset.zone);
+        const cat = parseInt(item.dataset.category);
+        item.classList.remove('correct-placed', 'wrong-placed');
+        if (zone === cat) item.classList.add('correct-placed');
+        else { item.classList.add('wrong-placed'); allCorrect = false; }
+      });
+      const fb = document.getElementById('sorting-feedback');
+      fb.classList.add('show');
+      fb.classList.toggle('correct', allCorrect);
+      fb.classList.toggle('incorrect', !allCorrect);
+      fb.querySelector('.feedback-title').textContent = allCorrect ? '¡Excelente! Todas correctas.' : 'Algunas no están bien ubicadas.';
+      fb.querySelector('p').textContent = screen.feedback;
+      if (allCorrect) {
+        completedScreens.add(screen.id);
+        updateSidebar(); saveProgress();
+      }
+    });
+  }
+
+  function attachScenarioEvents(screen) {
+    document.querySelectorAll('#scenario-options .scenario-option-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const option = screen.options.find(o => o.id === id);
+        scenarioState.exploredOptions.add(id);
+
+        const result = document.getElementById('scenario-result');
+        result.style.display = 'block';
+        result.classList.remove('correct', 'incorrect');
+        result.classList.add(option.correct ? 'correct' : 'incorrect');
+        result.innerHTML = `
+          <div class="scenario-result-badge">${option.correct ? 'DECISIÓN ACERTADA' : 'REVISEMOS'}</div>
+          <h4>${option.result || ''}</h4>
+          <p>${option.outcome || option.feedback || ''}</p>
+          ${option.audio ? `<audio controls preload="metadata" style="margin-top:16px;max-width:100%"><source src="${option.audio}" type="audio/mpeg"></audio>` : ''}
+          <div class="scenario-actions">
+            <button class="nav-btn" id="scenario-retry">Volver a decidir</button>
+            ${option.correct || scenarioState.exploredOptions.size >= 2 ? '<button class="nav-btn primary" id="scenario-continue">Ver lo que pasó en la realidad</button>' : ''}
+          </div>
+        `;
+
+        document.getElementById('scenario-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        const retry = document.getElementById('scenario-retry');
+        if (retry) retry.addEventListener('click', () => {
+          result.style.display = 'none';
+          document.getElementById('scenario-options').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        const cont = document.getElementById('scenario-continue');
+        if (cont) cont.addEventListener('click', () => {
+          document.getElementById('scenario-convergent').classList.add('show');
+          scenarioState.convergentShown = true;
+          completedScreens.add(screen.id);
+          updateSidebar(); saveProgress();
+          document.getElementById('scenario-convergent').scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+    });
+  }
+
+  function attachQuizEvents(screen) {
+    document.querySelectorAll('.question-card').forEach(card => {
+      const qidx = parseInt(card.dataset.qidx);
+      const q = screen.questions[qidx];
+      if (q.type !== 'matching') {
+        card.querySelectorAll('.option-row').forEach(row => {
+          row.addEventListener('click', () => {
+            if (q.type === 'single') {
+              card.querySelectorAll('.option-row').forEach(r => r.classList.remove('selected'));
+              row.classList.add('selected');
+              row.querySelector('input').checked = true;
+            } else {
+              const input = row.querySelector('input');
+              input.checked = !input.checked;
+              row.classList.toggle('selected', input.checked);
+            }
+          });
+        });
+      }
+    });
+
+    document.getElementById('quiz-submit').addEventListener('click', () => {
+      let correctCount = 0;
+      const total = screen.questions.length;
+      const results = [];
+
+      screen.questions.forEach((q, qi) => {
+        const card = document.querySelector(`.question-card[data-qidx="${qi}"]`);
+        let isCorrect = false;
+        if (q.type === 'matching') {
+          const selects = card.querySelectorAll('select');
+          let allRight = true;
+          selects.forEach((sel, pi) => {
+            const expected = q.pairs[pi].right;
+            if (sel.value === expected) {
+              sel.style.borderColor = 'var(--aacrom-success)';
+              sel.style.background = '#E8F5EC';
+            } else {
+              sel.style.borderColor = 'var(--aacrom-danger)';
+              sel.style.background = '#FBEAEA';
+              allRight = false;
+            }
+            sel.disabled = true;
+          });
+          isCorrect = allRight;
+        } else {
+          const inputs = card.querySelectorAll('input');
+          const selected = Array.from(inputs).map((inp, i) => inp.checked ? i : null).filter(x => x !== null);
+          if (q.type === 'multiple') {
+            const correctSet = new Set(q.correct);
+            const selSet = new Set(selected);
+            isCorrect = correctSet.size === selSet.size && Array.from(correctSet).every(x => selSet.has(x));
+            inputs.forEach((inp, i) => inp.disabled = true);
+            card.querySelectorAll('.option-row').forEach((row, i) => {
+              if (q.correct.includes(i)) row.classList.add('correct');
+              else if (selected.includes(i)) row.classList.add('incorrect');
+            });
+          } else {
+            isCorrect = selected[0] === q.correct;
+            inputs.forEach(inp => inp.disabled = true);
+            card.querySelectorAll('.option-row').forEach((row, i) => {
+              if (i === q.correct) row.classList.add('correct');
+              else if (selected.includes(i)) row.classList.add('incorrect');
+            });
+          }
+        }
+        if (isCorrect) correctCount++;
+        results.push(isCorrect);
+      });
+
+      const pct = Math.round((correctCount / total) * 100);
+      const passed = pct >= screen.passingScore;
+
+      const resultDiv = document.getElementById('quiz-result');
+      resultDiv.innerHTML = `
+        <div class="quiz-result-summary">
+          <div class="score">${correctCount}<span class="total">/${total}</span></div>
+          <div class="label">RESPUESTAS CORRECTAS · ${pct}%</div>
+          <div class="badge ${passed ? 'passed' : 'failed'}">${passed ? 'APROBADO' : 'NO APROBADO'}</div>
+          <p>${passed
+            ? 'Ha completado el curso. El equilibrio vida-trabajo no se gana de una vez y para siempre: se sostiene cada semana, en pequeñas decisiones. La próxima vez que sienta que el trabajo está ocupando demasiado espacio, recuerde las preguntas clave: ¿estoy ocupado o estoy trabajando bien? ¿este pedido lo acepto automáticamente o lo evalúo con criterio? ¿qué cambio chico puedo implementar el lunes que viene? Si lidera personas, agregue una más: ¿qué señales estoy mandando al equipo con mis acciones, no con mis palabras? Trabaje bien. No solo mucho.'
+            : 'Le sugerimos repasar los módulos del curso y volver a intentar la evaluación. Cada módulo tiene las claves que necesita: entender por qué cuesta tanto (la confusión entre estar ocupado y trabajar bien), aplicar límites con criterio en la práctica (decir sí con condiciones, conversaciones difíciles, desconexión real), y sostenerlo en el tiempo con la revisión semanal. Si lidera personas, recuerde que su ejemplo cuenta el doble. Recuerde que la aprobación se obtiene con ' + screen.passingScore + '% o más.'}</p>
+        </div>
+      `;
+
+      document.getElementById('quiz-submit').disabled = true;
+      completedScreens.add(screen.id);
+      updateSidebar(); saveProgress();
+      reportToSCORM(correctCount, total, passed);
+      resultDiv.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
+  // ==========================================================
+  // SCORM REPORTING
+  // ==========================================================
+  function reportToSCORM(score, total, passed) {
+    quizFinalized = true;
+    try {
+      const api = window.AacromSCORM;
+      if (api && api.isInitialized && api.isInitialized()) {
+        api.setScore(Math.round((score / total) * 100), 100, 0);
+        api.setStatus(passed ? 'passed' : 'failed');
+        api.commit();
+      }
+    } catch (e) { console.warn('SCORM report failed:', e); }
+  }
+
+  // ==========================================================
+  // NAV
+  // ==========================================================
+  function bindNav() {
+    document.getElementById('btn-prev').addEventListener('click', () => {
+      if (currentIndex > 0) { currentIndex--; renderScreen(); }
+    });
+    document.getElementById('btn-next').addEventListener('click', () => {
+      if (currentIndex < allScreens.length - 1) { currentIndex++; renderScreen(); }
+      else markCourseComplete();
+    });
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+  }
+
+  function updateFooterNav() {
+    document.getElementById('btn-prev').disabled = (currentIndex === 0);
+    const isLast = currentIndex === allScreens.length - 1;
+    const btnNext = document.getElementById('btn-next');
+    btnNext.textContent = isLast ? 'Finalizar curso ✓' : 'Continuar →';
+  }
+
+  function markCourseComplete() {
+    try {
+      const api = window.AacromSCORM;
+      if (api && api.isInitialized && api.isInitialized()) {
+        const allDone = completedScreens.size === allScreens.length;
+        if (allDone && !quizFinalized) api.setStatus('completed');
+        api.commit();
+      }
+    } catch (e) {}
+  }
+
+  // ==========================================================
+  // START
+  // ==========================================================
+  document.addEventListener('DOMContentLoaded', init);
+})();
+
+  
+  </script>
+</body>
+</html>
