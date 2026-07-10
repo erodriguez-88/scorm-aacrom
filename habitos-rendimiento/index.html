@@ -1,0 +1,2360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Hábitos que sostienen el rendimiento · Aacrom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================
+   THEME — Aacrom Rise
+   ============================================ */
+:root {
+  --aacrom-primary: #1F3864;
+  --aacrom-primary-light: #2E5497;
+  --aacrom-accent: #C9A227;
+  --aacrom-accent-light: #E8C667;
+  --aacrom-text: #2C2C2C;
+  --aacrom-text-muted: #6B6B6B;
+  --aacrom-bg: #FFFFFF;
+  --aacrom-bg-soft: #F7F8FA;
+  --aacrom-border: #E5E7EB;
+  --aacrom-success: #1F7A42;
+  --aacrom-danger: #B02A2A;
+  --sidebar-width: 320px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--aacrom-text);
+  background: var(--aacrom-bg);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+#sidebar {
+  width: var(--sidebar-width);
+  background: var(--aacrom-primary);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+  padding: 32px 28px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+#course-title {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 28px;
+}
+
+.progress-wrapper { margin-top: 8px; }
+
+.progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.18);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+#progress-fill {
+  height: 100%;
+  width: 0%;
+  background: white;
+  transition: width 0.4s ease;
+}
+
+#progress-text {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+#module-nav {
+  padding: 20px 0;
+  flex: 1;
+}
+
+.module-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 28px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.4;
+  color: rgba(255,255,255,0.9);
+  border-left: 3px solid transparent;
+  transition: background 0.15s, border-left-color 0.15s;
+}
+
+.module-item:hover { background: rgba(255,255,255,0.06); }
+
+.module-item.active {
+  background: rgba(255,255,255,0.12);
+  border-left-color: var(--aacrom-accent);
+  font-weight: 600;
+}
+
+.module-item .icon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.module-item .check {
+  margin-left: auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.45);
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.module-item.current .check {
+  border-color: var(--aacrom-accent);
+  border-style: dashed;
+  animation: spin 4s linear infinite;
+}
+
+.module-item.completed .check {
+  background: var(--aacrom-accent);
+  border-color: var(--aacrom-accent);
+  position: relative;
+}
+
+.module-item.completed .check::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--aacrom-primary);
+  font-weight: 900;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ============================================
+   MAIN
+   ============================================ */
+#main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--aacrom-bg);
+}
+
+#topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 48px;
+  background: var(--aacrom-bg);
+  border-bottom: 1px solid var(--aacrom-border);
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+#menu-toggle {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--aacrom-text);
+  padding: 4px 8px;
+  display: none;
+}
+
+#screen-counter {
+  font-size: 13px;
+  color: var(--aacrom-text-muted);
+  font-weight: 600;
+}
+
+#screen-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+  position: relative;
+}
+
+/* ============================================
+   SCREEN — Header con onda decorativa
+   ============================================ */
+.screen-header {
+  position: relative;
+  padding: 60px 64px 50px;
+  background: var(--aacrom-bg-soft);
+  overflow: hidden;
+}
+
+.screen-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: var(--aacrom-bg);
+  clip-path: polygon(0 100%, 0 40%, 50% 70%, 100% 30%, 100% 100%);
+}
+
+.screen-header h1 {
+  font-size: 44px;
+  font-weight: 700;
+  color: var(--aacrom-text);
+  line-height: 1.15;
+  position: relative;
+  z-index: 1;
+  max-width: 80%;
+}
+
+.screen-header .header-line {
+  width: 80px;
+  height: 4px;
+  background: var(--aacrom-text);
+  margin-top: 18px;
+  position: relative;
+  z-index: 1;
+}
+
+.screen-header.with-image {
+  background-size: cover;
+  background-position: right center;
+  background-blend-mode: lighten;
+}
+
+.screen-header.with-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(247,248,250,0.97) 0%, rgba(247,248,250,0.85) 50%, rgba(247,248,250,0.4) 100%);
+}
+
+.screen-header > * { position: relative; z-index: 1; }
+
+/* ============================================
+   SCREEN BODY
+   ============================================ */
+.screen-body {
+  padding: 50px 64px 80px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.subtitle-blue {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--aacrom-primary);
+  text-align: center;
+  margin: 30px 0 24px;
+}
+
+/* Bloque de instrucciones dorado */
+.instructions-box {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 30px auto;
+  padding: 0;
+  font-size: 22px;
+  max-width: 900px;
+}
+
+.instructions-box .badge-icon {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  background: var(--aacrom-accent);
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.instructions-box .badge-icon::before {
+  content: '!';
+  font-size: 32px;
+  font-weight: 900;
+  color: white;
+}
+
+.instructions-box .badge-icon::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 2.5px dashed var(--aacrom-accent);
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+.instructions-box .text {
+  font-size: 22px;
+  line-height: 1.4;
+  color: var(--aacrom-text);
+}
+
+.instructions-box .text strong {
+  color: var(--aacrom-primary);
+  font-weight: 700;
+}
+
+/* Reproductor de audio */
+audio {
+  display: block;
+  width: 100%;
+  max-width: 700px;
+  margin: 30px auto;
+  height: 44px;
+}
+
+audio::-webkit-media-controls-panel {
+  background-color: #F0F2F5;
+}
+
+/* Texto cuerpo de la pantalla */
+.screen-body p {
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  text-align: center;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.screen-body p.left { text-align: left; }
+.screen-body p.justify { text-align: justify; }
+
+.screen-body p strong { color: var(--aacrom-primary); font-weight: 700; }
+
+/* ============================================
+   STATEMENT (cita destacada)
+   ============================================ */
+.statement {
+  background: var(--aacrom-bg-soft);
+  border-left: 5px solid var(--aacrom-accent);
+  padding: 32px 40px;
+  margin: 30px auto;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--aacrom-primary);
+  max-width: 900px;
+  font-style: italic;
+}
+
+.statement::before {
+  content: '"';
+  font-size: 60px;
+  line-height: 0;
+  color: var(--aacrom-accent);
+  vertical-align: -20px;
+  margin-right: 8px;
+  font-family: Georgia, serif;
+}
+
+.statement-citation {
+  display: block;
+  margin-top: 14px;
+  font-size: 14px;
+  font-style: normal;
+  color: var(--aacrom-text-muted);
+  font-weight: 500;
+}
+
+/* ============================================
+   LIST
+   ============================================ */
+.aacrom-list {
+  list-style: none;
+  margin: 30px auto;
+  max-width: 900px;
+  padding: 0;
+}
+
+.aacrom-list li {
+  display: flex;
+  gap: 18px;
+  padding: 18px 24px;
+  background: var(--aacrom-bg-soft);
+  margin-bottom: 12px;
+  border-radius: 8px;
+  font-size: 17px;
+  line-height: 1.5;
+  border-left: 4px solid var(--aacrom-accent);
+}
+
+.aacrom-list li::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--aacrom-accent);
+  flex-shrink: 0;
+  margin-top: 9px;
+}
+
+/* ============================================
+   CASE CARD (cards con texto sobre imagen)
+   ============================================ */
+.case-card-wrapper {
+  position: relative;
+  margin: 30px auto;
+  max-width: 1000px;
+  min-height: 480px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+}
+
+.case-card-wrapper .bg-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.case-card-wrapper .bg-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.5) 100%);
+}
+
+.case-card-wrapper .card-content {
+  position: relative;
+  z-index: 1;
+  background: white;
+  border-radius: 20px;
+  padding: 36px 44px;
+  margin: 130px auto 40px;
+  max-width: 720px;
+  font-size: 18px;
+  line-height: 1.6;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  text-align: justify;
+}
+
+.case-card-wrapper .card-content strong {
+  color: var(--aacrom-primary);
+  font-weight: 700;
+}
+
+.case-card-wrapper .card-subtitle {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--aacrom-accent);
+  margin-bottom: 20px;
+}
+
+/* ============================================
+   TABS
+   ============================================ */
+.tabs-container {
+  margin: 30px auto;
+  max-width: 900px;
+}
+
+.tabs-nav {
+  display: flex;
+  gap: 4px;
+  border-bottom: 2px solid var(--aacrom-border);
+  margin-bottom: 0;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 16px 20px;
+  border: none;
+  background: var(--aacrom-bg-soft);
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--aacrom-text-muted);
+  border-radius: 8px 8px 0 0;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.tab-btn:hover { background: #EEF1F5; color: var(--aacrom-text); }
+
+.tab-btn.active {
+  background: var(--aacrom-primary);
+  color: white;
+}
+
+.tab-panel {
+  display: none;
+  background: var(--aacrom-bg-soft);
+  padding: 30px 36px;
+  border-radius: 0 0 12px 12px;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.tab-panel.active { display: block; animation: fadeIn 0.3s; }
+.tab-panel ul { padding-left: 20px; }
+.tab-panel li { margin-bottom: 10px; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ============================================
+   ACCORDION
+   ============================================ */
+.accordion {
+  margin: 30px auto;
+  max-width: 900px;
+}
+
+.accordion-item {
+  margin-bottom: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--aacrom-border);
+}
+
+.accordion-header {
+  padding: 18px 24px;
+  background: var(--aacrom-bg-soft);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--aacrom-primary);
+  transition: background 0.2s;
+}
+
+.accordion-header:hover { background: #EEF1F5; }
+
+.accordion-header .toggle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--aacrom-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 300;
+  transition: transform 0.3s;
+}
+
+.accordion-item.open .toggle { transform: rotate(45deg); }
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  background: white;
+}
+
+.accordion-item.open .accordion-content {
+  max-height: 500px;
+}
+
+.accordion-content-inner {
+  padding: 20px 24px;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+/* ============================================
+   HOTSPOTS
+   ============================================ */
+.hotspots-container {
+  position: relative;
+  margin: 30px auto;
+  max-width: 900px;
+}
+
+.hotspots-image {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+}
+
+.hotspots-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.hotspot-btn {
+  padding: 16px 20px;
+  background: var(--aacrom-bg-soft);
+  border: 2px solid var(--aacrom-border);
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--aacrom-primary);
+  transition: all 0.2s;
+  font-family: inherit;
+  position: relative;
+}
+
+.hotspot-btn::before {
+  content: '+';
+  display: block;
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--aacrom-accent);
+  margin-bottom: 4px;
+}
+
+.hotspot-btn:hover {
+  background: white;
+  border-color: var(--aacrom-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(31,56,100,0.12);
+}
+
+.hotspot-btn.viewed {
+  background: var(--aacrom-primary);
+  color: white;
+  border-color: var(--aacrom-primary);
+}
+
+.hotspot-btn.viewed::before { color: var(--aacrom-accent-light); }
+
+.hotspot-content {
+  margin-top: 24px;
+  padding: 24px 30px;
+  background: var(--aacrom-bg-soft);
+  border-left: 4px solid var(--aacrom-accent);
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.65;
+  display: none;
+}
+
+.hotspot-content.show { display: block; animation: fadeIn 0.3s; }
+
+/* ============================================
+   DECISION MATRIX (4 cuadrantes)
+   ============================================ */
+.matrix-container {
+  position: relative;
+  margin: 30px auto;
+  max-width: 800px;
+  padding: 40px 60px 30px;
+}
+
+.matrix-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 8px;
+  aspect-ratio: 1.2;
+  position: relative;
+}
+
+.matrix-quadrant {
+  border-radius: 10px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: white;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  position: relative;
+  min-height: 180px;
+}
+
+.matrix-quadrant:hover { transform: scale(1.03); box-shadow: 0 8px 24px rgba(0,0,0,0.18); }
+
+.matrix-quadrant.active { box-shadow: 0 0 0 3px var(--aacrom-accent); }
+
+.matrix-label-x, .matrix-label-y {
+  position: absolute;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--aacrom-text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.matrix-label-x {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.matrix-label-y {
+  left: -20px;
+  top: 50%;
+  transform: rotate(-90deg) translateX(50%);
+  transform-origin: center;
+}
+
+.matrix-content {
+  margin-top: 30px;
+  padding: 24px 30px;
+  background: var(--aacrom-bg-soft);
+  border-left: 4px solid var(--aacrom-accent);
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.65;
+  display: none;
+}
+
+.matrix-content.show { display: block; animation: fadeIn 0.3s; }
+
+/* ============================================
+   DECISION SCENARIO
+   ============================================ */
+.scenario-container { margin: 20px auto; max-width: 1000px; }
+
+.scenario-intro-card {
+  background: var(--aacrom-bg-soft);
+  padding: 30px 36px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  font-size: 17px;
+  line-height: 1.65;
+  border-left: 4px solid var(--aacrom-primary);
+}
+
+.dialogue-container { margin: 30px 0; }
+
+.dialogue-line {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 18px;
+  align-items: flex-start;
+  opacity: 0.4;
+  transition: opacity 0.3s;
+}
+
+.dialogue-line.played, .dialogue-line.active { opacity: 1; }
+.dialogue-line.active { background: rgba(201, 162, 39, 0.07); border-radius: 10px; padding: 10px 14px; margin: 8px -14px 8px -14px; }
+
+.dialogue-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: white;
+  font-size: 14px;
+  flex-shrink: 0;
+  background: var(--aacrom-primary);
+}
+
+.dialogue-avatar.andres { background: #4A5C77; }
+.dialogue-avatar.narrator { background: var(--aacrom-text-muted); font-size: 18px; }
+
+.dialogue-body { flex: 1; }
+
+.dialogue-character {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--aacrom-primary);
+  margin-bottom: 4px;
+  letter-spacing: 0.3px;
+}
+
+.dialogue-character .role {
+  font-weight: 400;
+  color: var(--aacrom-text-muted);
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.dialogue-text {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--aacrom-text);
+}
+
+.dialogue-line audio { margin: 8px 0 0; max-width: 100%; height: 36px; }
+
+.scenario-question {
+  margin-top: 30px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--aacrom-primary);
+  text-align: center;
+}
+
+.scenario-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.scenario-option-btn {
+  padding: 22px 24px;
+  background: white;
+  border: 2px solid var(--aacrom-border);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.scenario-option-btn:hover {
+  border-color: var(--aacrom-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(31,56,100,0.1);
+}
+
+.scenario-option-btn .option-id {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--aacrom-primary);
+  color: white;
+  text-align: center;
+  line-height: 28px;
+  font-weight: 700;
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.scenario-option-btn .option-label {
+  font-weight: 700;
+  color: var(--aacrom-primary);
+  font-size: 16px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.scenario-option-btn .option-sub {
+  font-size: 14px;
+  color: var(--aacrom-text-muted);
+  line-height: 1.5;
+}
+
+.scenario-result {
+  margin-top: 24px;
+  padding: 30px 36px;
+  border-radius: 12px;
+  background: var(--aacrom-bg-soft);
+  border-left: 5px solid var(--aacrom-accent);
+}
+
+.scenario-result.correct { border-left-color: var(--aacrom-success); }
+.scenario-result.incorrect { border-left-color: var(--aacrom-danger); }
+
+.scenario-result-badge {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 20px;
+  background: var(--aacrom-accent);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+}
+
+.scenario-result.correct .scenario-result-badge { background: var(--aacrom-success); }
+.scenario-result.incorrect .scenario-result-badge { background: var(--aacrom-danger); }
+
+.scenario-result h4 {
+  font-size: 22px;
+  color: var(--aacrom-primary);
+  margin-bottom: 12px;
+}
+
+.scenario-result p { font-size: 16px; line-height: 1.65; text-align: left; }
+
+.scenario-actions { margin-top: 24px; display: flex; gap: 12px; justify-content: center; }
+
+.scenario-convergent {
+  margin-top: 30px;
+  padding: 30px 36px;
+  background: linear-gradient(135deg, var(--aacrom-primary) 0%, var(--aacrom-primary-light) 100%);
+  color: white;
+  border-radius: 16px;
+  display: none;
+}
+
+.scenario-convergent.show { display: block; animation: fadeIn 0.4s; }
+.scenario-convergent h4 {
+  font-size: 24px;
+  color: var(--aacrom-accent);
+  margin-bottom: 16px;
+}
+.scenario-convergent p { color: white; font-size: 16px; line-height: 1.7; text-align: left; }
+
+/* ============================================
+   KNOWLEDGE CHECK / QUIZ
+   ============================================ */
+.question-card {
+  background: var(--aacrom-bg-soft);
+  padding: 32px 40px;
+  border-radius: 14px;
+  margin: 24px auto;
+  max-width: 900px;
+}
+
+.question-counter {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--aacrom-accent);
+  margin-bottom: 10px;
+}
+
+.question-stem {
+  font-size: 18px;
+  line-height: 1.55;
+  margin-bottom: 24px;
+  font-weight: 600;
+  color: var(--aacrom-primary);
+}
+
+.option-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 20px;
+  background: white;
+  border: 2px solid var(--aacrom-border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.option-row:hover { border-color: var(--aacrom-accent); }
+
+.option-row.selected { border-color: var(--aacrom-primary); background: #EEF2F8; }
+
+.option-row.correct { border-color: var(--aacrom-success); background: #E8F5EC; }
+.option-row.incorrect { border-color: var(--aacrom-danger); background: #FBEAEA; }
+
+.option-row input { width: 18px; height: 18px; margin-top: 2px; cursor: pointer; flex-shrink: 0; accent-color: var(--aacrom-primary); }
+.option-row label { flex: 1; cursor: pointer; font-size: 16px; line-height: 1.5; }
+
+.matching-grid {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.matching-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 14px;
+}
+
+.matching-cell {
+  padding: 16px 20px;
+  background: white;
+  border: 2px solid var(--aacrom-border);
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.matching-cell.left { background: var(--aacrom-primary); color: white; border-color: var(--aacrom-primary); font-weight: 600; }
+
+.matching-arrow { font-size: 24px; color: var(--aacrom-accent); }
+
+.feedback-box {
+  margin-top: 20px;
+  padding: 20px 26px;
+  border-radius: 10px;
+  background: white;
+  border-left: 4px solid var(--aacrom-accent);
+  display: none;
+}
+
+.feedback-box.show { display: block; animation: fadeIn 0.3s; }
+.feedback-box.correct { border-left-color: var(--aacrom-success); }
+.feedback-box.incorrect { border-left-color: var(--aacrom-danger); }
+.feedback-box .feedback-title {
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--aacrom-primary);
+  font-size: 16px;
+}
+.feedback-box.correct .feedback-title { color: var(--aacrom-success); }
+.feedback-box.incorrect .feedback-title { color: var(--aacrom-danger); }
+.feedback-box p { font-size: 15px; line-height: 1.6; text-align: left; }
+
+.quiz-submit {
+  margin: 30px auto 0;
+  display: block;
+  padding: 14px 38px;
+  font-size: 16px;
+  font-weight: 700;
+  background: var(--aacrom-primary);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.3px;
+  transition: background 0.2s;
+}
+
+.quiz-submit:hover:not(:disabled) { background: var(--aacrom-primary-light); }
+.quiz-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.quiz-result-summary {
+  text-align: center;
+  padding: 40px 30px;
+  background: var(--aacrom-bg-soft);
+  border-radius: 14px;
+  margin: 24px auto;
+  max-width: 700px;
+}
+
+.quiz-result-summary .score {
+  font-size: 64px;
+  font-weight: 700;
+  color: var(--aacrom-primary);
+  line-height: 1;
+}
+
+.quiz-result-summary .score .total { color: var(--aacrom-text-muted); font-size: 32px; }
+
+.quiz-result-summary .label {
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  color: var(--aacrom-text-muted);
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.quiz-result-summary .badge {
+  display: inline-block;
+  padding: 8px 24px;
+  margin-top: 18px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+.quiz-result-summary .badge.passed { background: var(--aacrom-success); color: white; }
+.quiz-result-summary .badge.failed { background: var(--aacrom-danger); color: white; }
+
+.quiz-result-summary p { margin-top: 20px; font-size: 16px; line-height: 1.6; }
+
+/* ============================================
+   SORTING (drag & drop)
+   ============================================ */
+.sorting-container { margin: 30px auto; max-width: 1100px; }
+
+.sorting-items-pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 20px;
+  background: var(--aacrom-bg-soft);
+  border-radius: 12px;
+  min-height: 80px;
+  margin-bottom: 20px;
+}
+
+.sortable-item {
+  padding: 12px 18px;
+  background: white;
+  border: 2px solid var(--aacrom-border);
+  border-radius: 8px;
+  cursor: grab;
+  font-size: 14px;
+  line-height: 1.4;
+  max-width: 320px;
+  transition: all 0.2s;
+}
+
+.sortable-item:hover { border-color: var(--aacrom-accent); }
+.sortable-item.dragging { opacity: 0.4; }
+.sortable-item.correct-placed { border-color: var(--aacrom-success); background: #E8F5EC; }
+.sortable-item.wrong-placed { border-color: var(--aacrom-danger); background: #FBEAEA; }
+
+.sorting-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.sorting-category {
+  background: white;
+  border: 2px dashed var(--aacrom-border);
+  border-radius: 12px;
+  padding: 18px;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sorting-category.drag-over { border-color: var(--aacrom-accent); background: #FFF9E8; }
+
+.sorting-category-title {
+  font-weight: 700;
+  color: var(--aacrom-primary);
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--aacrom-border);
+}
+
+.sorting-drop-zone { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+
+/* ============================================
+   FOOTER NAV
+   ============================================ */
+#footer-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 48px;
+  border-top: 1px solid var(--aacrom-border);
+  background: var(--aacrom-bg);
+  flex-shrink: 0;
+}
+
+.nav-btn {
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  background: transparent;
+  color: var(--aacrom-primary);
+  border: 2px solid var(--aacrom-primary);
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: var(--aacrom-primary);
+  color: white;
+}
+
+.nav-btn.primary {
+  background: var(--aacrom-primary);
+  color: white;
+}
+
+.nav-btn.primary:hover:not(:disabled) {
+  background: var(--aacrom-primary-light);
+  border-color: var(--aacrom-primary-light);
+}
+
+.nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 900px) {
+  :root { --sidebar-width: 280px; }
+  #sidebar {
+    position: fixed;
+    top: 0; bottom: 0; left: 0;
+    z-index: 10;
+    transform: translateX(-100%);
+  }
+  #sidebar.open { transform: translateX(0); }
+  #menu-toggle { display: block; }
+  .screen-header { padding: 40px 24px 30px; }
+  .screen-header h1 { font-size: 32px; max-width: 100%; }
+  .screen-body { padding: 30px 20px 60px; }
+  .screen-body p, .statement { font-size: 16px; }
+  .subtitle-blue { font-size: 26px; }
+  .instructions-box .text { font-size: 16px; }
+  .matrix-grid { grid-template-columns: 1fr; grid-template-rows: repeat(4, auto); aspect-ratio: auto; }
+  .scenario-options { grid-template-columns: 1fr; }
+  .case-card-wrapper .card-content { margin: 60px 16px 30px; padding: 24px 20px; }
+  .matching-row { grid-template-columns: 1fr; }
+  .matching-arrow { display: none; }
+  #footer-nav { padding: 12px 20px; }
+  #topbar { padding: 14px 20px; }
+}
+
+/* Modo oscuro (preview) */
+body.dark-mode {
+  --aacrom-text: #E8E9EB;
+  --aacrom-text-muted: #A0A4AC;
+  --aacrom-bg: #1A1D24;
+  --aacrom-bg-soft: #252934;
+  --aacrom-border: #3A3F4A;
+}
+body.dark-mode #sidebar { background: #0D1A33; }
+body.dark-mode .screen-header { background: #252934; }
+body.dark-mode .screen-header::after { background: var(--aacrom-bg); }
+body.dark-mode .screen-header h1 { color: #E8E9EB; }
+body.dark-mode .screen-header .header-line { background: #C9A227; }
+body.dark-mode .statement { background: #252934; color: #E8C667; }
+body.dark-mode .aacrom-list li { background: #252934; color: #E8E9EB; }
+body.dark-mode .tab-panel, body.dark-mode .accordion-header, body.dark-mode .hotspot-btn, body.dark-mode .scenario-intro-card, body.dark-mode .option-row { background: #252934; color: #E8E9EB; }
+body.dark-mode .accordion-content, body.dark-mode .scenario-option-btn, body.dark-mode .matching-cell:not(.left) { background: #1A1D24; color: #E8E9EB; }
+body.dark-mode .case-card-wrapper .card-content { background: #2D323D; color: #E8E9EB; }
+body.dark-mode .scenario-result, body.dark-mode .question-card, body.dark-mode .quiz-result-summary, body.dark-mode .matrix-content, body.dark-mode .hotspot-content { background: #252934; color: #E8E9EB; }
+body.dark-mode .feedback-box { background: #1A1D24; }
+body.dark-mode #topbar, body.dark-mode #footer-nav { background: var(--aacrom-bg); border-color: var(--aacrom-border); }
+body.dark-mode select { color: #E8E9EB; }
+
+/* Botón modo oscuro */
+#dark-toggle {
+  background: transparent;
+  border: 1px solid var(--aacrom-border);
+  color: var(--aacrom-text);
+  cursor: pointer;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+#dark-toggle:hover { background: var(--aacrom-bg-soft); }
+
+/* Badge de preview */
+#preview-badge {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #C9A227;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  z-index: 100;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+}
+
+
+/* Tipos custom v1 (heredados del C-S.1) */
+.module-label { display: inline-block; font-size: 13px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--aacrom-accent); background: rgba(201, 162, 39, 0.08); padding: 6px 16px; border-radius: 4px; margin-bottom: 18px; position: relative; z-index: 1; }
+.screen-header .module-label { margin-bottom: 14px; }
+.next-steps-heading { font-size: 16px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--aacrom-primary); text-align: center; margin: 40px auto 16px; padding-bottom: 12px; border-bottom: 2px solid var(--aacrom-accent); max-width: 400px; }
+.module-hero-image { width: 100%; max-width: 1000px; margin: 20px auto 30px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 28px rgba(0,0,0,0.12); height: 280px; background-size: cover; background-position: center; }
+.aacrom-paragraphs { max-width: 900px; margin: 30px auto; }
+.aacrom-paragraphs p { font-size: 17px; line-height: 1.75; margin-bottom: 18px; text-align: justify; color: var(--aacrom-text); }
+.aacrom-paragraphs p strong { color: var(--aacrom-primary); font-weight: 700; }
+.closing-message-box { margin: 36px auto 0; max-width: 800px; padding: 32px 40px; background: linear-gradient(135deg, var(--aacrom-primary) 0%, var(--aacrom-primary-light) 100%); color: white; border-radius: 14px; font-size: 17px; line-height: 1.7; text-align: left; box-shadow: 0 12px 32px rgba(31, 56, 100, 0.25); }
+.closing-message-box strong { color: var(--aacrom-accent-light); }
+.instructions-callout { display: flex; align-items: center; gap: 24px; background: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 32px; border-left: 6px solid #C9A227; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06); position: relative; z-index: 1; }
+.callout-icon { flex-shrink: 0; width: 56px; height: 56px; border-radius: 50%; background: #C9A227; color: white; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 800; font-family: Georgia, serif; }
+.callout-text { flex: 1; color: #2C2C2C; font-size: 17px; line-height: 1.55; font-weight: 500; }
+.callout-text strong { color: #1F3864; font-weight: 800; font-size: 18px; display: inline-block; margin-right: 4px; }
+.dialogue-line { opacity: 1 !important; }
+
+/* FIX 1: callout convergente — strong en color claro sobre fondo azul */
+.scenario-convergent p strong { color: #E8C667 !important; font-weight: 700; }
+.scenario-convergent p em { color: rgba(255,255,255,0.95) !important; }
+
+/* FIX 2: matrix-quadrant texto navy legible */
+.matrix-quadrant { color: #1F3864 !important; text-shadow: none !important; font-size: 20px; font-weight: 800; line-height: 1.3; }
+.matrix-quadrant.active { box-shadow: 0 0 0 3px #C9A227, 0 8px 24px rgba(0,0,0,0.15) !important; }
+.matrix-label-x, .matrix-label-y { color: #1F3864 !important; font-weight: 800 !important; text-transform: uppercase; letter-spacing: 1.5px; }
+
+/* NUEVO: course_cover_objective (portada nueva) */
+.cover-objective { min-height: 700px; display: flex; flex-direction: column; background: linear-gradient(135deg, #1F3864 0%, #2A4A82 100%); color: white; position: relative; overflow: hidden; }
+.cover-objective::before { content: ''; position: absolute; inset: 0; background-image: var(--cover-bg); background-size: cover; background-position: center; opacity: 0.18; z-index: 0; }
+.cover-objective-content { position: relative; z-index: 1; padding: 60px 70px; display: flex; flex-direction: column; height: 100%; flex: 1; }
+.cover-objective .course-code { font-size: 13px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: #E8C667; margin-bottom: 24px; }
+.cover-objective h1 { font-size: 52px; font-weight: 800; line-height: 1.1; margin: 0 0 16px 0; color: white; }
+.cover-objective .subtitle { font-size: 22px; font-weight: 400; color: rgba(255,255,255,0.85); margin-bottom: 50px; line-height: 1.4; font-style: italic; }
+.cover-objective .objective-label { font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #E8C667; margin-bottom: 14px; }
+.cover-objective .objective-text { font-size: 18px; line-height: 1.7; color: rgba(255,255,255,0.95); border-left: 4px solid #C9A227; padding-left: 24px; margin-bottom: 50px; max-width: 900px; }
+.cover-objective .ficha { display: flex; gap: 0; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 28px; }
+.cover-objective .ficha-item { flex: 1; border-right: 1px solid rgba(255,255,255,0.15); padding: 0 20px; }
+.cover-objective .ficha-item:first-child { padding-left: 0; }
+.cover-objective .ficha-item:last-child { border-right: none; padding-right: 0; }
+.cover-objective .ficha-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(232, 198, 103, 0.85); margin-bottom: 6px; }
+.cover-objective .ficha-value { font-size: 18px; font-weight: 700; color: white; }
+
+/* NUEVO: hero_image (slider/banner) */
+.hero-image-screen { min-height: 700px; position: relative; display: flex; flex-direction: column; overflow: hidden; }
+.hero-image-bg { position: relative; height: 460px; background-size: cover; background-position: center; display: flex; align-items: flex-end; justify-content: center; }
+.hero-image-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(31,56,100,0.15) 0%, rgba(31,56,100,0.85) 100%); }
+.hero-image-title { position: relative; z-index: 1; color: white; font-size: 38px; font-weight: 800; text-align: center; padding: 0 40px 60px; text-shadow: 0 2px 12px rgba(0,0,0,0.4); }
+.hero-image-statement { background: white; padding: 60px 70px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.hero-image-statement p { font-size: 26px; font-weight: 600; color: #1F3864; line-height: 1.5; max-width: 800px; margin: 0 auto; position: relative; }
+.hero-image-statement p::before { content: '"'; font-family: Georgia, serif; font-size: 90px; color: #C9A227; position: absolute; top: -40px; left: -20px; opacity: 0.4; line-height: 1; }
+.hero-image-footer { background: #1F3864; color: #E8C667; padding: 22px 40px; text-align: center; font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+
+body.dark-mode .module-label { background: rgba(232, 198, 103, 0.12); color: var(--aacrom-accent-light); }
+body.dark-mode .aacrom-paragraphs p { color: #E8E9EB; }
+body.dark-mode .next-steps-heading { color: var(--aacrom-accent-light); }
+body.dark-mode .instructions-callout { background: #2A3447; border-left-color: #E8C667; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+body.dark-mode .callout-text { color: #E8E9EB; }
+body.dark-mode .callout-text strong { color: #E8C667; }
+body.dark-mode .hero-image-statement { background: #1A1F2C; }
+body.dark-mode .hero-image-statement p { color: #E8E9EB; }
+
+</style>
+<style>#preview-badge{display:none !important;}</style>
+  <script src="scorm_api.js"></script>
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <h1 id="course-title">Hábitos que sostienen el rendimiento</h1>
+        <div class="progress-wrapper">
+          <div class="progress-bar"><div id="progress-fill"></div></div>
+          <div id="progress-text">0% COMPLETADO</div>
+        </div>
+      </div>
+      <nav id="module-nav"></nav>
+    </aside>
+    <main id="main">
+      <header id="topbar">
+        <button id="menu-toggle" aria-label="Menú">☰</button>
+        <div style="display:flex;align-items:center;gap:16px">
+          <div id="screen-counter">1 de 34</div>
+          <button id="dark-toggle" title="Cambiar modo">☾ Oscuro</button>
+        </div>
+      </header>
+      <section id="screen-container"></section>
+      <footer id="footer-nav">
+        <button id="btn-prev" class="nav-btn">← Anterior</button>
+        <button id="btn-next" class="nav-btn primary">Continuar →</button>
+      </footer>
+    </main>
+  </div>
+  
+  <script>
+    /* AacromSCORM se implementa en scorm_api.js */
+    window.COURSE_DATA = {"code": "C-C.4", "title": "Hábitos que sostienen el rendimiento", "subtitle": "Sueño, ejercicio, alimentación y pausas: sin épica, con consistencia", "duration": "35 minutos", "author": "Aacrom", "passingScore": 80, "theme": {"primary": "#1F3864", "accent": "#C9A227", "title": "#1F3864", "text": "#2C2C2C", "background": "#FFFFFF", "fontFamily": "Open Sans"}, "modules": [{"id": "m0", "title": "Apertura", "screens": [{"id": "p_cover", "type": "course_cover_objective", "moduleTitle": "Apertura", "title": "Hábitos que sostienen el rendimiento", "subtitle": "Sueño, ejercicio, alimentación y pausas: sin épica, con consistencia", "image": "assets/images/img_01.jpg", "objective": "Identificar y aplicar cuatro hábitos de alto impacto —sueño, ejercicio, alimentación y pausas mentales— con base en evidencia, y diseñar un plan de implementación sostenible que reemplace la dependencia de la motivación por sistemas de hábitos consistentes.", "ficha": [{"label": "Duración", "value": "35 min"}, {"label": "Línea", "value": "C — Corporativa"}, {"label": "Aprobación", "value": "80%"}]}, {"id": "p_slider", "type": "hero_image", "moduleTitle": "Apertura", "title": "Lo pequeño le gana a lo grande", "image": "assets/images/img_02.jpg", "statement": "Las metas ambiciosas se rompen. Los hábitos pequeños se acumulan. Sin épica, con consistencia.", "footer": "MENOS ÉPICA · MÁS CONSISTENCIA"}, {"id": "p1", "type": "course_cover", "moduleTitle": "Apertura", "title": "Bienvenida", "subtitle": "Sueño, ejercicio, alimentación y pausas: sin épica, con consistencia", "image": "assets/images/img_01.jpg", "audio": "assets/audio/audio_01.mp3", "audio_script": "Le damos la bienvenida a este curso sobre hábitos. La mayoría de las personas adultas saben qué deberían hacer para rendir mejor... dormir más, moverse, comer con criterio, descansar la mente. Lo saben. Y aun así, no lo hacen sostenidamente. La razón no es falta de información. Es que confiamos en la motivación... y la motivación es inconstante. Lo que funciona son los hábitos. En los próximos treinta y cinco minutos, vamos a aprender la ciencia básica detrás de los cuatro hábitos de mayor impacto, y a diseñar un sistema personal para sostenerlos. Empecemos.", "body": ["La diferencia entre quienes rinden bien sostenidamente y quienes no, casi nunca está en saber qué hacer. Está en haber convertido lo que saben en sistemas automáticos que no dependen de cómo se sientan ese día.", "Este curso le va a dar la ciencia mínima necesaria para entender por qué cuatro hábitos específicos —sueño, ejercicio, alimentación y pausas mentales— tienen efecto desproporcionado sobre el rendimiento, y le va a enseñar cómo implementarlos sin caer en el ciclo de empezar el lunes y abandonar el miércoles.", "No prometemos transformación épica. Prometemos sistemas pequeños, sostenibles, basados en evidencia, que se acumulan con el tiempo. Empecemos."]}, {"id": "p2", "type": "statement_paragraphs", "moduleTitle": "Apertura", "title": "Lo que va a aprender en este curso", "image": null, "statement": "Los hábitos le ganan a la motivación cuando se diseñan bien y se sostienen con un sistema.", "paragraphs": ["<strong>Módulo 1 — Ciencia del hábito.</strong> Por qué la motivación falla, cómo funciona el circuito del hábito en el cerebro, y la regla del 1% que hace que los cambios pequeños compongan más que los grandes.", "<strong>Módulo 2 — Los cuatro hábitos de alto impacto.</strong> Sueño, ejercicio, alimentación y pausas mentales. La ciencia justa y las reglas prácticas para empezar esta semana con cada uno.", "<strong>Módulo 3 — Cómo sostenerlos en el tiempo.</strong> El sistema vence al objetivo. Cómo anticipar los días malos, qué hacer cuando el sistema falla, y cómo diseñar su plan personal para los próximos siete días."], "intro": "Al final del curso usted podrá:", "items": ["Distinguir por qué los hábitos producen resultados sostenibles que la motivación no.", "Identificar los cuatro hábitos de mayor impacto sobre el rendimiento y la salud, con evidencia.", "Aplicar al menos una regla práctica concreta por cada uno de los cuatro hábitos.", "Diseñar un plan personal de implementación que reemplace la dependencia de la motivación por un sistema."]}]}, {"id": "m1", "title": "Módulo 1: Ciencia del hábito", "screens": [{"id": "p3", "type": "module_intro_full", "moduleTitle": "Módulo 1: Ciencia del hábito", "moduleLabel": "MÓDULO 1", "title": "Por qué los hábitos le ganan a la motivación", "image": "assets/images/img_03.jpg", "audio": "assets/audio/audio_02.mp3", "audio_script": "Le damos la bienvenida al primer módulo del curso. Antes de hablar de los cuatro hábitos específicos, necesitamos entender algo más básico... y a la vez más profundo: cómo funcionan los hábitos en el cerebro humano. Por qué la motivación falla. Por qué los cambios pequeños le ganan a los grandes. Y por qué los lunes son traicioneros. Este módulo le da la ciencia mínima necesaria. No más. Empecemos.", "statement": "Saber qué hacer no produce el resultado. Hacerlo sostenidamente, sí.", "citation": "Principio operativo del módulo", "paragraphs": ["La mayoría de las personas que quieren cambiar algo en su vida —dormir mejor, moverse más, comer distinto— ya saben qué deberían hacer. La información está disponible. El problema casi nunca es de conocimiento.", "El problema es que confunden el cambio con un acto de voluntad puntual, y la voluntad es un recurso limitado. Cuando se gasta, el comportamiento vuelve a la línea base. Por eso los lunes son traicioneros: arrancan con voluntad alta, y para el miércoles ya no hay reservas.", "Los hábitos resuelven esto. Un hábito bien instalado no requiere voluntad; se ejecuta solo. Este módulo le explica por qué."], "nextSteps": "Lo que va a encontrar en este módulo", "learnItems": ["Por qué la motivación es inconstante y los hábitos no.", "Cómo funciona el circuito del hábito en el cerebro: señal → rutina → recompensa.", "La trampa del 'todo o nada' que hace fallar los lunes.", "La regla del 1%: por qué los cambios pequeños componen más que los grandes."]}, {"id": "p4", "type": "statement_paragraphs", "moduleTitle": "Módulo 1: Ciencia del hábito", "title": "Por qué la motivación falla y los hábitos no", "image": null, "statement": "La motivación es la chispa que enciende el cambio. El hábito es lo que lo mantiene cuando la chispa se apaga.", "paragraphs": ["La motivación tiene un problema biológico básico: es un estado, no un rasgo. Sube y baja según el sueño, el estrés, las hormonas, las estaciones, las noticias del día. Por eso pretender sostener un cambio sobre la motivación es como pretender que llueva todos los días porque hoy llovió.", "Un hábito funciona distinto. Es una conducta que el cerebro automatiza para ahorrar energía. Una vez instalado, la conducta se ejecuta con muy poco gasto consciente, casi por defecto. Lavarse los dientes no requiere motivación: es un hábito.", "El objetivo del cambio sostenible no es buscar más motivación. Es convertir las conductas que importan en hábitos, para que dejen de depender de cómo se siente uno ese día."], "intro": null, "items": []}, {"id": "p5", "type": "tabs", "moduleTitle": "Módulo 1: Ciencia del hábito", "title": "El circuito del hábito: señal, rutina, recompensa, anhelo", "image": null, "intro": "Todo hábito —bueno o malo— tiene la misma estructura en el cerebro. Entenderla es el primer paso para diseñar uno nuevo.", "tabs": [{"title": "1. Señal", "content": "<strong>Qué es:</strong> un disparador que le dice al cerebro que es momento de ejecutar una rutina. Puede ser una hora del día (las 7am), un lugar (la cocina), una emoción (el estrés), una persona (un colega), o una acción previa que actúa como gatillo (apagar el computador).<br><br><strong>Por qué importa:</strong> los hábitos nuevos fallan casi siempre porque no tienen señal clara. Decir 'voy a empezar a hacer ejercicio' es vago. Decir 'cuando termine de almorzar, salgo a caminar 10 minutos' es concreto: la señal es 'terminar de almorzar'."}, {"title": "2. Rutina", "content": "<strong>Qué es:</strong> la conducta en sí. La acción que se ejecuta tras la señal. Puede ser física (caminar), mental (revisar el correo) o emocional (irritarse).<br><br><strong>Por qué importa:</strong> la rutina debe ser <em>suficientemente pequeña</em> para que sea ejecutable en días malos. Si solo se puede hacer en días buenos, no es un hábito; es un evento."}, {"title": "3. Recompensa", "content": "<strong>Qué es:</strong> el resultado positivo que el cerebro asocia con la rutina. Puede ser inmediato (sabor, alivio, sensación de logro) o diferido (mejor sueño, más energía mañana).<br><br><strong>Por qué importa:</strong> el cerebro instala hábitos solo cuando hay recompensa percibida. Por eso los hábitos saludables cuestan tanto: las recompensas suelen ser diferidas (no se ve el efecto hasta semanas después). Hay que diseñarles recompensas inmediatas adicionales: una taza de café después de caminar, marcar una casilla en un calendario."}, {"title": "4. Anhelo", "content": "<strong>Qué es:</strong> el deseo anticipado de la recompensa. Es lo que hace que, con el tiempo, la sola señal active el impulso de ejecutar la rutina, antes de pensarlo.<br><br><strong>Por qué importa:</strong> el anhelo es la firma de un hábito ya instalado. Cuando alguien lleva tres meses caminando después de almorzar y un día se salta la caminata, siente que falta algo. Eso es anhelo. Es la señal de que el hábito ya no requiere voluntad."}]}, {"id": "p6", "type": "statement_paragraph", "moduleTitle": "Módulo 1: Ciencia del hábito", "title": "Por qué fallan los lunes: la trampa del 'todo o nada'", "image": null, "statement": "El error más común al instalar un hábito nuevo es pedirle demasiado el primer día.", "subheading": "Demasiado, demasiado pronto", "body": "El lunes es el día del optimismo desinformado. La motivación está alta —es lunes, semana nueva, todo es posible— y se diseñan planes que asumen que los próximos cinco días serán igual de luminosos. Una hora diaria de ejercicio. Sin azúcar. Sin redes. Dormir a las diez. Para el miércoles, el agotamiento del trabajo real choca con el plan ideal. Y como el plan era 'todo', no cumplirlo se siente como 'nada'. Se abandona.<br><br>El antídoto es contraintuitivo: <strong>diseñe un hábito tan pequeño que sea imposible no hacerlo</strong>, incluso en el peor día. Cinco minutos de caminata, no una hora. Dos páginas de lectura, no un capítulo. Una manzana al día, no rediseñar toda la alimentación. La consistencia importa cien veces más que la intensidad. Una vez instalado, el hábito puede crecer. Pero la batalla del primer mes es contra el 'todo o nada'."}, {"id": "p7", "type": "hotspots", "moduleTitle": "Módulo 1: Ciencia del hábito", "title": "La regla del 1%: por qué los cambios pequeños componen", "image": "assets/images/img_04.jpg", "intro": "Mejorar un 1% por día no parece nada en el momento. Pero con interés compuesto, en un año son 37 veces mejor. La curva no es lineal: es exponencial. Estos son los cuatro puntos clave para entenderla.", "hotspots": [{"label": "Día 1", "content": "El cambio de hoy es invisible. Caminar 10 minutos no produce ningún resultado medible. Esa es la trampa: el cerebro busca recompensa inmediata, y aquí no la hay. Por eso casi todos abandonan en esta zona."}, {"label": "Mes 1", "content": "Los efectos siguen siendo sutiles. Quizás duerme un poco mejor. Quizás tiene menos hambre por la noche. Nada espectacular. Pero el hábito ya está empezando a automatizarse: requiere menos voluntad ejecutarlo que la primera semana."}, {"label": "Mes 6", "content": "Aquí empieza a notarse. Las personas cercanas comentan. Hay energía sostenida durante la jornada. El hábito ya es parte de la identidad: 'soy alguien que camina después de almorzar', no 'estoy intentando caminar'."}, {"label": "Año 1", "content": "Efecto compuesto. El sueño es mejor, el ánimo es mejor, el rendimiento cognitivo es mejor. No por el día 365, sino por la acumulación de los 365 pequeños depósitos. Y el hábito ya no requiere voluntad; es automático."}]}, {"id": "p8", "type": "knowledge_check", "moduleTitle": "Módulo 1: Ciencia del hábito", "title": "Verifique lo aprendido", "image": null, "questions": [{"type": "single", "stem": "Lucía decide ir al gimnasio todos los días después del trabajo, una hora. La primera semana cumple cuatro días. La segunda, dos. La tercera, ninguno. ¿Cuál es el error de diseño más probable en su hábito?", "options": ["Eligió el gimnasio en lugar de caminar al aire libre.", "Le pidió al hábito demasiado el primer día, sin diseñarlo pequeño para días malos.", "No tenía suficiente motivación para sostenerlo.", "Le faltó disciplina y constancia."], "correctAnswer": 1, "correct": 1, "feedback": {"correct": "Exacto. El error clásico del 'todo o nada': una hora diaria es demasiado para el peor día. Un hábito sostenible se diseña para ejecutarse incluso en días malos, no solo en días buenos.", "incorrect": "Revisemos: el problema no es la motivación ni la disciplina (esos son síntomas, no causas), ni el tipo de ejercicio. El error está en haber diseñado el hábito demasiado grande para los días malos. Se llama la trampa del 'todo o nada'."}}, {"type": "single", "stem": "¿Cuál es la diferencia clave entre la motivación y un hábito instalado?", "options": ["La motivación es mental y el hábito es físico.", "La motivación es un estado que sube y baja; el hábito es automático y requiere poca energía consciente.", "Los hábitos son para gente disciplinada, la motivación para todo el mundo.", "No hay diferencia; son lo mismo con distinto nombre."], "correctAnswer": 1, "correct": 1, "feedback": {"correct": "Correcto. Ese es el punto clave del módulo. La motivación es un estado inestable; el hábito es una rutina automatizada. Por eso los cambios sostenibles se basan en hábitos, no en motivación.", "incorrect": "La distinción es importante: la motivación es un <em>estado</em> que fluctúa con el sueño, el estrés y el ánimo. Un hábito instalado se ejecuta solo, sin gasto consciente. Por eso los hábitos son más confiables que la motivación."}}]}, {"id": "p9", "type": "module_outro", "moduleTitle": "Módulo 1: Ciencia del hábito", "title": "Lo que cierra este módulo", "image": null, "items": ["<strong>La motivación es un estado, no un rasgo.</strong> Pretender sostener un cambio sobre la motivación es construir sobre arena. Los hábitos resuelven esto al automatizar la conducta.", "<strong>Todo hábito tiene la misma estructura:</strong> señal → rutina → recompensa → anhelo. Los hábitos nuevos fallan casi siempre porque no tienen señal clara o no tienen recompensa inmediata diseñada.", "<strong>La regla del 1%:</strong> diseñe el hábito tan pequeño que sea imposible no ejecutarlo en el peor día. La consistencia importa cien veces más que la intensidad. Los cambios pequeños componen exponencialmente."]}]}, {"id": "m2", "title": "Módulo 2: Los 4 hábitos de alto impacto", "screens": [{"id": "p10", "type": "module_intro_full", "moduleTitle": "Módulo 2: Los 4 hábitos de alto impacto", "moduleLabel": "MÓDULO 2", "title": "Cuatro hábitos, cuatro palancas", "image": "assets/images/img_02.jpg", "audio": "assets/audio/audio_03.mp3", "audio_script": "Le damos la bienvenida al módulo dos. Hay muchos hábitos que pueden mejorar el rendimiento. Pero entre todos, cuatro tienen un impacto desproporcionado. Tanto que vale la pena empezar por estos antes que por cualquier otro. Sueño. Ejercicio. Alimentación. Pausas mentales. Vamos a ver la ciencia justa de cada uno... un caso corto de alguien que lo implementó... y al menos una regla concreta para empezar esta semana. Sin épica. Empecemos.", "statement": "Cuatro hábitos explican la mayor parte del rendimiento sostenido. Empezar por estos es Pareto puro.", "citation": "Principio operativo del módulo", "paragraphs": ["Hay decenas de hábitos saludables. Meditar, agradecer, leer, planificar, hidratarse, exponerse al sol. Todos suman. Pero la evidencia es clara en que cuatro tienen un efecto desproporcionado sobre el rendimiento cognitivo, el estado de ánimo, la salud cardiovascular y la longevidad: dormir, moverse, comer con criterio, descansar la mente intencionalmente.", "Empezar por estos cuatro antes que por cualquier otro es Pareto aplicado: el 20% de los hábitos que producen el 80% del resultado. Este módulo cubre los cuatro: la ciencia justa de cada uno, un caso real de alguien que lo implementó, y al menos una regla concreta para esta semana."], "nextSteps": "Lo que va a encontrar en este módulo", "learnItems": ["Hábito 1 · Sueño: la base de todo lo demás.", "Hábito 2 · Ejercicio: no es estética, es función cognitiva.", "Hábito 3 · Alimentación: energía estable, no picos.", "Hábito 4 · Pausas mentales: recuperación cognitiva intencional."]}, {"id": "p11", "type": "statement_paragraphs", "moduleTitle": "Módulo 2: Los 4 hábitos de alto impacto", "title": "Hábito 1 · Sueño: la base de todo lo demás", "image": "assets/images/img_05.jpg", "statement": "Si solo pudiera elegir un hábito para cambiar, elija dormir. Todos los demás dependen de este.", "paragraphs": ["Durante el sueño profundo, el cerebro consolida la memoria del día, repara tejidos, regula hormonas que controlan el hambre y el estrés, y limpia desechos metabólicos que se acumulan durante la vigilia. No es tiempo perdido: es trabajo activo de mantenimiento sin el cual nada más funciona bien.", "<strong>Lo que muestran los estudios:</strong> dormir menos de seis horas reiteradamente reduce el rendimiento cognitivo a niveles equivalentes a estar levemente intoxicado, aumenta el apetito por alimentos procesados, eleva el cortisol basal, y empeora la respuesta emocional al estrés. No es una opinión: es lo que muestran décadas de investigación.", "<strong>El problema cultural:</strong> dormir poco se asocia con productividad ('hice una nocheada'), cuando la evidencia muestra lo contrario. Una persona que duerme bien produce más en seis horas de trabajo que una privada de sueño en diez. Dormir es la inversión de mayor retorno del día."], "intro": null, "items": []}, {"id": "p12", "type": "case_study", "moduleTitle": "Módulo 2: Los 4 hábitos de alto impacto", "title": "Caso: Roberto, el ingeniero que no entendía por qué rendía menos", "image": "assets/images/img_06.jpg", "audio": "assets/audio/audio_04.mp3", "audio_script": "Roberto es ingeniero. Treinta y cuatro años. Durante meses sintió que algo no funcionaba. El código que antes le salía limpio... ahora le tomaba el doble. Cometía errores de novato. Y al final del día estaba agotado, como si hubiera trabajado el doble. Pensó que era el equipo. Pensó que era el cansancio normal de los proyectos. Hasta que un médico le hizo una pregunta simple. ¿Cuántas horas duerme por noche? Roberto contó hacia atrás. Llevaba casi un año durmiendo cinco horas. Cinco y media en buena noche. El médico le dijo algo que lo desarmó. Su rendimiento no estaba bajando por el equipo. Estaba bajando porque su cerebro... literalmente no estaba terminando las tareas de mantenimiento nocturno.", "subtitle": "Cuando bajar rendimiento se confunde con falta de talento", "body": "Después de esa consulta, Roberto cambió una sola cosa: empezó a apagar las pantallas a las diez de la noche. Sin más reglas, sin programa de meditación, sin suplementos. Solo eso.<br><br>A las tres semanas dormía siete horas de forma natural. A las seis semanas, sus revisiones de código volvían al nivel anterior. A los tres meses, había recuperado completamente la sensación de claridad que había perdido durante el año previo.<br><br><strong>En síntesis:</strong> Roberto no necesitaba mejorar su trabajo. Necesitaba dormir. Su cerebro no era el problema; era el insumo que le estaba dando."}, {"id": "p13", "type": "accordion", "moduleTitle": "Módulo 2: Los 4 hábitos de alto impacto", "title": "Tres reglas para mejorar el sueño esta semana", "image": null, "intro": "No necesita un programa complejo. Estas tres reglas son las de mayor impacto y se pueden empezar mañana.", "items": [{"title": "1. Horario fijo, sobre todo de despertar", "content": "El cerebro se calibra por la hora a la que <em>despierta</em>, no por la hora a la que se acuesta. Si despierta a las 6:30 entre semana, hacerlo también el fin de semana —o a lo sumo una hora más tarde— mantiene el reloj biológico estable. Las trasnochadas de viernes producen 'jet lag social' los lunes.<br><br><strong>Cómo empezar:</strong> elija una hora de despertar fija. Acepte que la hora de acostarse se va a ajustar sola para sostenerla. La regularidad importa más que el número total de horas."}, {"title": "2. Luz brillante en la primera hora del día", "content": "La luz natural en los primeros 30 a 60 minutos después de despertar es la señal más potente para el reloj biológico. Le dice al cerebro 'es de día', y eso pone en marcha la cadena hormonal que garantiza somnolencia en la noche.<br><br><strong>Cómo empezar:</strong> salga al balcón, camine al café, tome desayuno cerca de una ventana. Diez minutos de luz natural en la mañana valen más que cualquier suplemento para dormir."}, {"title": "3. Pantallas y comidas pesadas: stop dos horas antes", "content": "La luz azul de las pantallas reduce la producción de melatonina —la hormona que induce el sueño— y las comidas pesadas mantienen al sistema digestivo trabajando cuando debería estar bajando revoluciones. Las dos cosas atrasan el inicio del sueño profundo, que es la fase de mayor recuperación.<br><br><strong>Cómo empezar:</strong> apague pantallas y cene ligero al menos dos horas antes de la hora objetivo de dormir. Si necesita revisar algo después, use modo nocturno con brillo bajo."}]}, {"id": "p14", "type": "statement_paragraphs", "moduleTitle": "Módulo 2: Los 4 hábitos de alto impacto", "title": "Hábito 2 · Ejercicio: no es estética, es función cognitiva", "image": "assets/images/img_07.jpg", "statement": "Moverse no es para verse mejor. Es para pensar mejor, manejar el estrés mejor y dormir mejor.", "paragraphs": ["El ejercicio tiene un problema cultural: se vendió durante décadas como medio para verse bien. Esa narrativa hizo que mucha gente lo abandonara cuando los resultados estéticos no llegaron en el plazo esperado. Pero la estética es el efecto menos importante del ejercicio.", "<strong>Lo que muestran los estudios:</strong> moverse aumenta el flujo sanguíneo cerebral, libera factores de crecimiento neuronal, mejora la consolidación de memoria, regula el sistema de estrés a la baja, y mejora la calidad del sueño de esa noche. Los efectos cognitivos son visibles en el mismo día.", "<strong>El cambio de marco:</strong> si lo piensa como 'ejercicio para ponerse en forma', va a abandonar cuando la balanza no se mueva. Si lo piensa como 'media hora de inversión en su cerebro y su sueño', el retorno se siente esa misma tarde. Las dos cosas son ciertas, pero la segunda sostiene el hábito mejor."], "intro": null, "items": []}, {"id": "p15", "type": "case_study", "moduleTitle": "Módulo 2: Los 4 hábitos de alto impacto", "title": "Caso: Andrea, la abogada que caminaba veinte minutos al mediodía", "image": "assets/images/img_08.jpg", "audio": "assets/audio/audio_05.mp3", "audio_script": "Andrea es abogada. Cuarenta y dos años. Socia de su despacho. Durante años intentó incorporar ejercicio a su rutina. Se inscribió en gimnasios. Compró equipamiento. Probó clases. Pero ninguna de esas opciones sobrevivió más de tres semanas. El problema no era falta de voluntad. Era que cada opción exigía una hora completa más traslados, y los días de trabajo ya estaban llenos. Hasta que cambió la pregunta. En vez de preguntarse cuándo iba a hacer ejercicio... se preguntó qué espacio del día ya tenía disponible que pudiera convertirse en movimiento. La respuesta era obvia. El mediodía. Empezó a caminar veinte minutos antes de almorzar. Sola. Sin audífonos. Y eso, que parecía trivial, fue lo que se sostuvo.", "subtitle": "Lo que se sostiene es lo que cabe en el día real, no en el día ideal", "body": "A los seis meses, Andrea había caminado más que en los cinco años anteriores combinados. Su sueño mejoró. Su capacidad de concentrarse durante la tarde —que antes se desplomaba a las 3pm— se sostenía. Y la caminata, que empezó como hábito de salud, terminó convertida en el momento del día en el que mejor pensaba.<br><br><strong>En síntesis:</strong> Andrea no necesitaba más motivación ni un gimnasio mejor. Necesitaba un hábito que cupiera en su día real, no en su día ideal. Los veinte minutos eran ejecutables incluso en su peor semana. Por eso sobrevivieron."}, {"id": "p16", "type": "decision_matrix", "moduleTitle": "Módulo 2: Los 4 hábitos de alto impacto", "title": "El mínimo viable: cuánto y qué tipo de movimiento basta", "image": null, "intro": "No todos los perfiles necesitan lo mismo. Esta matriz cruza frecuencia y intensidad para ayudarle a ubicar el mínimo viable según su punto de partida.", "xAxis": "Intensidad (suave ↔ intensa)", "yAxis": "Frecuencia (baja ↔ alta)", "quadrants": [{"position": "bl", "label": "Zona de arranque", "subtitle": "Frecuencia baja · Intensidad suave", "content": "Quien no se mueve hace meses o años. <strong>El objetivo es no abandonar.</strong><br><br>Recomendación: caminar 10-15 minutos, tres veces por semana. No importa la velocidad. Lo único que importa es la consistencia. En cuatro semanas, esto solo ya reduce ansiedad, mejora el sueño y eleva la energía basal. No agregue nada más hasta que esto esté instalado.", "color": "#E8F0F7"}, {"position": "tl", "label": "Zona de sostenibilidad", "subtitle": "Frecuencia alta · Intensidad suave", "content": "El mejor lugar a largo plazo para la mayoría. <strong>Caminar todos los días o casi.</strong><br><br>Recomendación: 30-45 minutos de caminata diaria. Puede ser dividida en bloques. Este patrón es el que correlaciona más fuerte con longevidad en estudios poblacionales. No requiere equipo, no genera lesiones, y la recuperación es instantánea. Es la base sobre la que se puede agregar todo lo demás.", "color": "#DAF1E3"}, {"position": "br", "label": "Zona de complemento", "subtitle": "Frecuencia baja · Intensidad intensa", "content": "Para quien ya tiene base de caminata y quiere agregar fuerza o cardio fuerte. <strong>Dos sesiones intensas a la semana, máximo.</strong><br><br>Recomendación: una sesión de fuerza (45-60 min) más una sesión de cardio intenso o deporte (45 min). Más que eso, para alguien con trabajo cognitivo intenso, suele restar más de lo que suma porque la recuperación se vuelve insuficiente.", "color": "#FBE9D3"}, {"position": "tr", "label": "Zona de atletas", "subtitle": "Frecuencia alta · Intensidad intensa", "content": "<strong>No es la zona objetivo para la mayoría.</strong><br><br>Cinco o más sesiones intensas semanales solo tiene sentido para deportistas con objetivos específicos, estructura de recuperación, y carga de trabajo cognitivo moderada. Para profesionales con trabajo demandante, este patrón compite con el sueño y aumenta el cortisol. No es 'lo ideal'. Es lo que sirve para metas particulares.", "color": "#FAF6E8"}]}, {"id": "p17", "type": "statement_paragraphs", "moduleTitle": "Módulo 2: Los 4 hábitos de alto impacto", "title": "Hábito 3 · Alimentación: energía estable, no picos", "image": "assets/images/img_09.jpg", "statement": "Lo que comemos no es solo combustible. Es la materia prima del estado de ánimo, del foco y del sueño.", "paragraphs": ["Hay miles de dietas, y la mayoría se contradicen entre sí. Esto genera la sensación de que la alimentación es un campo confuso donde no hay reglas claras. No es cierto. Hay un puñado de principios sobre los que toda la evidencia coincide.", "<strong>El principio central:</strong> el cerebro funciona mejor cuando la glucosa se mantiene estable, no cuando sube y baja en picos. Los picos de glucosa producen bajones de energía 1-2 horas después, hambre prematura, y ese 'cansancio mental' de las 3pm que la mayoría atribuye al estrés cuando en realidad es bioquímico.", "<strong>Las decisiones de mayor impacto:</strong> qué se come en el desayuno y al mediodía afecta cómo se rinde la tarde. No se trata de eliminar grupos de alimentos: se trata de ordenar el plato para que la energía dure. Proteína y fibra primero, carbohidratos refinados al final. Eso solo cambia la curva de glucosa significativamente."], "intro": null, "items": []}, {"id": "p18", "type": "case_study", "moduleTitle": "Módulo 2: Los 4 hábitos de alto impacto", "title": "Caso: Felipe, el gerente que cambió un solo desayuno", "image": "assets/images/img_10.jpg", "audio": "assets/audio/audio_06.mp3", "audio_script": "Felipe es gerente de operaciones. Cuarenta y cinco años. Durante años desayunó lo mismo. Pan blanco con mermelada. Jugo de naranja. Café con azúcar. Estaba convencido de que era un desayuno saludable. Y tenía un problema sostenido. A las once de la mañana se sentía agotado. Necesitaba un segundo café. A la una almorzaba con apuro porque ya estaba famélico. Y entre las tres y las cuatro de la tarde... se volvía improductivo. Pensaba que era el estrés del cargo. Hasta que un nutricionista le mostró su curva de glucosa con un sensor de tres días. El desayuno producía un pico enorme... seguido de una caída brusca a las once. Felipe cambió una sola cosa. Cambió el pan por dos huevos revueltos. Mantuvo el café. Eliminó el jugo. Y la curva se aplanó. La caída de las once desapareció. El bajón de las tres también. Sin proponérselo, bajó tres kilos en dos meses.", "subtitle": "El cambio más rentable suele ser el más concentrado", "body": "Felipe no se puso a dieta. No contó calorías. No eliminó grupos de alimentos. Lo único que hizo fue cambiar la composición del primer alimento del día.<br><br>El cambio se sostuvo —y se sostiene tres años después— por una razón simple: <strong>el resultado se sentía el mismo día</strong>. La energía a las once dejó de derrumbarse. La tarde dejó de ser un esfuerzo. Esa recompensa inmediata era el anhelo que mantenía el hábito sin esfuerzo consciente.<br><br><strong>En síntesis:</strong> cambiar todo es ingobernable. Cambiar el desayuno es ejecutable. Y, en muchos casos, es donde está la mayor palanca."}, {"id": "p19", "type": "sorting", "moduleTitle": "Módulo 2: Los 4 hábitos de alto impacto", "title": "Clasifique las decisiones alimenticias", "image": null, "instruction": "Arrastre cada decisión a la categoría correspondiente. ¿Sostiene la energía estable o la rompe en picos?", "categories": ["Sostiene energía estable", "Produce picos y caídas"], "items": [{"text": "Desayuno con proteína (huevos, yogur natural, frutos secos).", "category": 0}, {"text": "Pan blanco con mermelada y jugo de fruta.", "category": 1}, {"text": "Almuerzo que empieza por ensalada y proteína, los carbohidratos al final.", "category": 0}, {"text": "Galletas o pan industrial como snack a media mañana.", "category": 1}, {"text": "Frutos secos (almendras, nueces) entre comidas.", "category": 0}, {"text": "Bebida azucarada o gaseosa con el almuerzo.", "category": 1}, {"text": "Fruta entera como postre o snack.", "category": 0}, {"text": "Cereales 'integrales' con azúcar añadida en el desayuno.", "category": 1}]}, {"id": "p20", "type": "statement_paragraphs", "moduleTitle": "Módulo 2: Los 4 hábitos de alto impacto", "title": "Hábito 4 · Pausas mentales: recuperación cognitiva intencional", "image": "assets/images/img_11.jpg", "statement": "La atención sostenida no es ilimitada. La pregunta no es si va a fallar, sino si la recupera antes o después de que se rompa.", "paragraphs": ["El cerebro humano no está diseñado para mantener foco profundo durante ocho horas continuas. La atención funciona en ciclos: períodos de concentración seguidos de períodos de recuperación. Cuando se intenta forzar la atención más allá del ciclo, la calidad del trabajo cae bruscamente, aunque la sensación subjetiva sea 'sigo trabajando'.", "<strong>Lo que muestran los estudios:</strong> el rendimiento se sostiene mejor con bloques de 60 a 90 minutos de trabajo enfocado seguidos de 5 a 15 minutos de recuperación real, que con cuatro horas seguidas de trabajo declarado pero interrumpido por correos, notificaciones y micro-distracciones.", "<strong>El principio práctico:</strong> las pausas no son tiempo perdido. Son la condición que hace posible la siguiente hora productiva. Las personas con mayor rendimiento sostenido no son las que trabajan más horas seguidas, sino las que recuperan mejor entre bloques."], "intro": null, "items": []}, {"id": "p21", "type": "case_study", "moduleTitle": "Módulo 2: Los 4 hábitos de alto impacto", "title": "Caso: Mariana, la consultora que aprendió a parar antes de quemarse", "image": "assets/images/img_12.jpg", "audio": "assets/audio/audio_07.mp3", "audio_script": "Mariana es consultora estratégica. Treinta y nueve años. Trabajaba como muchos en su sector: diez, doce horas seguidas. Cafés entre llamadas. Almuerzo frente a la pantalla. Convencida de que descansar era para los demás. Durante años funcionó. Hasta que dejó de funcionar. Los entregables se volvieron tibios. Las ideas dejaron de aparecer. Sentía que estaba siempre cansada, incluso después de un fin de semana entero de descanso. Su coach le dijo algo simple. No estaba cansada por trabajar mucho. Estaba cansada por nunca terminar de recuperarse. Mariana hizo un cambio incómodo. Programó pausas obligatorias. Cada noventa minutos, cinco minutos sin pantalla. Al mediodía, media hora real... lejos del escritorio. Sin trabajo. Lo difícil no fue cumplir las pausas. Fue tolerar la incomodidad de no estar produciendo. A las tres semanas, su productividad real... no la sensación de productividad, había subido.", "subtitle": "La pausa que parece tiempo perdido es la que sostiene la siguiente hora", "body": "Después de dos meses, Mariana producía la misma cantidad de trabajo en ocho horas que antes hacía en doce. Lo que cambió no fue la velocidad. Cambió la calidad. Las decisiones estratégicas que antes le costaban un día entero, ahora le tomaban dos horas con foco real.<br><br><strong>En síntesis:</strong> Mariana no era menos capaz. Estaba operando crónicamente sin recuperar. El problema no era la cantidad de trabajo: era la ausencia de pausas que permitieran que el siguiente bloque fuera bueno. Una vez que las pausas se volvieron innegociables, todo lo demás se reordenó."}, {"id": "p22", "type": "tabs", "moduleTitle": "Módulo 2: Los 4 hábitos de alto impacto", "title": "Cuatro tipos de pausas y cuándo usar cada una", "image": null, "intro": "No todas las pausas hacen lo mismo. Diseñar bien el día implica usar el tipo correcto en cada momento.", "tabs": [{"title": "Micro-pausa", "content": "<strong>Duración:</strong> 1-3 minutos.<br><strong>Cuándo:</strong> entre tareas pequeñas, después de un correo difícil, antes de una llamada importante.<br><br>Sirve para resetear la atención sin perder contexto. Mire por la ventana, respire profundo, estire los hombros. Es lo opuesto a 'descansar revisando el teléfono', que no es pausa real porque mantiene al cerebro en modo entrada de información."}, {"title": "Pausa activa", "content": "<strong>Duración:</strong> 5-15 minutos.<br><strong>Cuándo:</strong> cada 60-90 minutos de trabajo enfocado.<br><br>Sirve para recuperar el ciclo atencional. Levántese del escritorio, camine, tome agua, mire algo lejano para descansar la vista. Lo importante es <em>cambiar de modo</em>: si trabajó sentado mirando una pantalla, la pausa debe ser de pie, mirando algo lejos."}, {"title": "Pausa profunda", "content": "<strong>Duración:</strong> 30-60 minutos al mediodía.<br><strong>Cuándo:</strong> una vez al día, idealmente en la mitad de la jornada.<br><br>Sirve para resetear la energía del día completo, no de un ciclo. Almuerce sin pantalla, camine, converse con alguien sobre algo no laboral. Es la pausa que hace que la tarde rinda. Las personas que se la saltan suelen tener un colapso de energía entre 3 y 5pm."}, {"title": "Descanso semanal", "content": "<strong>Duración:</strong> al menos un día completo a la semana, idealmente dos.<br><strong>Cuándo:</strong> en una rutina semanal predecible.<br><br>Sirve para que el sistema de estrés vuelva a línea base. No requiere actividades 'productivas' ni planes complejos. Solo requiere desconexión real del trabajo: sin correos, sin llamadas, sin pensar en pendientes. Es el equivalente cognitivo del sueño nocturno, pero a escala semanal."}]}, {"id": "p23", "type": "knowledge_check", "moduleTitle": "Módulo 2: Los 4 hábitos de alto impacto", "title": "Verifique lo aprendido", "image": null, "questions": [{"type": "single", "stem": "Si solo pudiera empezar por uno de los cuatro hábitos esta semana, ¿cuál tiene el mayor efecto base sobre el rendimiento, según el módulo?", "options": ["Ejercicio: porque mejora el ánimo de inmediato.", "Sueño: porque es la base sobre la que funcionan los otros tres.", "Alimentación: porque controla la energía durante el día.", "Pausas mentales: porque sostienen la atención."], "correctAnswer": 1, "correct": 1, "feedback": {"correct": "Correcto. El sueño es el hábito base: regula hormonas, consolida memoria, y la falta de sueño hace que los otros tres hábitos sean más difíciles de sostener (más hambre por alimentos procesados, menos energía para ejercicio, menos foco para pausas intencionales).", "incorrect": "Recuerde: el sueño es el hábito base. Sin sueño suficiente, el ejercicio cuesta, la alimentación tiende a peor (más hambre por azúcar), y las pausas mentales sirven menos porque el cerebro ya viene comprometido. Por eso es el lugar lógico para empezar."}}, {"type": "multiple", "stem": "¿Cuáles de los siguientes son patrones de pausa que SÍ funcionan para recuperar la atención? (Seleccione todas las correctas.)", "options": ["Cambiar de modo: si estaba sentado mirando pantalla, levantarse y mirar lejos.", "Revisar redes sociales durante 5 minutos.", "Pausa profunda al mediodía sin pantalla.", "Caminar tres minutos entre bloques de trabajo."], "correctAnswer": [0, 2, 3], "correct": [0, 2, 3], "feedback": {"correct": "Correcto. La clave está en cambiar de modo cognitivo. Revisar redes sociales no es pausa real porque mantiene el cerebro en modo entrada de información; solo cambia el tipo de estímulo, no permite recuperación.", "incorrect": "Revise: revisar redes no es pausa real porque mantiene al cerebro recibiendo estímulos. Las otras tres opciones implican cambio de modo (de sentado a parado, de pantalla a sin pantalla, de mental a físico)."}}]}, {"id": "p24", "type": "module_outro", "moduleTitle": "Módulo 2: Los 4 hábitos de alto impacto", "title": "Lo que cierra este módulo", "image": null, "items": ["<strong>Sueño.</strong> La base de todo lo demás. Tres reglas: horario fijo de despertar, luz brillante en la primera hora del día, sin pantallas ni comidas pesadas dos horas antes de dormir.", "<strong>Ejercicio.</strong> No es para verse bien, es para pensar bien. Para la mayoría, lo sostenible es caminar diario suave, no entrenar intenso esporádicamente.", "<strong>Alimentación.</strong> Energía estable, no picos. El cambio más rentable suele estar en el desayuno: proteína y fibra antes que carbohidratos refinados.", "<strong>Pausas mentales.</strong> No son tiempo perdido. Son la condición para que el siguiente bloque rinda. Hay cuatro tipos: micro, activa, profunda y descanso semanal."]}]}, {"id": "m3", "title": "Módulo 3: Cómo sostenerlos en el tiempo", "screens": [{"id": "p25", "type": "module_intro_full", "moduleTitle": "Módulo 3: Cómo sostenerlos en el tiempo", "moduleLabel": "MÓDULO 3", "title": "De saber qué hacer a sostenerlo", "image": "assets/images/img_13.jpg", "audio": "assets/audio/audio_08.mp3", "audio_script": "Le damos la bienvenida al módulo tres. Hasta acá tiene la ciencia... y los cuatro hábitos. Pero la mayoría de la gente que abandona no abandona por falta de información. Abandona en los días malos. En los lunes con gripe. En las semanas con un proyecto demandante. Este módulo es sobre eso. Cómo diseñar un sistema que sobrevive a los días malos... no uno que solo funciona en los buenos. Y al final, va a diseñar su propio plan para los próximos siete días.", "statement": "El sistema vence al objetivo. No falla quien no se esfuerza: falla quien depende de su motivación de ese día.", "citation": "Principio operativo del módulo", "paragraphs": ["Casi todos los hábitos saludables se abandonan no por falta de conocimiento ni de motivación inicial, sino porque el sistema que los sostiene no fue diseñado para sobrevivir los días malos. Cuando llega el día con gripe, la semana con proyecto demandante, el mes con un duelo, el hábito se desmorona y muchas veces ya no vuelve.", "Este módulo cubre los principios para diseñar un sistema robusto. Cómo anticipar los días malos antes de que lleguen, qué hacer cuando el sistema falla (porque va a fallar), y cómo formalizar un plan personal concreto para los próximos siete días."], "nextSteps": "Lo que va a encontrar en este módulo", "learnItems": ["Los cuatro principios del sistema que sostiene hábitos.", "Un escenario de decisión: diseñe el próximo hábito de un profesional.", "La regla 'nunca dos días seguidos' para cuando el sistema falla.", "Su plan personal de siete días, con hábito mínimo viable y disparador definido."]}, {"id": "p26", "type": "statement_paragraphs", "moduleTitle": "Módulo 3: Cómo sostenerlos en el tiempo", "title": "El sistema vence al objetivo: cuatro principios", "image": null, "statement": "Un objetivo le dice adónde quiere llegar. Un sistema decide cómo se comporta hoy.", "paragraphs": ["La diferencia entre quienes sostienen hábitos durante años y quienes los abandonan en semanas casi nunca está en los objetivos. Los dos grupos quieren lo mismo: dormir mejor, moverse, comer bien. La diferencia está en el diseño del sistema que ejecuta esos objetivos en el día a día. Estos son los cuatro principios que la evidencia respalda más fuerte:"], "intro": "Cuatro principios del sistema", "items": ["<strong>1. Hacerlo evidente.</strong> La señal del hábito debe estar a la vista o ligada a algo que ya hace todos los días. 'Cuando termine de almorzar, salgo a caminar diez minutos' es más sólido que 'voy a empezar a caminar'.", "<strong>2. Hacerlo fácil.</strong> Reduzca la fricción de inicio. Deje las zapatillas de caminar junto a la puerta. Tenga el desayuno con proteína preparado la noche anterior. Cada gramo de fricción aumenta la probabilidad de saltarlo en un día malo.", "<strong>3. Hacerlo satisfactorio.</strong> Diseñe una recompensa inmediata, aunque sea pequeña: marcar una casilla en un calendario, una taza de café después de caminar. El cerebro instala hábitos cuando hay recompensa percibida, y los efectos saludables son demasiado lentos como recompensa.", "<strong>4. Diseñarlo para el peor día.</strong> Si el hábito solo se puede hacer en días buenos, no es hábito. Versión mínima viable: cinco minutos en vez de cuarenta y cinco, dos páginas en vez de un capítulo. Lo que se hace cuesta veces vence a lo que se hace intensamente una vez."]}, {"id": "p27", "type": "decision_scenario", "moduleTitle": "Módulo 3: Cómo sostenerlos en el tiempo", "title": "¿Qué le recomienda a este profesional?", "image": "assets/images/img_14.jpg", "instructions": "<strong>Instrucciones:</strong> lea el caso del profesional, evalúe las cuatro opciones, y elija el diseño de hábito más sostenible. Cada opción tiene su consecuencia. Tómese un momento antes de decidir.", "intro_text": "<strong>El caso.</strong> Tiene un colega de 38 años, gerente intermedio. Le cuenta que decidió mejorar su salud y quiere empezar por uno de los cuatro hábitos del curso. Está motivado: dice que esta vez va en serio. Le pide consejo sobre cómo diseñar su primer hábito. Sabe que en el pasado ha empezado fuerte y abandonado a las tres semanas. Esta vez quiere que no le pase.", "question_text": "¿Qué diseño de hábito le recomienda?", "dialogue": [{"character": "Colega", "role": "gerente intermedio, 38 años", "text": "Estoy decidido. Esta vez sí lo voy a hacer. Tengo dos opciones en la cabeza: o empezar a ir al gimnasio cinco veces por semana, o cambiar la dieta a cero azúcar. Voy a ir con todo desde el lunes. ¿Vos qué crees que es mejor?", "audio": null, "audio_script": null}], "options": [{"id": "A", "label": "Gimnasio 5 veces por semana", "subtitle": "Es la opción más completa: aprovechar la motivación inicial al máximo.", "correct": false, "result": "Es el típico patrón de abandono", "outcome": "Esta opción cae en la trampa del 'todo o nada' que vimos en el M1. La motivación inicial alta hace que parezca sostenible, pero a las 2-3 semanas el cansancio acumulado más cualquier semana difícil de trabajo vuelven el hábito imposible. Es el patrón clásico del abandono: arranca fuerte, no sobrevive el primer obstáculo."}, {"id": "B", "label": "Cero azúcar desde el lunes", "subtitle": "Decisión radical alimenticia con un solo cambio.", "correct": false, "result": "Restricciones totales tienden a romperse", "outcome": "Las restricciones tipo 'cero' suelen funcionar dos semanas y romperse con cualquier evento social, viaje o día difícil. Después del primer 'fallo', el patrón clásico es abandonar todo el sistema. Mejor 'reducir el azúcar añadido a postres del fin de semana' que 'cero azúcar siempre'."}, {"id": "C", "label": "Caminar 15 minutos después de almorzar", "subtitle": "Un solo hábito, pequeño, anclado a una rutina existente.", "correct": true, "result": "Diseño sólido en los cuatro principios", "outcome": "Excelente diseño. Cumple los cuatro principios: <strong>evidente</strong> (anclado al almuerzo, que ya hace todos los días); <strong>fácil</strong> (15 minutos, sin equipo, sin traslado); <strong>satisfactorio</strong> (efecto inmediato sobre la digestión y la concentración de la tarde); y <strong>diseñado para el peor día</strong> (15 minutos son ejecutables incluso con gripe leve o un día sobrecargado). Una vez instalado, puede crecer."}, {"id": "D", "label": "Esperar a sentirse más motivado", "subtitle": "Mejor empezar cuando la motivación esté más fuerte.", "correct": false, "result": "La motivación no llega; se construye", "outcome": "Esta opción confunde causa y efecto. La motivación no precede a la acción: la motivación aparece <em>como resultado</em> de ver progreso. Esperar a sentirse motivado es esperar indefinidamente. La forma de generar motivación es empezar con un hábito tan pequeño que sea ejecutable hoy, ver el progreso, y dejar que la motivación crezca de ahí."}], "convergent_title": "El sistema bien diseñado parece pequeño desde afuera", "convergent_text": "Hay una intuición fuerte que sabotea esta decisión: la sensación de que '15 minutos es poco'. Cuando alguien viene motivado, quiere un cambio que sienta proporcional a la motivación. Pero el sistema sostenible se diseña al revés. Se diseña <strong>para el peor día, no para el mejor</strong>. Lo que sobrevive es lo pequeño y consistente, no lo grande y esporádico. Una vez instalado, el hábito crece solo. La paradoja es que <em>diseñar el hábito pequeño</em> es lo que produce el cambio grande, porque es lo único que se sostiene.", "convergent_audio": "assets/audio/audio_09.mp3", "convergent_audio_script": "Hay una intuición fuerte que sabotea esta decisión. Cuando alguien viene motivado, quiere un cambio que sienta proporcional a la motivación. Y un hábito pequeño se siente insuficiente. Pero el sistema sostenible se diseña al revés. Se diseña para el peor día. No para el mejor. Lo que sobrevive es lo pequeño y consistente, no lo grande y esporádico. Una vez instalado, el hábito crece solo. La paradoja es esta. Diseñar el hábito pequeño... es lo que produce el cambio grande. Porque es lo único que se sostiene."}, {"id": "p28", "type": "statement_paragraph", "moduleTitle": "Módulo 3: Cómo sostenerlos en el tiempo", "title": "Anticipar los días malos: la regla 'nunca dos días seguidos'", "image": null, "statement": "El hábito no se rompe el día que falla. Se rompe el segundo día consecutivo que no se ejecuta.", "subheading": "Cuando el sistema inevitablemente falla", "body": "Todos los sistemas fallan eventualmente. Habrá un día con gripe, una semana con un proyecto que se desbordó, un fin de semana con un evento familiar. Esto no es un defecto del sistema: es parte del diseño. Pretender 100% de cumplimiento es lo que rompe a las personas perfeccionistas.<br><br><strong>La regla práctica:</strong> nunca dos días seguidos. Un día que se salta el hábito es un evento. Dos días seguidos es el inicio de un patrón. Tres días seguidos es casi siempre el final del hábito.<br><br>Por eso, cuando un día se rompe la rutina, la acción más importante no es 'recuperar' lo perdido (caminar 30 minutos al día siguiente porque no caminó hoy). La acción importante es <strong>retomar al día siguiente la versión mínima del hábito</strong>, aunque sean cinco minutos en pijama antes del trabajo. La continuidad importa más que la cantidad. Una vez que la cadena se reanuda, el sistema queda intacto."}, {"id": "p29", "type": "statement_paragraphs", "moduleTitle": "Módulo 3: Cómo sostenerlos en el tiempo", "title": "Su plan personal para los próximos siete días", "image": "assets/images/img_15.jpg", "statement": "Salir de este curso con un hábito definido vale más que salir con cuatro intenciones.", "paragraphs": ["El cierre práctico del curso es este: elija uno de los cuatro hábitos. Solo uno. El que le resulte más relevante hoy. Para los próximos siete días, va a comprometerse con la versión más pequeña ejecutable de ese hábito. No más.", "Las cuatro decisiones que hacen el plan operativo —y que conviene escribir explícitamente antes de cerrar el curso— son las siguientes:"], "intro": "Defina su hábito en cuatro líneas", "items": ["<strong>Hábito elegido.</strong> Cuál de los cuatro: sueño, ejercicio, alimentación o pausas mentales. Uno solo. (Ejemplo: pausas mentales.)", "<strong>Versión mínima viable.</strong> La forma más pequeña ejecutable, incluso en el peor día. (Ejemplo: una pausa de cinco minutos sin pantalla a la mitad de la mañana.)", "<strong>Disparador concreto.</strong> Una señal específica que ya ocurre todos los días, ligada al hábito. (Ejemplo: cuando termine la reunión de las 10:30, antes de abrir el correo.)", "<strong>Recompensa inmediata.</strong> Algo pequeño que marque la ejecución exitosa. (Ejemplo: marcar la casilla en una hoja pegada al monitor, o una taza de café.)"]}, {"id": "p30", "type": "module_outro", "moduleTitle": "Módulo 3: Cómo sostenerlos en el tiempo", "title": "Lo que cierra este módulo", "image": null, "items": ["<strong>El sistema vence al objetivo.</strong> Cuatro principios: hacerlo evidente, fácil, satisfactorio y diseñado para el peor día.", "<strong>Nunca dos días seguidos.</strong> Cuando el sistema falla, la acción importante no es recuperar lo perdido, sino retomar al día siguiente la versión mínima. La continuidad importa más que la cantidad.", "<strong>Un solo hábito a la vez.</strong> Salir del curso con un hábito definido, con disparador concreto y recompensa inmediata, vale más que salir con cuatro intenciones."]}]}, {"id": "m4", "title": "Cierre y evaluación", "screens": [{"id": "p31", "type": "quiz", "moduleTitle": "Cierre y evaluación", "title": "Evaluación final del curso", "image": null, "intro": "Diez preguntas sobre lo que vimos en los tres módulos. Para aprobar necesita 80% o más (8 de 10).", "passingScore": 80, "questions": [{"type": "single", "stem": "Pedro lleva tres semanas siguiendo un plan de gimnasio de una hora diaria. Esta semana se enfermó dos días y rompió la racha. ¿Qué le recomienda hacer mañana?", "options": ["Hacer dos horas de gimnasio mañana para 'recuperar' lo perdido.", "Esperar hasta el lunes siguiente para reiniciar bien con la semana nueva.", "Hacer una versión mínima viable (10-15 minutos) mañana mismo para no encadenar tres días.", "Cambiar el plan a 'menos exigente' antes de seguir."], "correctAnswer": 2, "correct": 2}, {"type": "single", "stem": "¿Cuál de estas frases describe mejor la diferencia entre motivación y hábito?", "options": ["La motivación es para principiantes y los hábitos para expertos.", "La motivación es un estado inestable; el hábito es una rutina automatizada que requiere poca energía consciente.", "Los hábitos son físicos y la motivación es mental.", "Son lo mismo desde el punto de vista neurológico."], "correctAnswer": 1, "correct": 1}, {"type": "single", "stem": "Los cuatro componentes del circuito del hábito en orden son:", "options": ["Recompensa → señal → rutina → anhelo.", "Anhelo → señal → recompensa → rutina.", "Señal → rutina → recompensa → anhelo.", "Rutina → recompensa → señal → anhelo."], "correctAnswer": 2, "correct": 2}, {"type": "single", "stem": "Según el módulo de sueño, ¿cuál es la señal más potente para regular el reloj biológico?", "options": ["La hora a la que se acuesta.", "La luz natural en los primeros 30-60 minutos después de despertar.", "La temperatura de la habitación.", "Tomar melatonina antes de dormir."], "correctAnswer": 1, "correct": 1}, {"type": "single", "stem": "Para la mayoría de profesionales, ¿cuál es el patrón de ejercicio más sostenible a largo plazo según la matriz del módulo?", "options": ["Cinco o más sesiones intensas a la semana.", "Tres sesiones intensas de fuerza más dos de cardio fuerte.", "Caminata diaria suave (30-45 min) como base.", "Una sesión semanal de alta intensidad."], "correctAnswer": 2, "correct": 2}, {"type": "single", "stem": "¿Cuál de estos cambios alimenticios produce mayor estabilidad de glucosa?", "options": ["Reemplazar pan blanco con mermelada por huevos revueltos en el desayuno.", "Saltarse el desayuno y solo tomar café.", "Empezar el almuerzo con el postre para tener energía.", "Comer galletas integrales con azúcar añadida a media mañana."], "correctAnswer": 0, "correct": 0}, {"type": "multiple", "stem": "¿Cuáles de estas son pausas que SÍ recuperan la atención según el módulo? (Marque todas las correctas.)", "options": ["Mirar redes sociales durante cinco minutos entre tareas.", "Caminar tres minutos al baño y de regreso.", "Almorzar sin pantalla, mirando por la ventana.", "Cambiar de tarea sin levantarse del escritorio."], "correctAnswer": [1, 2], "correct": [1, 2]}, {"type": "single", "stem": "La regla 'nunca dos días seguidos' significa:", "options": ["Hacer el hábito solo en días alternos para evitar quemarse.", "Si falla un día, no encadenar un segundo día perdido; retomar al día siguiente la versión mínima.", "Limitar el hábito a un día sí, un día no, para protegerlo del cansancio.", "Si falla dos días seguidos, descansar una semana completa."], "correctAnswer": 1, "correct": 1}, {"type": "single", "stem": "¿Cuál de estos diseños de hábito tiene mayor probabilidad de sostenerse a largo plazo?", "options": ["Cero azúcar desde el lunes que viene.", "Una hora de gimnasio cinco veces por semana, sin excepciones.", "Cinco minutos de caminata después de almorzar, todos los días.", "Esperar a sentirse motivado y entonces empezar fuerte."], "correctAnswer": 2, "correct": 2}, {"type": "matching", "stem": "Empareje cada tipo de pausa con la situación donde mejor aplica:", "pairs": [{"left": "Micro-pausa (1-3 min)", "right": "Entre tareas pequeñas o antes de una llamada importante"}, {"left": "Pausa activa (5-15 min)", "right": "Cada 60-90 minutos de trabajo enfocado"}, {"left": "Pausa profunda (30-60 min)", "right": "Una vez al día, al mediodía, lejos del escritorio"}, {"left": "Descanso semanal", "right": "Al menos un día completo sin trabajo, en rutina semanal"}]}]}, {"id": "p32", "type": "closing_resources", "moduleTitle": "Cierre y evaluación", "title": "Hábitos que sostienen el rendimiento", "image": "assets/images/img_16.jpg", "audio": "assets/audio/audio_10.mp3", "audio_script": "Ha terminado el curso. Lo importante no es haber escuchado la información. Es lo que va a hacer mañana. Recuerde el principio del curso. Diseñar el hábito pequeño... es lo que produce el cambio grande. Porque es lo único que se sostiene. Elija un solo hábito esta semana. El que sienta más relevante hoy. Hágalo en la versión más pequeña ejecutable. Anclelo a algo que ya hace todos los días. Y dele una recompensa inmediata. En siete días vuelva a esta lección. Si lo cumplió, aumente un poco. Si no, revise el diseño. No abandone. Solo ajuste. Cuídese.", "paragraphs": ["Ha terminado el curso. Tiene la ciencia básica, los cuatro hábitos y los principios del sistema. Pero todo eso vale poco si no se traduce en una acción concreta esta semana.", "<strong>El compromiso mínimo:</strong> elija un hábito. Solo uno. El que sienta más relevante hoy. Hágalo en la versión más pequeña ejecutable, anclelo a algo que ya hace todos los días, y dele una recompensa inmediata. En siete días, vuelva a este punto: si lo cumplió, aumente un poco; si no, revise el diseño. No abandone: solo ajuste."], "items": ["Plantilla de plan personal de hábito de siete días (PDF descargable).", "Resumen visual de los cuatro principios del sistema (PDF descargable).", "Recordatorio operativo: cómo retomar el hábito cuando falla un día (PDF descargable)."], "closing": "El cambio sostenible es la suma de muchos depósitos pequeños, no el resultado de un esfuerzo épico. <strong>Empiece esta semana con uno solo.</strong> Cuídese."}]}]};
+  </script>
+  <script>
+/**
+ * Aacrom Course Player
+ * Curso: P-A.1 · El arte de la guerra aplicado a los negocios
+ */
+
+(function () {
+  'use strict';
+
+  let course = null;
+  let allScreens = [];
+  let currentIndex = 0;
+  let completedScreens = new Set();
+  let quizFinalized = false;
+  let quizState = {};
+  let scenarioState = { exploredOptions: new Set(), convergentShown: false };
+
+  // ==========================================================
+  // INIT
+  // ==========================================================
+  async function init() {
+    try {
+      course = window.COURSE_DATA;
+      buildScreenList();
+      buildSidebar();
+      loadProgress();
+      renderScreen();
+      bindNav();
+    } catch (e) {
+      document.getElementById('screen-container').innerHTML = '<p style="padding:40px;color:#B02A2A">Error cargando el curso: ' + e.message + '</p>';
+    }
+  }
+
+  function buildScreenList() {
+    allScreens = [];
+    course.modules.forEach((mod, mi) => {
+      mod.screens.forEach((scr, si) => {
+        allScreens.push({ ...scr, moduleIndex: mi, screenIndex: si });
+      });
+    });
+    document.getElementById('course-title').textContent = course.title;
+  }
+
+  function buildSidebar() {
+    const nav = document.getElementById('module-nav');
+    nav.innerHTML = '';
+    course.modules.forEach((mod, idx) => {
+      const item = document.createElement('div');
+      item.className = 'module-item';
+      item.dataset.moduleIndex = idx;
+      item.innerHTML = `
+        <div class="icon">≡</div>
+        <div class="title">${mod.title}</div>
+        <div class="check"></div>
+      `;
+      item.addEventListener('click', () => jumpToModule(idx));
+      nav.appendChild(item);
+    });
+  }
+
+  function jumpToModule(moduleIndex) {
+    const first = allScreens.findIndex(s => s.moduleIndex === moduleIndex);
+    if (first >= 0) { currentIndex = first; renderScreen(); }
+    document.getElementById('sidebar').classList.remove('open');
+  }
+
+  function loadProgress() {
+    var saved = null;
+    try {
+      if (window.AacromSCORM && window.AacromSCORM.isInitialized && window.AacromSCORM.isInitialized()) {
+        saved = window.AacromSCORM.getSuspendData();
+      }
+    } catch (e) {}
+    if (!saved) { try { saved = JSON.parse(sessionStorage.getItem('aacrom_progress_cc4') || '{}'); } catch (e) { saved = {}; } }
+    try {
+      if (saved && saved.completed) completedScreens = new Set(saved.completed);
+      if (saved && typeof saved.current === 'number') currentIndex = Math.min(saved.current, allScreens.length - 1);
+    } catch (e) {}
+  }
+
+  function saveProgress() {
+    var data = { completed: Array.from(completedScreens), current: currentIndex };
+    try { sessionStorage.setItem('aacrom_progress_cc4', JSON.stringify(data)); } catch (e) {}
+    try {
+      if (window.AacromSCORM && window.AacromSCORM.isInitialized && window.AacromSCORM.isInitialized()) {
+        window.AacromSCORM.setSuspendData(data);
+        window.AacromSCORM.commit();
+      }
+    } catch (e) {}
+  }
+
+  // ==========================================================
+  // SIDEBAR UPDATE
+  // ==========================================================
+  function updateSidebar() {
+    const items = document.querySelectorAll('.module-item');
+    const currentModule = allScreens[currentIndex].moduleIndex;
+
+    items.forEach((item, idx) => {
+      item.classList.remove('active', 'current', 'completed');
+      const modScreens = allScreens.filter(s => s.moduleIndex === idx);
+      const modCompleted = modScreens.every(s => completedScreens.has(s.id));
+
+      if (idx === currentModule) item.classList.add('active', 'current');
+      if (modCompleted) item.classList.add('completed');
+    });
+
+    const totalScreens = allScreens.length;
+    const completed = completedScreens.size;
+    const pct = Math.round((completed / totalScreens) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-text').textContent = pct + '% COMPLETADO';
+  }
+
+  // ==========================================================
+  // RENDER SCREEN
+  // ==========================================================
+  function renderScreen() {
+    const screen = allScreens[currentIndex];
+    document.getElementById('screen-counter').textContent = (currentIndex + 1) + ' de ' + allScreens.length;
+
+    const container = document.getElementById('screen-container');
+    container.scrollTop = 0;
+
+    let html = '';
+    switch (screen.type) {
+      case 'course_cover':       html = renderCourseCover(screen); break;
+      case 'statement_list':     html = renderStatementList(screen); break;
+      case 'module_intro':       html = renderModuleIntro(screen); break;
+      case 'paragraph_audio':    html = renderParagraphAudio(screen); break;
+      case 'hotspots':           html = renderHotspots(screen); break;
+      case 'tabs':               html = renderTabs(screen); break;
+      case 'case_study':         html = renderCaseStudy(screen); break;
+      case 'module_outro':       html = renderModuleOutro(screen); break;
+      case 'knowledge_check':    html = renderKnowledgeCheck(screen); break;
+      case 'accordion':          html = renderAccordion(screen); break;
+      case 'statement_paragraph':html = renderStatementParagraph(screen); break;
+      case 'sorting':            html = renderSorting(screen); break;
+      case 'decision_matrix':    html = renderDecisionMatrix(screen); break;
+      case 'decision_scenario':  html = renderDecisionScenario(screen); break;
+      case 'quiz':               html = renderQuiz(screen); break;
+      case 'module_intro_full':  html = renderModuleIntroFull(screen); break;
+      case 'paragraphs':         html = renderParagraphs(screen); break;
+      case 'statement_paragraphs': html = renderStatementParagraphs(screen); break;
+      case 'closing_resources':  html = renderClosingResources(screen); break;
+      case 'course_cover_objective': html = renderCourseCoverObjective(screen); break;
+      case 'hero_image':         html = renderHeroImage(screen); break;
+      default:                   html = `<div style="padding:40px;">Tipo no implementado: ${screen.type}</div>`;
+    }
+
+    container.innerHTML = html;
+
+    if (screen.type === 'hotspots')          attachHotspotEvents(screen);
+    else if (screen.type === 'tabs')          attachTabEvents(screen);
+    else if (screen.type === 'accordion')     attachAccordionEvents(screen);
+    else if (screen.type === 'knowledge_check')attachKCEvents(screen);
+    else if (screen.type === 'sorting')       attachSortingEvents(screen);
+    else if (screen.type === 'decision_matrix')attachMatrixEvents(screen);
+    else if (screen.type === 'decision_scenario')attachScenarioEvents(screen);
+    else if (screen.type === 'quiz')          attachQuizEvents(screen);
+
+    if (!isInteractiveScreen(screen)) completedScreens.add(screen.id);
+    updateSidebar();
+    updateFooterNav();
+    saveProgress();
+  }
+
+  function isInteractiveScreen(screen) {
+    return ['knowledge_check', 'sorting', 'quiz', 'decision_scenario'].includes(screen.type);
+  }
+
+  // ==========================================================
+  // RENDERERS
+  // ==========================================================
+  function audioHTML(audioFile) {
+    if (!audioFile) return '';
+    return `
+      <div class="instructions-box">
+        <div class="badge-icon"></div>
+        <div class="text"><strong>Instrucciones:</strong> presione el botón "▶" y escuche atentamente el audio.</div>
+      </div>
+      <audio controls preload="metadata"><source src="${audioFile}" type="audio/mpeg">Su navegador no soporta audio.</audio>
+    `;
+  }
+
+  function headerHTML(screen, withImage = false) {
+    const imgStyle = withImage && screen.image
+      ? `style="background-image: url('${screen.image}')"`
+      : '';
+    const moduleLabel = screen.moduleTitle || '';
+    return `
+      <div class="screen-header ${withImage && screen.image ? 'with-image' : ''}" ${imgStyle}>
+        <h1>${screen.title}</h1>
+        <div class="header-line"></div>
+      </div>
+    `;
+  }
+
+  function renderCourseCover(s) {
+    return `
+      ${headerHTML(s, true)}
+      <div class="screen-body">
+        <h2 class="subtitle-blue">${s.title}</h2>
+        ${audioHTML(s.audio)}
+        ${s.body.map(p => `<p>${p}</p>`).join('')}
+      </div>
+    `;
+  }
+
+  function renderStatementList(s) {
+    return `
+      ${headerHTML(s, !!s.image)}
+      <div class="screen-body">
+        ${s.statement ? `<div class="statement">${s.statement}</div>` : ''}
+        ${s.audio ? audioHTML(s.audio) : ''}
+        ${s.intro ? `<p style="font-weight:600;color:var(--aacrom-primary);margin-top:30px">${s.intro}</p>` : ''}
+        <ul class="aacrom-list">${s.items.map(i => `<li><span>${i}</span></li>`).join('')}</ul>
+      </div>
+    `;
+  }
+
+  function renderModuleIntro(s) {
+    return `
+      ${headerHTML(s, true)}
+      <div class="screen-body">
+        ${audioHTML(s.audio)}
+        <div class="statement">${s.statement}<span class="statement-citation">${s.citation}</span></div>
+      </div>
+    `;
+  }
+
+  function renderParagraphAudio(s) {
+    return `
+      ${headerHTML(s, !!s.image)}
+      <div class="screen-body">
+        ${audioHTML(s.audio)}
+        <p class="justify">${s.body}</p>
+      </div>
+    `;
+  }
+
+  function renderStatementParagraph(s) {
+    return `
+      ${headerHTML(s, !!s.image)}
+      <div class="screen-body">
+        <div class="statement">${s.statement}</div>
+        ${audioHTML(s.audio)}
+        ${s.subheading ? `<h3 style="text-align:center;color:var(--aacrom-primary);margin:30px 0 18px;font-size:22px">${s.subheading}</h3>` : ''}
+        <p class="justify">${s.body}</p>
+      </div>
+    `;
+  }
+
+  function renderCaseStudy(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        ${audioHTML(s.audio)}
+        <div class="case-card-wrapper">
+          <div class="bg-image" style="background-image:url('${s.image}')"></div>
+          <div class="card-content">
+            ${s.subtitle ? `<div class="card-subtitle">${s.subtitle}</div>` : ''}
+            <p>${s.body}</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderModuleOutro(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        <ul class="aacrom-list">${s.items.map(i => `<li><span>${i}</span></li>`).join('')}</ul>
+      </div>
+    `;
+  }
+
+  function renderHotspots(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        <p>${s.intro}</p>
+        <div class="hotspots-container">
+          ${s.image ? `<img src="${s.image}" class="hotspots-image" alt="">` : ''}
+          <div class="hotspots-list">
+            ${s.hotspots.map((h, i) => `<button class="hotspot-btn" data-idx="${i}">${h.label}</button>`).join('')}
+          </div>
+          <div class="hotspot-content" id="hotspot-content"></div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderTabs(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        ${s.audio ? audioHTML(s.audio) : ''}
+        <p>${s.intro}</p>
+        <div class="tabs-container">
+          <div class="tabs-nav">
+            ${s.tabs.map((t, i) => `<button class="tab-btn ${i === 0 ? 'active' : ''}" data-idx="${i}">${t.title}</button>`).join('')}
+          </div>
+          ${s.tabs.map((t, i) => `<div class="tab-panel ${i === 0 ? 'active' : ''}" data-idx="${i}">${t.content}</div>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderAccordion(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        ${s.audio ? audioHTML(s.audio) : ''}
+        <p>${s.intro}</p>
+        <div class="accordion">
+          ${s.items.map((it, i) => `
+            <div class="accordion-item" data-idx="${i}">
+              <div class="accordion-header">
+                <span>${it.title}</span>
+                <span class="toggle">+</span>
+              </div>
+              <div class="accordion-content"><div class="accordion-content-inner">${it.content}</div></div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderDecisionMatrix(s) {
+    const ordered = ['tl', 'tr', 'bl', 'br'];
+    const qByPos = {};
+    s.quadrants.forEach(q => qByPos[q.position] = q);
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        <p>${s.intro}</p>
+        <div class="matrix-container">
+          <div class="matrix-grid">
+            ${ordered.map((pos, i) => {
+              const q = qByPos[pos];
+              return `<div class="matrix-quadrant" data-pos="${pos}" style="background:${q.color}">${q.label}</div>`;
+            }).join('')}
+          </div>
+          <div class="matrix-label-x">${s.xAxis}</div>
+          <div class="matrix-label-y">${s.yAxis}</div>
+        </div>
+        <div class="matrix-content" id="matrix-content"></div>
+      </div>
+    `;
+  }
+
+  function renderDecisionScenario(s) {
+    const instructionsCallout = s.instructions ? `
+      <div class="instructions-callout">
+        <div class="callout-icon">!</div>
+        <div class="callout-text">${s.instructions}</div>
+      </div>
+    ` : '';
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        <div class="scenario-container">
+          <div class="scenario-intro-card">
+            <p style="text-align:left;font-size:17px">${s.intro_text || ''}</p>
+          </div>
+
+          ${instructionsCallout}
+
+          <div class="dialogue-container" id="dialogue">
+            ${(s.dialogue || []).map((d, i) => {
+              const isAndres = d.character === 'Andrés';
+              const isNarrator = d.character === 'Narrador';
+              const cls = isAndres ? 'andres' : (isNarrator ? 'narrator' : '');
+              const initial = isNarrator ? '"' : (d.character || '?').charAt(0);
+              const dAudio = d.audio ? `<audio controls preload="metadata"><source src="${d.audio}" type="audio/mpeg"></audio>` : '';
+              return `
+                <div class="dialogue-line" data-idx="${i}">
+                  <div class="dialogue-avatar ${cls}">${initial}</div>
+                  <div class="dialogue-body">
+                    <div class="dialogue-character">${d.character || ''}${d.role ? `<span class="role">${d.role}</span>` : ''}</div>
+                    <div class="dialogue-text">${d.text || ''}</div>
+                    ${dAudio}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <div class="scenario-question">${s.question_text || '¿Qué decisión tomaría?'}</div>
+          <div class="scenario-options" id="scenario-options">
+            ${s.options.map(o => `
+              <button class="scenario-option-btn" data-id="${o.id}">
+                <div><span class="option-id">${o.id}</span><span class="option-label">${o.label}</span></div>
+                <div class="option-sub">${o.subtitle || ''}</div>
+              </button>
+            `).join('')}
+          </div>
+
+          <div class="scenario-result" id="scenario-result" style="display:none"></div>
+
+          <div class="scenario-convergent" id="scenario-convergent">
+            <h4>${s.convergent_title || ''}</h4>
+            <p>${s.convergent_text || ''}</p>
+            ${s.convergent_audio ? `<audio controls preload="metadata" style="margin-top:16px;max-width:100%;filter:invert(0.85) hue-rotate(180deg)"><source src="${s.convergent_audio}" type="audio/mpeg"></audio>` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderKnowledgeCheck(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        ${s.questions.map((q, i) => `
+          <div class="question-card" data-qidx="${i}">
+            <div class="question-counter">PREGUNTA ${i + 1} DE ${s.questions.length}</div>
+            <div class="question-stem">${q.stem}</div>
+            <div class="options-container">
+              ${q.options.map((opt, j) => `
+                <div class="option-row" data-opt="${j}">
+                  <input type="${q.type === 'multiple' ? 'checkbox' : 'radio'}" name="q${i}" id="q${i}o${j}" value="${j}">
+                  <label for="q${i}o${j}">${opt}</label>
+                </div>
+              `).join('')}
+            </div>
+            <button class="quiz-submit" data-qidx="${i}">Verificar respuesta</button>
+            <div class="feedback-box"><div class="feedback-title"></div><p></p></div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function renderSorting(s) {
+    const shuffled = [...s.items].map((it, i) => ({ ...it, originalIdx: i })).sort(() => Math.random() - 0.5);
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        <p style="font-weight:600;color:var(--aacrom-primary)">${s.instruction}</p>
+        <div class="sorting-container">
+          <div class="sorting-items-pool" id="sorting-pool" data-zone="pool">
+            ${shuffled.map((it, i) => `
+              <div class="sortable-item" draggable="true" data-original="${it.originalIdx}" data-category="${it.category}">${it.text}</div>
+            `).join('')}
+          </div>
+          <div class="sorting-categories">
+            ${s.categories.map((cat, i) => `
+              <div class="sorting-category" data-zone="${i}">
+                <div class="sorting-category-title">${cat}</div>
+                <div class="sorting-drop-zone"></div>
+              </div>
+            `).join('')}
+          </div>
+          <button class="quiz-submit" id="sorting-check">Verificar</button>
+          <div class="feedback-box" id="sorting-feedback"><div class="feedback-title"></div><p></p></div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderQuiz(s) {
+    return `
+      ${headerHTML(s, false)}
+      <div class="screen-body">
+        <p style="text-align:center;color:var(--aacrom-text-muted);font-size:16px;margin-bottom:30px">${s.intro}</p>
+
+        ${s.questions.map((q, i) => {
+          if (q.type === 'matching') {
+            const rights = [...q.pairs].map(p => p.right).sort(() => Math.random() - 0.5);
+            return `
+              <div class="question-card" data-qidx="${i}" data-qtype="matching">
+                <div class="question-counter">PREGUNTA ${i + 1} DE ${s.questions.length}</div>
+                <div class="question-stem">${q.stem}</div>
+                <div class="matching-grid">
+                  ${q.pairs.map((pair, pi) => `
+                    <div class="matching-row" data-left="${pi}">
+                      <div class="matching-cell left">${pair.left}</div>
+                      <div class="matching-arrow">→</div>
+                      <select class="matching-cell" data-pair="${pi}" style="border:2px solid var(--aacrom-border);background:white;font-family:inherit;font-size:15px;padding:14px 12px;border-radius:10px;cursor:pointer">
+                        <option value="">— Seleccione —</option>
+                        ${rights.map((r, ri) => `<option value="${r}">${r}</option>`).join('')}
+                      </select>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+          }
+          return `
+            <div class="question-card" data-qidx="${i}" data-qtype="${q.type}">
+              <div class="question-counter">PREGUNTA ${i + 1} DE ${s.questions.length}</div>
+              <div class="question-stem">${q.stem}</div>
+              <div class="options-container">
+                ${q.options.map((opt, j) => `
+                  <div class="option-row" data-opt="${j}">
+                    <input type="${q.type === 'multiple' ? 'checkbox' : 'radio'}" name="quiz_q${i}" id="quiz_q${i}o${j}" value="${j}">
+                    <label for="quiz_q${i}o${j}">${opt}</label>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }).join('')}
+
+        <button class="quiz-submit" id="quiz-submit">Enviar evaluación</button>
+        <div id="quiz-result"></div>
+      </div>
+    `;
+  }
+
+
+  function renderCourseCoverObjective(s) {
+    const fichaHTML = (s.ficha || []).map(f =>
+      `<div class="ficha-item"><div class="ficha-label">${f.label}</div><div class="ficha-value">${f.value}</div></div>`
+    ).join('');
+    return `
+      <div class="cover-objective" style="--cover-bg: url('${s.image || ''}')">
+        <div class="cover-objective-content">
+          <div class="course-code">Curso C-C.4 · Aacrom</div>
+          <h1>${s.title}</h1>
+          <div class="subtitle">${s.subtitle || ''}</div>
+          <div class="objective-label">Objetivo de aprendizaje</div>
+          <div class="objective-text">${s.objective || ''}</div>
+          <div class="ficha">${fichaHTML}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderHeroImage(s) {
+    return `
+      <div class="hero-image-screen">
+        <div class="hero-image-bg" style="background-image: url('${s.image || ''}')">
+          <div class="hero-image-title">${s.title || ''}</div>
+        </div>
+        <div class="hero-image-statement">
+          <p>${s.statement || ''}</p>
+        </div>
+        ${s.footer ? `<div class="hero-image-footer">${s.footer}</div>` : ''}
+      </div>
+    `;
+  }
+
+  function renderModuleIntroFull(s) {
+    const heroImg = s.image ? `<div class="module-hero-image" style="background-image:url('${s.image}')"></div>` : '';
+    const paras = (s.paragraphs || []).map(p => `<p>${p}</p>`).join('');
+    const learnItems = (s.learnItems || []).map(i => `<li><span>${i}</span></li>`).join('');
+    const audio = s.audio ? `<audio controls src="${s.audio}" style="display:block;margin:20px auto;max-width:600px;width:100%"></audio>` : '';
+    return `
+      <div class="screen-header">
+        <div class="module-label">${s.moduleLabel || 'MÓDULO'}</div>
+        <h1>${s.title}</h1>
+        <div class="header-line"></div>
+      </div>
+      <div class="screen-body">
+        ${heroImg}
+        <div class="statement">${s.statement}<span class="statement-citation">${s.citation || ''}</span></div>
+        ${audio}
+        <div class="aacrom-paragraphs">${paras}</div>
+        ${s.nextSteps ? `<div class="next-steps-heading">${s.nextSteps}</div>` : ''}
+        ${learnItems ? `<ul class="aacrom-list">${learnItems}</ul>` : ''}
+      </div>
+    `;
+  }
+  function renderParagraphs(s) {
+    const paras = (s.paragraphs || []).map(p => `<p>${p}</p>`).join('');
+    const heroImg = s.image ? `<div class="module-hero-image" style="background-image:url('${s.image}');height:240px"></div>` : '';
+    const audio = s.audio ? `<audio controls src="${s.audio}" style="display:block;margin:20px auto;max-width:600px;width:100%"></audio>` : '';
+    return `${headerHTML(s, false)}<div class="screen-body">${heroImg}${audio}<div class="aacrom-paragraphs">${paras}</div></div>`;
+  }
+  function renderStatementParagraphs(s) {
+    const paras = (s.paragraphs || []).map(p => `<p>${p}</p>`).join('');
+    const items = (s.items || []).map(i => `<li><span>${i}</span></li>`).join('');
+    return `${headerHTML(s, !!s.image)}<div class="screen-body"><div class="statement">${s.statement}</div><div class="aacrom-paragraphs">${paras}</div>${s.intro ? `<p style="font-weight:600;color:var(--aacrom-primary);margin-top:30px">${s.intro}</p>` : ''}${items ? `<ul class="aacrom-list">${items}</ul>` : ''}</div>`;
+  }
+  function renderClosingResources(s) {
+    const heroImg = s.image ? `<div class="module-hero-image" style="background-image:url('${s.image}');height:220px"></div>` : '';
+    const paras = (s.paragraphs || []).map(p => `<p>${p}</p>`).join('');
+    const items = (s.items || []).map(i => `<li><span>${i}</span></li>`).join('');
+    const audio = s.audio ? `<audio controls src="${s.audio}" style="display:block;margin:20px auto;max-width:600px;width:100%"></audio>` : '';
+    return `${headerHTML(s, false)}<div class="screen-body">${heroImg}${audio}<div class="aacrom-paragraphs">${paras}</div>${items ? `<ul class="aacrom-list">${items}</ul>` : ''}${s.closing ? `<div class="closing-message-box">${s.closing}</div>` : ''}</div>`;
+  }
+
+  // ==========================================================
+  // EVENT HANDLERS
+  // ==========================================================
+  function attachHotspotEvents(screen) {
+    const btns = document.querySelectorAll('.hotspot-btn');
+    const content = document.getElementById('hotspot-content');
+    let viewed = new Set();
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx);
+        btns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active', 'viewed');
+        viewed.add(idx);
+        content.innerHTML = `<strong style="color:var(--aacrom-primary);display:block;margin-bottom:8px">${screen.hotspots[idx].label}</strong>${screen.hotspots[idx].content}`;
+        content.classList.add('show');
+        if (viewed.size === screen.hotspots.length) {
+          completedScreens.add(screen.id);
+          updateSidebar(); saveProgress();
+        }
+      });
+    });
+  }
+
+  function attachTabEvents(screen) {
+    const btns = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.tab-panel');
+    let viewed = new Set([0]);
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx);
+        btns.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        panels[idx].classList.add('active');
+        viewed.add(idx);
+        if (viewed.size === btns.length) {
+          completedScreens.add(screen.id);
+          updateSidebar(); saveProgress();
+        }
+      });
+    });
+  }
+
+  function attachAccordionEvents(screen) {
+    const items = document.querySelectorAll('.accordion-item');
+    let opened = new Set();
+    items.forEach(item => {
+      const header = item.querySelector('.accordion-header');
+      header.addEventListener('click', () => {
+        item.classList.toggle('open');
+        opened.add(parseInt(item.dataset.idx));
+        if (opened.size === items.length) {
+          completedScreens.add(screen.id);
+          updateSidebar(); saveProgress();
+        }
+      });
+    });
+  }
+
+  function attachMatrixEvents(screen) {
+    const quads = document.querySelectorAll('.matrix-quadrant');
+    const content = document.getElementById('matrix-content');
+    let viewed = new Set();
+    quads.forEach(q => {
+      q.addEventListener('click', () => {
+        const pos = q.dataset.pos;
+        const data = screen.quadrants.find(x => x.position === pos);
+        quads.forEach(x => x.classList.remove('active'));
+        q.classList.add('active');
+        viewed.add(pos);
+        content.innerHTML = `<strong style="color:#1F3864;display:block;margin-bottom:8px;font-size:18px">${data.label}</strong>${data.content}`;
+        content.classList.add('show');
+        if (viewed.size === 4) {
+          completedScreens.add(screen.id);
+          updateSidebar(); saveProgress();
+        }
+      });
+    });
+  }
+
+  function attachKCEvents(screen) {
+    document.querySelectorAll('.question-card').forEach(card => {
+      const qidx = parseInt(card.dataset.qidx);
+      const q = screen.questions[qidx];
+      const submitBtn = card.querySelector('.quiz-submit');
+      const feedback = card.querySelector('.feedback-box');
+
+      // Toggle selected style
+      card.querySelectorAll('.option-row').forEach(row => {
+        row.addEventListener('click', () => {
+          if (q.type === 'single') {
+            card.querySelectorAll('.option-row').forEach(r => r.classList.remove('selected'));
+            row.classList.add('selected');
+            row.querySelector('input').checked = true;
+          } else {
+            const input = row.querySelector('input');
+            input.checked = !input.checked;
+            row.classList.toggle('selected', input.checked);
+          }
+        });
+      });
+
+      submitBtn.addEventListener('click', () => {
+        const inputs = card.querySelectorAll('input');
+        const selected = Array.from(inputs).map((inp, i) => inp.checked ? i : null).filter(x => x !== null);
+        if (selected.length === 0) {
+          feedback.classList.remove('correct', 'incorrect');
+          feedback.classList.add('show');
+          feedback.querySelector('.feedback-title').textContent = 'Seleccione una respuesta';
+          feedback.querySelector('p').textContent = '';
+          return;
+        }
+        let correct = false;
+        if (q.type === 'multiple') {
+          const correctSet = new Set(q.correct);
+          const selSet = new Set(selected);
+          correct = correctSet.size === selSet.size && Array.from(correctSet).every(x => selSet.has(x));
+        } else {
+          correct = selected[0] === q.correct;
+        }
+        // marca visual
+        card.querySelectorAll('.option-row').forEach((row, i) => {
+          row.classList.remove('correct', 'incorrect');
+          const correctIdx = q.type === 'multiple' ? q.correct : [q.correct];
+          if (correctIdx.includes(i)) row.classList.add('correct');
+          else if (selected.includes(i)) row.classList.add('incorrect');
+        });
+        feedback.classList.add('show');
+        feedback.classList.toggle('correct', correct);
+        feedback.classList.toggle('incorrect', !correct);
+        feedback.querySelector('.feedback-title').textContent = correct ? '¡Correcto!' : 'Revisemos esto:';
+        // q.feedback es un objeto {correct, incorrect}, no un string
+        var fbObj = q.feedback || {};
+        var fbText = correct ? (fbObj.correct || '¡Bien hecho!') : (fbObj.incorrect || 'Revisemos la respuesta.');
+        feedback.querySelector('p').textContent = fbText;
+        submitBtn.disabled = true;
+        inputs.forEach(i => i.disabled = true);
+
+        // marca completado si todas las preguntas respondidas
+        const allAnswered = Array.from(document.querySelectorAll('.question-card .quiz-submit')).every(b => b.disabled);
+        if (allAnswered) {
+          completedScreens.add(screen.id);
+          updateSidebar(); saveProgress();
+        }
+      });
+    });
+  }
+
+  function attachSortingEvents(screen) {
+    let dragged = null;
+    document.querySelectorAll('.sortable-item').forEach(item => {
+      item.addEventListener('dragstart', (e) => {
+        dragged = item;
+        item.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+      });
+      item.addEventListener('dragend', () => {
+        item.classList.remove('dragging');
+        dragged = null;
+      });
+    });
+
+    document.querySelectorAll('.sorting-category, #sorting-pool').forEach(zone => {
+      const dropZone = zone.querySelector('.sorting-drop-zone') || zone;
+      zone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        zone.classList.add('drag-over');
+      });
+      zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+      zone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        zone.classList.remove('drag-over');
+        if (dragged) {
+          (zone.querySelector('.sorting-drop-zone') || zone).appendChild(dragged);
+        }
+      });
+    });
+
+    document.getElementById('sorting-check').addEventListener('click', () => {
+      const items = document.querySelectorAll('.sortable-item');
+      let allCorrect = true;
+      items.forEach(item => {
+        const parent = item.closest('.sorting-category');
+        if (!parent) { allCorrect = false; return; }
+        const zone = parseInt(parent.dataset.zone);
+        const cat = parseInt(item.dataset.category);
+        item.classList.remove('correct-placed', 'wrong-placed');
+        if (zone === cat) item.classList.add('correct-placed');
+        else { item.classList.add('wrong-placed'); allCorrect = false; }
+      });
+      const fb = document.getElementById('sorting-feedback');
+      fb.classList.add('show');
+      fb.classList.toggle('correct', allCorrect);
+      fb.classList.toggle('incorrect', !allCorrect);
+      fb.querySelector('.feedback-title').textContent = allCorrect ? '¡Excelente! Todas correctas.' : 'Algunas no están bien ubicadas.';
+      fb.querySelector('p').textContent = screen.feedback;
+      if (allCorrect) {
+        completedScreens.add(screen.id);
+        updateSidebar(); saveProgress();
+      }
+    });
+  }
+
+  function attachScenarioEvents(screen) {
+    document.querySelectorAll('#scenario-options .scenario-option-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const option = screen.options.find(o => o.id === id);
+        scenarioState.exploredOptions.add(id);
+
+        const result = document.getElementById('scenario-result');
+        result.style.display = 'block';
+        result.classList.remove('correct', 'incorrect');
+        result.classList.add(option.correct ? 'correct' : 'incorrect');
+        result.innerHTML = `
+          <div class="scenario-result-badge">${option.correct ? 'DECISIÓN ACERTADA' : 'REVISEMOS'}</div>
+          <h4>${option.result || ''}</h4>
+          <p>${option.outcome || option.feedback || ''}</p>
+          ${option.audio ? `<audio controls preload="metadata" style="margin-top:16px;max-width:100%"><source src="${option.audio}" type="audio/mpeg"></audio>` : ''}
+          <div class="scenario-actions">
+            <button class="nav-btn" id="scenario-retry">Volver a decidir</button>
+            ${option.correct || scenarioState.exploredOptions.size >= 2 ? '<button class="nav-btn primary" id="scenario-continue">Ver lo que pasó en la realidad</button>' : ''}
+          </div>
+        `;
+
+        document.getElementById('scenario-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        const retry = document.getElementById('scenario-retry');
+        if (retry) retry.addEventListener('click', () => {
+          result.style.display = 'none';
+          document.getElementById('scenario-options').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        const cont = document.getElementById('scenario-continue');
+        if (cont) cont.addEventListener('click', () => {
+          document.getElementById('scenario-convergent').classList.add('show');
+          scenarioState.convergentShown = true;
+          completedScreens.add(screen.id);
+          updateSidebar(); saveProgress();
+          document.getElementById('scenario-convergent').scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+    });
+  }
+
+  function attachQuizEvents(screen) {
+    document.querySelectorAll('.question-card').forEach(card => {
+      const qidx = parseInt(card.dataset.qidx);
+      const q = screen.questions[qidx];
+      if (q.type !== 'matching') {
+        card.querySelectorAll('.option-row').forEach(row => {
+          row.addEventListener('click', () => {
+            if (q.type === 'single') {
+              card.querySelectorAll('.option-row').forEach(r => r.classList.remove('selected'));
+              row.classList.add('selected');
+              row.querySelector('input').checked = true;
+            } else {
+              const input = row.querySelector('input');
+              input.checked = !input.checked;
+              row.classList.toggle('selected', input.checked);
+            }
+          });
+        });
+      }
+    });
+
+    document.getElementById('quiz-submit').addEventListener('click', () => {
+      let correctCount = 0;
+      const total = screen.questions.length;
+      const results = [];
+
+      screen.questions.forEach((q, qi) => {
+        const card = document.querySelector(`.question-card[data-qidx="${qi}"]`);
+        let isCorrect = false;
+        if (q.type === 'matching') {
+          const selects = card.querySelectorAll('select');
+          let allRight = true;
+          selects.forEach((sel, pi) => {
+            const expected = q.pairs[pi].right;
+            if (sel.value === expected) {
+              sel.style.borderColor = 'var(--aacrom-success)';
+              sel.style.background = '#E8F5EC';
+            } else {
+              sel.style.borderColor = 'var(--aacrom-danger)';
+              sel.style.background = '#FBEAEA';
+              allRight = false;
+            }
+            sel.disabled = true;
+          });
+          isCorrect = allRight;
+        } else {
+          const inputs = card.querySelectorAll('input');
+          const selected = Array.from(inputs).map((inp, i) => inp.checked ? i : null).filter(x => x !== null);
+          if (q.type === 'multiple') {
+            const correctSet = new Set(q.correct);
+            const selSet = new Set(selected);
+            isCorrect = correctSet.size === selSet.size && Array.from(correctSet).every(x => selSet.has(x));
+            inputs.forEach((inp, i) => inp.disabled = true);
+            card.querySelectorAll('.option-row').forEach((row, i) => {
+              if (q.correct.includes(i)) row.classList.add('correct');
+              else if (selected.includes(i)) row.classList.add('incorrect');
+            });
+          } else {
+            isCorrect = selected[0] === q.correct;
+            inputs.forEach(inp => inp.disabled = true);
+            card.querySelectorAll('.option-row').forEach((row, i) => {
+              if (i === q.correct) row.classList.add('correct');
+              else if (selected.includes(i)) row.classList.add('incorrect');
+            });
+          }
+        }
+        if (isCorrect) correctCount++;
+        results.push(isCorrect);
+      });
+
+      const pct = Math.round((correctCount / total) * 100);
+      const passed = pct >= screen.passingScore;
+
+      const resultDiv = document.getElementById('quiz-result');
+      resultDiv.innerHTML = `
+        <div class="quiz-result-summary">
+          <div class="score">${correctCount}<span class="total">/${total}</span></div>
+          <div class="label">RESPUESTAS CORRECTAS · ${pct}%</div>
+          <div class="badge ${passed ? 'passed' : 'failed'}">${passed ? 'APROBADO' : 'NO APROBADO'}</div>
+          <p>${passed
+            ? 'Ha completado el curso. Los hábitos no se memorizan: se diseñan y se sostienen. La próxima vez que sienta que la motivación no alcanza, recuerde las preguntas clave: ¿qué hábito mínimo viable puedo empezar hoy? ¿a qué señal del día lo voy a anclar? ¿cómo lo hago tan pequeño que sobreviva un día malo? ¿qué recompensa inmediata le doy a mi cerebro? Empiece pequeño. Empiece esta semana.'
+            : 'Le sugerimos repasar los módulos del curso y volver a intentar la evaluación. Cada módulo tiene las claves que necesita: entender la ciencia del hábito, conocer los cuatro hábitos de alto impacto, y diseñar un sistema sostenible para sostenerlos. Recuerde que la aprobación se obtiene con ' + screen.passingScore + '% o más.'}</p>
+        </div>
+      `;
+
+      document.getElementById('quiz-submit').disabled = true;
+      completedScreens.add(screen.id);
+      updateSidebar(); saveProgress();
+      reportToSCORM(correctCount, total, passed);
+      resultDiv.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
+  // ==========================================================
+  // SCORM REPORTING
+  // ==========================================================
+  function reportToSCORM(score, total, passed) {
+    quizFinalized = true;
+    try {
+      const api = window.AacromSCORM;
+      if (api && api.isInitialized && api.isInitialized()) {
+        api.setScore(Math.round((score / total) * 100), 100, 0);
+        api.setStatus(passed ? 'passed' : 'failed');
+        api.commit();
+      }
+    } catch (e) { console.warn('SCORM report failed:', e); }
+  }
+
+  // ==========================================================
+  // NAV
+  // ==========================================================
+  function bindNav() {
+    document.getElementById('btn-prev').addEventListener('click', () => {
+      if (currentIndex > 0) { currentIndex--; renderScreen(); }
+    });
+    document.getElementById('btn-next').addEventListener('click', () => {
+      if (currentIndex < allScreens.length - 1) { currentIndex++; renderScreen(); }
+      else markCourseComplete();
+    });
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+  }
+
+  function updateFooterNav() {
+    document.getElementById('btn-prev').disabled = (currentIndex === 0);
+    const isLast = currentIndex === allScreens.length - 1;
+    const btnNext = document.getElementById('btn-next');
+    btnNext.textContent = isLast ? 'Finalizar curso ✓' : 'Continuar →';
+  }
+
+  function markCourseComplete() {
+    try {
+      const api = window.AacromSCORM;
+      if (api && api.isInitialized && api.isInitialized()) {
+        const allDone = completedScreens.size === allScreens.length;
+        if (allDone && !quizFinalized) api.setStatus('completed');
+        api.commit();
+      }
+    } catch (e) {}
+  }
+
+  // ==========================================================
+  // START
+  // ==========================================================
+  document.addEventListener('DOMContentLoaded', init);
+})();
+
+  
+  </script>
+</body>
+</html>

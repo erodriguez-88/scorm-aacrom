@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="AACROM_C_C_4_MANIFEST"
+          version="1.0"
+          xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+          xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd
+                              http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+  </metadata>
+  <organizations default="AACROM_ORG">
+    <organization identifier="AACROM_ORG">
+      <title>Hábitos que sostienen el rendimiento</title>
+      <item identifier="ITEM_1" identifierref="RES_1" isvisible="true">
+        <title>Hábitos que sostienen el rendimiento</title>
+        <adlcp:masteryscore>80</adlcp:masteryscore>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="RES_1" type="webcontent" adlcp:scormtype="sco" href="index.html">
+      <file href="assets/audio/audio_01.mp3"/>
+      <file href="assets/audio/audio_02.mp3"/>
+      <file href="assets/audio/audio_03.mp3"/>
+      <file href="assets/audio/audio_04.mp3"/>
+      <file href="assets/audio/audio_05.mp3"/>
+      <file href="assets/audio/audio_06.mp3"/>
+      <file href="assets/audio/audio_07.mp3"/>
+      <file href="assets/audio/audio_08.mp3"/>
+      <file href="assets/audio/audio_09.mp3"/>
+      <file href="assets/audio/audio_10.mp3"/>
+      <file href="assets/images/img_01.jpg"/>
+      <file href="assets/images/img_02.jpg"/>
+      <file href="assets/images/img_03.jpg"/>
+      <file href="assets/images/img_04.jpg"/>
+      <file href="assets/images/img_05.jpg"/>
+      <file href="assets/images/img_06.jpg"/>
+      <file href="assets/images/img_07.jpg"/>
+      <file href="assets/images/img_08.jpg"/>
+      <file href="assets/images/img_09.jpg"/>
+      <file href="assets/images/img_10.jpg"/>
+      <file href="assets/images/img_11.jpg"/>
+      <file href="assets/images/img_12.jpg"/>
+      <file href="assets/images/img_13.jpg"/>
+      <file href="assets/images/img_14.jpg"/>
+      <file href="assets/images/img_15.jpg"/>
+      <file href="assets/images/img_16.jpg"/>
+      <file href="index.html"/>
+      <file href="scorm_api.js"/>
+    </resource>
+  </resources>
+</manifest>
